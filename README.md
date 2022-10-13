@@ -30,6 +30,7 @@
 
 ## How to Make and Upload Commits to GitHub
 
+0. Ensure that you have been added as a collaborator and accepted the invitation to collaborate. If you need help with this, see the bottom of this README.
 1. **Before you do anything, make sure you have the latest version of the project by opening GitHub Desktop and clicking 'Fetch origin'. Close Unity and reopen the project folder.** 
     - This helps reduce the chances of merge conflicts.
     - *Note:* 'origin' is the name of the GitHub server that stores our project, and 'Fetch' connects to GitHub and downloads the latest commits.
