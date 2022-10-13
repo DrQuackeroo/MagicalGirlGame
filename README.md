@@ -15,7 +15,7 @@
 7. Click 'Clone'.
     - This will download the latest version of the project, and the .git folder which stores all the history of changes and various information related to the project.
     - At this point, you have a complete backup of the history on your computer that you can modify and view without having to be online.
-8. Verify you can see the change history using the 'History' tab understand the current repository button.
+8. Verify you can see the change history using the 'History' tab underneath the current repository button.
 
 ## How to Open the Project in Unity
 
