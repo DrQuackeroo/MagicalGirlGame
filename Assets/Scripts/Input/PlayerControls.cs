@@ -6,8 +6,10 @@ using UnityEngine.InputSystem;
 
 public class PlayerControls : MonoBehaviour
 {
+    [Header("Other Movement Settings")]
     [SerializeField] private Transform _groundCheck;
     [SerializeField] private LayerMask _groundLayer;
+    [Header("Player Stats")]
     [SerializeField] private float _speedMod = 10f;
     [SerializeField] private float _jumpMod = 15f;
 
