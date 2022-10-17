@@ -30,7 +30,7 @@ public class BasicAttackCombo : MonoBehaviour
             yield return new WaitForSeconds(_windUp);
 
             Vector3 origin = _combo.transform.position;
-            origin.x += _attackRadius * _combo.transform.localScale.x;
+            origin.x += _attackRadius * ((_combo._spriteRenderer.flipX) ? -1 : 1);
 
             Collider2D[] colliders = Physics2D.OverlapCircleAll(origin, _attackRadius, _combo._enemyLayers);
 
@@ -40,7 +40,7 @@ public class BasicAttackCombo : MonoBehaviour
             {
                 foreach (Collider2D c in colliders)
                 {
-                    Debug.LogFormat("BasicAttackCombo.Attack(): Enemey {0} hit", c.gameObject.name);
+                    Debug.LogFormat("BasicAttackCombo.Attack(): Enemy '{0}' hit", c.gameObject.name);
                     // to be implemented when other team programmers add health scripts for enemies
                     // healthComponent = c.GetComponent for health
                     // healthComponent.TakeDamage(damage);
@@ -58,8 +58,17 @@ public class BasicAttackCombo : MonoBehaviour
     private IEnumerator _midAttackCoroutine = null;
     private BasicAttack _comboStart;
 
-    private const float _comboResetTimer = 1.5f;
+    // used to determine where player is facing
+    private SpriteRenderer _spriteRenderer;
+
+    // how long it takes before the combo cannot be continued and must be restarted
+    private const float _comboResetTimer = .5f;
     public float _timeLapsed = 0f;
+
+    private void Awake()
+    {
+        _spriteRenderer = GetComponent<SpriteRenderer>();
+    }
 
     private void Start()
     {
@@ -74,12 +83,6 @@ public class BasicAttackCombo : MonoBehaviour
 
     private void Update()
     {
-        // testing basic attack system; delete this and integrate BasicAttackCombo into main input system when finished
-        //if (Input.GetButtonDown("Fire1"))
-           //Attack();
-        // testing basic attack system
-
-
         if (_currentAttackState != null && _midAttackCoroutine == null)
         {
             _timeLapsed += Time.deltaTime;
@@ -102,15 +105,11 @@ public class BasicAttackCombo : MonoBehaviour
         if (_currentAttackState == null)
         {
             _midAttackCoroutine = _comboStart.Attack();
-
-            //_midAttackCoRoutine = StartCoroutine(_comboStart.Attack());
-            
             _currentAttackState = _comboStart;
         }
         else
         {
             _midAttackCoroutine = _currentAttackState.Attack();
-            //_midAttackCoRoutine = StartCoroutine(_currentAttackState.Attack());
         }
 
         StartCoroutine(_midAttackCoroutine);
