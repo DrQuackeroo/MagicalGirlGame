@@ -75,8 +75,8 @@ public class BasicAttackCombo : MonoBehaviour
     private void Update()
     {
         // testing basic attack system; delete this and integrate BasicAttackCombo into main input system when finished
-        if (Input.GetButtonDown("Fire1"))
-            Attack();
+        //if (Input.GetButtonDown("Fire1"))
+           //Attack();
         // testing basic attack system
 
 
