@@ -4,25 +4,21 @@ using UnityEngine;
 
 public class BasicAttackCombo : MonoBehaviour
 {
+    [System.Serializable]
     public class BasicAttack
     {
         private BasicAttackCombo _combo;
         private BasicAttack _nextAttack;
         public string _name;
-        private int _damage;
-        private float _attackRadius;
-        private float _windUp;
-        private float _windDown;
+        [SerializeField] private int _damage;
+        [SerializeField] private float _attackRadius;
+        [SerializeField] private float _windUp;
+        [SerializeField] private float _windDown;
 
-        public BasicAttack(BasicAttackCombo combo, BasicAttack nextAttack, string name, int damage, float attackRadius, float windUp, float windDown)
+        public void Initialize(BasicAttackCombo combo, BasicAttack nextAttack)
         {
             _combo = combo;
             _nextAttack = nextAttack;
-            _name = name;
-            _damage = damage;
-            _attackRadius = attackRadius;
-            _windUp = windUp;
-            _windDown = windDown;
         }
 
         public IEnumerator Attack()
@@ -54,7 +50,8 @@ public class BasicAttackCombo : MonoBehaviour
     }
 
     public LayerMask _enemyLayers;
-    public BasicAttack _currentAttackState = null;
+    [SerializeField] private List<BasicAttack> _comboList;
+    private BasicAttack _currentAttackState = null;
     private IEnumerator _midAttackCoroutine = null;
     private BasicAttack _comboStart;
 
@@ -67,18 +64,14 @@ public class BasicAttackCombo : MonoBehaviour
 
     private void Awake()
     {
-        _spriteRenderer = GetComponent<SpriteRenderer>();
-    }
+        for (int i = 0; i < _comboList.Count; i++)
+        {
+            _comboList[i].Initialize(this, (i != _comboList.Count - 1 ? _comboList[i + 1] : null));
+        }
 
-    private void Start()
-    {
-        // initializing the basic attacks of the combo. can be changed whenever
-        BasicAttack thirdAttack = new BasicAttack(this, null, "Final Strike", 3, 2.5f, .1f, .25f);
-        BasicAttack secondAttack = new BasicAttack(this, thirdAttack, "Slash 2", 1, 1.5f, .05f, .1f);
-        BasicAttack firstAttack = new BasicAttack(this, secondAttack, "Slash 1", 1, 1.5f, .05f, .1f);
-        
-        // keeping a reference, so combo can be started with the first attack
-        _comboStart = firstAttack;
+        _comboStart = _comboList[0];
+
+        _spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     private void Update()

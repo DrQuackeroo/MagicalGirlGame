@@ -2965,6 +2965,22 @@ MonoBehaviour:
   _enemyLayers:
     serializedVersion: 2
     m_Bits: 64
+  _comboList:
+  - _name: Slash 1
+    _damage: 1
+    _attackRadius: 1.5
+    _windUp: 0.05
+    _windDown: 0.1
+  - _name: Slash 2
+    _damage: 1
+    _attackRadius: 1.5
+    _windUp: 0.05
+    _windDown: 0.1
+  - _name: Final Strike
+    _damage: 3
+    _attackRadius: 2.25
+    _windUp: 0.1
+    _windDown: 0.25
   _timeLapsed: 0
 --- !u!1 &1910471966
 GameObject:
