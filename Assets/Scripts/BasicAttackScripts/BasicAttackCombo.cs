@@ -30,26 +30,34 @@ public class BasicAttackCombo : MonoBehaviour
 
             Collider2D[] colliders = Physics2D.OverlapCircleAll(origin, _attackRadius, _combo._enemyLayers);
 
+            // turn on and set line renderer showing this attack collider
+            _combo.DrawCollider(origin, _attackRadius);
+
             Debug.LogFormat("BasicAttackCombo.Attack(): Attack '{0}' used", _name);
 
             if (colliders.Length > 0)
             {
                 foreach (Collider2D c in colliders)
                 {
-                    Debug.LogFormat("BasicAttackCombo.Attack(): Enemy '{0}' hit", c.gameObject.name);
-                    // to be implemented when other team programmers add health scripts for enemies
-                    // healthComponent = c.GetComponent for health
-                    // healthComponent.TakeDamage(damage);
+                    Health enemyHealth = c.GetComponent<Health>();
+
+                    if (enemyHealth != null)
+                        enemyHealth.TakeDamage(_damage);
                 }
             }
 
             yield return new WaitForSeconds(_windDown);
+
+            // turn off line renderer showing this attack collider
+            _combo.EraseCollider();
 
             _combo.OnAttackFinish(_nextAttack);
         }
     }
 
     public LayerMask _enemyLayers;
+    [SerializeField] private bool _showColliders;
+    private LineRenderer _line;
     [SerializeField] private List<BasicAttack> _comboList;
     private BasicAttack _currentAttackState = null;
     private IEnumerator _midAttackCoroutine = null;
@@ -72,6 +80,13 @@ public class BasicAttackCombo : MonoBehaviour
         _comboStart = _comboList[0];
 
         _spriteRenderer = GetComponent<SpriteRenderer>();
+        
+        // used to show colliders
+        _line = GetComponent<LineRenderer>();
+        _line.useWorldSpace = false;
+        _line.startWidth = .1f;
+        _line.endWidth = .1f;
+
     }
 
     private void Update()
@@ -122,6 +137,32 @@ public class BasicAttackCombo : MonoBehaviour
         StopCoroutine(_midAttackCoroutine);
         _midAttackCoroutine = null;
         _timeLapsed = 0f;
+    }
+
+    public void DrawCollider(Vector3 origin, float radius)
+    {
+        if (!_showColliders)
+            return;
+
+        _line.enabled = true;
+
+        var segments = 360;
+        _line.positionCount = segments + 1;
+
+        var pointCount = segments + 1;
+        var points = new Vector3[pointCount];
+
+        for (int i = 0; i < pointCount; i++)
+        {
+            var rad = Mathf.Deg2Rad * (i * 360f / segments);
+            points[i] = new Vector3(Mathf.Sin(rad) * radius, Mathf.Cos(rad) * radius, 0) - (transform.position - origin);
+        }
+        _line.SetPositions(points);
+    }
+
+    public void EraseCollider()
+    {
+        _line.enabled = false;
     }
 
     // if staggering is implemented, main player script could call this to handle logic for when player is attacked midcombo
