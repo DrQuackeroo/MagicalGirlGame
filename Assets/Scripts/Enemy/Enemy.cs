@@ -20,25 +20,30 @@ public class Enemy : MonoBehaviour
 {
     // Tag used only by the Player
     const string playerTag = "Player";
+    // Minimum x-axis speed Enemy needs to be moving at to change sprite facing direction. Causes jittery flipping if too low.
+    const float flipSpeedThreshold = 0.125f;
 
     // Range at which Enemy sees the player and starts moving towards them.
     [SerializeField] protected float _playerDetectionRange = 20.0f;
     [SerializeField] protected float _movementSpeed = 5.0f;
 
     protected GameObject _player;
+    protected Rigidbody _rigidbody; // TODO: Testing 3D vs 2D rigidbody. Remove one after deciding.
     protected Rigidbody2D _rigidbody2D;
+    protected SpriteRenderer _spriteRenderer;
+    protected NavMeshAgent _navMeshAgent;
 
     // The direction this Enemy will move this FixedUpdate() call
     protected Vector2 _moveDirection;
-
-    //// TODO: Testing movement by setting velocity directly
-    //protected Vector3 _currentVelocity = Vector3.zero;
 
     // Start is called before the first frame update
     void Start()
     {
         _player = GameObject.FindWithTag(playerTag);
+        _rigidbody = GetComponent<Rigidbody>();
         _rigidbody2D = GetComponent<Rigidbody2D>();
+        _spriteRenderer = GetComponent<SpriteRenderer>();
+        _navMeshAgent = GetComponent<NavMeshAgent>();
     }
 
     // Update is called once per frame
@@ -76,13 +81,25 @@ public class Enemy : MonoBehaviour
     void Update()
     {
         // TODO: Testing 3D destination setting
-        GetComponent<NavMeshAgent>().SetDestination(_player.transform.position);
+        _navMeshAgent.SetDestination(_player.transform.position);
         // lock rotation
         transform.rotation = Quaternion.Euler(0, 0, 0);
-        GetComponent<NavMeshAgent>().enabled = false;
-        GetComponent<Rigidbody>().isKinematic = false;
+        // Flip sprite if speed is above a threshold
+        if (Mathf.Abs(_navMeshAgent.velocity.x) > flipSpeedThreshold)
+        {
+            _spriteRenderer.flipX = _navMeshAgent.velocity.x < 0.0f;
+        }
 
-        GetComponent<Rigidbody>().AddForce(Vector3.up * 1000.0f);
-        //GetComponent<Rigidbody>().AddForce(Vector3.left * 200.0f);
+        // Prevents Enemies from overlapping each other due to navigation in 3D space.
+        transform.Translate(0, 0, -transform.position.z);
+
+        // NavMeshAgent needs to be disabled and Rigidbody.isKinematic needs to be set to false for physics-based forces to be applied.
+        // Reverse the process to return to NavMesh movement.
+        // For example, if the Enemy is launched by a Player attack, Enemy movement would switch to being controlled by physics.
+        // https://docs.unity3d.com/Manual/nav-MixingComponents.html for more details.
+
+        //GetComponent<NavMeshAgent>().enabled = false;
+        //GetComponent<Rigidbody>().isKinematic = false;
+        //GetComponent<Rigidbody>().AddForce(Vector3.up * 1000.0f);
     }
 }
