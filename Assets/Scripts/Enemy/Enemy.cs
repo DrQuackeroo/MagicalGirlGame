@@ -81,7 +81,8 @@ public class Enemy : MonoBehaviour
     void Update()
     {
         // TODO: Testing 3D destination setting
-        _navMeshAgent.SetDestination(_player.transform.position);
+        if (Vector3.Distance(_player.transform.position, transform.position) <= _playerDetectionRange)
+            _navMeshAgent.SetDestination(_player.transform.position);
         // lock rotation
         transform.rotation = Quaternion.Euler(0, 0, 0);
         // Flip sprite if speed is above a threshold
