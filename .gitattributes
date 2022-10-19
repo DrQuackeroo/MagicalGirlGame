@@ -15,6 +15,7 @@
 *.spriteatlas text eol=lf
 *.meta text eol=lf
 
-# Also declare that .txt and .json files have LF line endings on checkout
+# Declaring more files have LF line endings on checkout
 *.json text eol=lf
 *.txt text eol=lf
+*.cs text eol=lf
