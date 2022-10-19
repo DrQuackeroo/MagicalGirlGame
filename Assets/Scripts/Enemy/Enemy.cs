@@ -26,12 +26,15 @@ public class Enemy : MonoBehaviour
     // Range at which Enemy sees the player and starts moving towards them.
     [SerializeField] protected float _playerDetectionRange = 20.0f;
     [SerializeField] protected float _movementSpeed = 5.0f;
+    // Waypoints for Enemy patrol path.
+    [SerializeField] protected List<GameObject> _patrolWaypoints = new List<GameObject>();
 
     protected GameObject _player;
     protected Rigidbody _rigidbody; // TODO: Testing 3D vs 2D rigidbody. Remove one after deciding.
     protected Rigidbody2D _rigidbody2D;
     protected SpriteRenderer _spriteRenderer;
     protected NavMeshAgent _navMeshAgent;
+    protected int _currentWaypointIndex = 0;
 
     // The direction this Enemy will move this FixedUpdate() call
     protected Vector2 _moveDirection;
@@ -49,6 +52,8 @@ public class Enemy : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        // TODO: Remove on cleanup
+
         // Basic move to player
         //if (Vector3.Distance(_player.transform.position, transform.position) <= _playerDetectionRange)
         //{
@@ -80,9 +85,11 @@ public class Enemy : MonoBehaviour
 
     void Update()
     {
-        // TODO: Testing 3D destination setting
-        if (Vector3.Distance(_player.transform.position, transform.position) <= _playerDetectionRange)
-            _navMeshAgent.SetDestination(_player.transform.position);
+        //// TODO: Use later for changing states.
+        //if (Vector3.Distance(_player.transform.position, transform.position) <= _playerDetectionRange)
+        //    _navMeshAgent.SetDestination(_player.transform.position);
+
+
         // lock rotation
         transform.rotation = Quaternion.Euler(0, 0, 0);
         // Flip sprite if speed is above a threshold
@@ -102,5 +109,20 @@ public class Enemy : MonoBehaviour
         //GetComponent<NavMeshAgent>().enabled = false;
         //GetComponent<Rigidbody>().isKinematic = false;
         //GetComponent<Rigidbody>().AddForce(Vector3.up * 1000.0f);
+    }
+
+    /// <summary>
+    /// Returns position of next waypoint in a series of waypoints that this Enemy is patrolling between. Resets to waypoint index 0 once all have been returned.
+    /// </summary>
+    /// <returns>Next waypoint in list or transform.position if no waypoints set.</returns>
+    public Vector3 GetNextWaypoint()
+    {
+        if (_patrolWaypoints.Count == 0)
+        {
+            return transform.position;
+        }
+
+        _currentWaypointIndex = (_currentWaypointIndex + 1) % _patrolWaypoints.Count;
+        return _patrolWaypoints[_currentWaypointIndex].transform.position;
     }
 }

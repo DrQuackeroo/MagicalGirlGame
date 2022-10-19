@@ -5,24 +5,24 @@ using UnityEngine.AI;
 
 public class EnemyPatrolling : StateMachineBehaviour
 {
-    private GameObject _player;
     private NavMeshAgent _navMeshAgent;
-
-    private void Awake()
-    {
-        _player = GameObject.FindWithTag("Player");
-    }
+    private Enemy _enemy;
 
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+        // TODO: null check for small optimization
         _navMeshAgent = animator.GetComponent<NavMeshAgent>();
+        _enemy = animator.GetComponent<Enemy>();
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        _navMeshAgent.SetDestination(_player.transform.position);
+        if (Mathf.Approximately(_navMeshAgent.remainingDistance, 0.0f))
+        {
+            _navMeshAgent.SetDestination(_enemy.GetNextWaypoint());
+        }
     }
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
