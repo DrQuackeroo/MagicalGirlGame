@@ -93,7 +93,7 @@ public class PlayerControls : MonoBehaviour
     private void OnJump(InputAction.CallbackContext context)
     {
         Debug.Log("jump");
-        if (Physics2D.OverlapCircle(_groundCheck.position, 0.2f, _groundLayer))
+        if (Physics2D.OverlapCircle(_groundCheck.position, 0.4f, _groundLayer))
         {
             _jumpsRemaining = 2;
         }
