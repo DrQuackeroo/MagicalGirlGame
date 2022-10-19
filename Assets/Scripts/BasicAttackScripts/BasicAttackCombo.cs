@@ -5,13 +5,20 @@ using UnityEngine;
 public class BasicAttackCombo : MonoBehaviour
 {
     [System.Serializable]
+    public class AttackColliderInfo
+    {
+        public List<Vector3> _origins;
+        public List<float> _radius;
+    }
+
+    [System.Serializable]
     public class BasicAttack
     {
         private BasicAttackCombo _combo;
         private BasicAttack _nextAttack;
         public string _name;
         [SerializeField] private int _damage;
-        [SerializeField] private float _attackRadius;
+        [SerializeField] private AttackColliderInfo _attackColliders;
         [SerializeField] private float _windUp;
         [SerializeField] private float _windDown;
 
@@ -25,19 +32,32 @@ public class BasicAttackCombo : MonoBehaviour
         {
             yield return new WaitForSeconds(_windUp);
 
-            Vector3 origin = _combo.transform.position;
-            origin.x += _attackRadius * ((_combo._spriteRenderer.flipX) ? -1 : 1);
+            List<Collider2D> uniqueEnemyColliders = new List<Collider2D>();
 
-            Collider2D[] colliders = Physics2D.OverlapCircleAll(origin, _attackRadius, _combo._enemyLayers);
+            for (int i = 0; i < _attackColliders._origins.Count; i++)
+            {
+                Vector3 origin = _combo.transform.position + (_attackColliders._origins[i] * ((_combo._spriteRenderer.flipX) ? -1 : 1));
+
+                Collider2D[] enemyColliders = Physics2D.OverlapCircleAll(origin, _attackColliders._radius[i], _combo._enemyLayers);
+                
+                for (int j = 0; j < enemyColliders.Length; j++)
+                {
+                    if (!uniqueEnemyColliders.Contains(enemyColliders[j]))
+                    {
+                        uniqueEnemyColliders.Add(enemyColliders[j]);
+                    }
+                }
+            }
 
             // turn on and set line renderer showing this attack collider
-            _combo.DrawCollider(origin, _attackRadius);
+            _combo.DrawCollider(_attackColliders);
 
             Debug.LogFormat("BasicAttackCombo.Attack(): Attack '{0}' used", _name);
 
-            if (colliders.Length > 0)
+            
+            if (uniqueEnemyColliders.Count > 0)
             {
-                foreach (Collider2D c in colliders)
+                foreach (Collider2D c in uniqueEnemyColliders)
                 {
                     Health enemyHealth = c.GetComponent<Health>();
 
@@ -45,6 +65,7 @@ public class BasicAttackCombo : MonoBehaviour
                         enemyHealth.TakeDamage(_damage);
                 }
             }
+            
 
             yield return new WaitForSeconds(_windDown);
 
@@ -139,24 +160,34 @@ public class BasicAttackCombo : MonoBehaviour
         _timeLapsed = 0f;
     }
 
-    public void DrawCollider(Vector3 origin, float radius)
+    public void DrawCollider(AttackColliderInfo attackColliders)
     {
         if (!_showColliders)
             return;
 
         _line.enabled = true;
 
-        var segments = 360;
-        _line.positionCount = segments + 1;
+        var segments = 361 * attackColliders._origins.Count;
+        _line.positionCount = segments;
 
-        var pointCount = segments + 1;
-        var points = new Vector3[pointCount];
+        var points = new Vector3[segments];
 
-        for (int i = 0; i < pointCount; i++)
+        int pointCount = 0;
+
+        for (int i = 0; i < attackColliders._origins.Count; i++)
         {
-            var rad = Mathf.Deg2Rad * (i * 360f / segments);
-            points[i] = new Vector3(Mathf.Sin(rad) * radius, Mathf.Cos(rad) * radius, 0) - (transform.position - origin);
+            Vector3 origin = attackColliders._origins[i];
+            float radius = attackColliders._radius[i];
+
+            for (int j = 0; j < 361; j++)
+            {
+                var rad = Mathf.Deg2Rad * (j * 360f / 361);
+                points[pointCount] = new Vector3(Mathf.Sin(rad) * radius, Mathf.Cos(rad) * radius, 0) + (origin * (_spriteRenderer.flipX ? -1 : 1));
+
+                pointCount++;
+            }
         }
+
         _line.SetPositions(points);
     }
 
