@@ -13,10 +13,9 @@ public class Enemy : MonoBehaviour
     // Minimum x-axis speed Enemy needs to be moving at to change sprite facing direction. Causes jittery flipping if too low.
     const float flipSpeedThreshold = 0.85f;
 
-    // Range at which Enemy sees the player and starts moving towards them.
+    [Tooltip("Range at which Enemy sees the player and starts moving towards them.")]
     [SerializeField] protected float _playerDetectionRange = 20.0f;
-    [SerializeField] protected float _movementSpeed = 5.0f;
-    // Waypoints for Enemy patrol path.
+    [Tooltip("Waypoints for Enemy patrol path.")]
     [SerializeField] protected List<GameObject> _patrolWaypoints = new List<GameObject>();
 
     protected GameObject _player;
