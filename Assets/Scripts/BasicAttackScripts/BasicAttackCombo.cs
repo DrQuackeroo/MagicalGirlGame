@@ -36,7 +36,7 @@ public class BasicAttackCombo : MonoBehaviour
 
             for (int i = 0; i < _attackColliders._origins.Count; i++)
             {
-                Vector3 origin = _combo.transform.position + (_attackColliders._origins[i] * ((_combo._spriteRenderer.flipX) ? -1 : 1));
+                Vector3 origin = _combo.transform.position + new Vector3(_attackColliders._origins[i].x * ((_combo._spriteRenderer.flipX) ? -1 : 1), _attackColliders._origins[i].y, _attackColliders._origins[i].z);
 
                 Collider2D[] enemyColliders = Physics2D.OverlapCircleAll(origin, _attackColliders._radius[i], _combo._enemyLayers);
                 
@@ -182,7 +182,7 @@ public class BasicAttackCombo : MonoBehaviour
             for (int j = 0; j < 361; j++)
             {
                 var rad = Mathf.Deg2Rad * (j * 360f / 361);
-                points[pointCount] = new Vector3(Mathf.Sin(rad) * radius, Mathf.Cos(rad) * radius, 0) + (origin * (_spriteRenderer.flipX ? -1 : 1));
+                points[pointCount] = new Vector3(Mathf.Sin(rad) * radius, Mathf.Cos(rad) * radius, 0) + new Vector3(origin.x * (_spriteRenderer.flipX ? -1 : 1), origin.y, origin.z);
 
                 pointCount++;
             }
