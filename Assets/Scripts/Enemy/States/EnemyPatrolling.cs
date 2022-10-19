@@ -11,9 +11,10 @@ public class EnemyPatrolling : StateMachineBehaviour
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        // TODO: null check for small optimization
-        _navMeshAgent = animator.GetComponent<NavMeshAgent>();
-        _enemy = animator.GetComponent<Enemy>();
+        if (_navMeshAgent == null)
+            _navMeshAgent = animator.GetComponent<NavMeshAgent>();
+        if (_enemy == null)
+            _enemy = animator.GetComponent<Enemy>();
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
