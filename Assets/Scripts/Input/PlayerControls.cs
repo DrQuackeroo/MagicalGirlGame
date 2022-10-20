@@ -12,13 +12,23 @@ public class PlayerControls : MonoBehaviour
     [Header("Player Stats")]
     [SerializeField] private float _speedMod = 10f;
     [SerializeField] private float _jumpMod = 15f;
+    [SerializeField] private float _dashMod = 2000f;
+
+    [SerializeField] private float _movement;
+    [SerializeField] private float _jumpsRemaining;
+    [SerializeField] private float _tempTime = 0f;
+    [SerializeField] private float _jumpCD = 0.2f;
+    [SerializeField] private bool _isDashing = false;
+    [SerializeField] private bool _canDash = true;
+    [SerializeField] private float _dashingTime = 1f;
+    [SerializeField] private float _dashCD = 1f;
+
+    [SerializeField] private bool _faceRight = true;
+
+
     private PlayerInputActions _playerInputActions;
     private SpriteRenderer _spriteRenderer;
     private Rigidbody2D _rigidbody;
-    private float _movement;
-    private float _jumpsRemaining;
-    private float _tempTime = 0f;
-    private float _jumpCD = 0.2f;
     private BasicAttackCombo _basicAttackCombo;
 
     private void Awake()
@@ -77,6 +87,8 @@ public class PlayerControls : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (_isDashing) return;
+
         _rigidbody.velocity = new Vector3(_movement * _speedMod, _rigidbody.velocity.y, 0);
     }
 
@@ -87,6 +99,9 @@ public class PlayerControls : MonoBehaviour
         //Flips sprite if moving to the LEFT, change if needed
         if (_movement > 0) _spriteRenderer.flipX = false;
         if (_movement < 0) _spriteRenderer.flipX = true;
+
+        _faceRight = !_spriteRenderer.flipX;
+
     }
 
     //"Space" key - jump
@@ -107,6 +122,35 @@ public class PlayerControls : MonoBehaviour
         }
     }
 
+
+    private IEnumerator Dash()
+    {
+
+        Debug.Log("Dash Start" + transform.localScale.x);
+        _canDash = false;
+        _isDashing = true;
+        float tempGravity = _rigidbody.gravityScale;
+        _rigidbody.gravityScale = 0f;
+
+
+        if (_faceRight)
+            _rigidbody.velocity = new Vector2(_dashMod, 0f);
+        else
+            _rigidbody.velocity = new Vector2(-_dashMod, 0f);
+
+        yield return new WaitForSeconds(_dashingTime);
+        Debug.Log("Dash End");
+        _isDashing = false;
+        _rigidbody.velocity = new Vector2(0f, 0f);
+        _rigidbody.gravityScale = tempGravity;
+
+        yield return new WaitForSeconds(_dashCD);
+        Debug.Log("Dash Refresh");
+        _canDash = true;
+
+    }
+
+
     //"Z" key - basic attack
     private void OnBasicAttack(InputAction.CallbackContext context)
     {
@@ -117,7 +161,10 @@ public class PlayerControls : MonoBehaviour
     //"X" key - ability one
     private void OnAbilityOne(InputAction.CallbackContext context)
     {
-        Debug.Log("ability one");
+        Debug.Log("ability one: occupied by Dash");
+
+        StartCoroutine(Dash());
+
     }
 
     //"C" key - ability two
