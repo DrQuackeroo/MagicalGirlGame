@@ -15,6 +15,8 @@ public class Enemy : MonoBehaviour
 
     [Tooltip("Range at which Enemy sees the player and starts moving towards them.")]
     [SerializeField] protected float _playerDetectionRange = 20.0f;
+    [Tooltip("At most how far away the Enemy should be from the Player before attacking.")]
+    [SerializeField] protected float _attackRange = 5.0f;
     [Tooltip("Waypoints for Enemy patrol path.")]
     [SerializeField] protected List<GameObject> _patrolWaypoints = new List<GameObject>();
 
@@ -26,7 +28,8 @@ public class Enemy : MonoBehaviour
     protected int _currentWaypointIndex = 0;
 
     // Animation variables need to be hashed before they can be set in code.
-    protected readonly int _hashPlayerWithinRange = Animator.StringToHash("PlayerWithinRange");
+    protected readonly int _hashPlayerHasBeenSighted = Animator.StringToHash("PlayerHasBeenSighted");
+    protected readonly int _hashPlayerWithinAttackRange = Animator.StringToHash("PlayerWithinAttackRange");
 
     // Start is called before the first frame update
     void Start()
@@ -41,10 +44,15 @@ public class Enemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // Patrolling Enemy has detected Player
-        if (Vector3.Distance(_player.transform.position, transform.position) <= _playerDetectionRange)
+        // Patrolling Enemy has sighted Player
+        if (!_animator.GetBool(_hashPlayerHasBeenSighted) && Vector3.Distance(_player.transform.position, transform.position) <= _playerDetectionRange)
         {
-            _animator.SetTrigger(_hashPlayerWithinRange);
+            _animator.SetBool(_hashPlayerHasBeenSighted, true);
+        }
+        else 
+        {
+            // Since Enemy is chasing the Player, check how far away they are.
+            _animator.SetBool(_hashPlayerWithinAttackRange, Vector3.Distance(_player.transform.position, transform.position) <= _attackRange);
         }
 
 

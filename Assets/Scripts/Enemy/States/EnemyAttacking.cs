@@ -3,34 +3,32 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class EnemyChasingPlayer : StateMachineBehaviour
+public class EnemyAttacking : StateMachineBehaviour
 {
-    private GameObject _player;
-    private NavMeshAgent _navMeshAgent;
+    protected NavMeshAgent _navMeshAgent;
 
-    private void Awake()
-    {
-        _player = GameObject.FindWithTag("Player");
-    }
+    protected readonly int _hashEndAttack = Animator.StringToHash("EndAttack");
 
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         if (_navMeshAgent == null)
             _navMeshAgent = animator.GetComponent<NavMeshAgent>();
+
+        _navMeshAgent.isStopped = true;
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
-    override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    {
-        _navMeshAgent.SetDestination(_player.transform.position);
-    }
+    //override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    //{
+
+    //}
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
-    //override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    //{
-    //    
-    //}
+    override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    {
+        _navMeshAgent.isStopped = false;
+    }
 
     // OnStateMove is called right after Animator.OnAnimatorMove()
     //override public void OnStateMove(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
