@@ -10,21 +10,22 @@ public class PlayerControls : MonoBehaviour
     [SerializeField] private Transform _groundCheck;
     [SerializeField] private LayerMask _groundLayer;
     [Header("Player Stats")]
+
     [SerializeField] private float _speedMod = 10f;
     [SerializeField] private float _jumpMod = 15f;
-    [SerializeField] private float _dashMod = 2000f;
+    [SerializeField] private float _dashMod = 48f;
 
-    [SerializeField] private float _movement;
-    [SerializeField] private float _jumpsRemaining;
+    private float _movement;
+    private bool _faceRight = true;
+
+    [SerializeField] private float _jumpsRemaining = 2f;
     [SerializeField] private float _tempTime = 0f;
     [SerializeField] private float _jumpCD = 0.2f;
-    [SerializeField] private bool _isDashing = false;
-    [SerializeField] private bool _canDash = true;
-    [SerializeField] private float _dashingTime = 1f;
+
+    private bool _isDashing = false;
+    private bool _canDash = true;
+    [SerializeField] private float _dashingTime = 0.25f;
     [SerializeField] private float _dashCD = 1f;
-
-    [SerializeField] private bool _faceRight = true;
-
 
     private PlayerInputActions _playerInputActions;
     private SpriteRenderer _spriteRenderer;
@@ -95,10 +96,16 @@ public class PlayerControls : MonoBehaviour
     //"Left Arrow/Right Arrow" keys - movement
     private void OnMove(InputAction.CallbackContext context)
     {
+        if (_isDashing)
+        {
+            Debug.Log("Move overriden by Dash");
+            return;
+        }
+
         _movement = context.ReadValue<float>();
         //Flips sprite if moving to the LEFT, change if needed
         if (_movement > 0) _spriteRenderer.flipX = false;
-        if (_movement < 0) _spriteRenderer.flipX = true;
+        else if (_movement < 0) _spriteRenderer.flipX = true;
 
         _faceRight = !_spriteRenderer.flipX;
 
@@ -107,6 +114,11 @@ public class PlayerControls : MonoBehaviour
     //"Space" key - jump
     private void OnJump(InputAction.CallbackContext context)
     {
+        if (_isDashing)
+        {
+            Debug.Log("Jump overriden by Dash");
+            return;
+        }
         Debug.Log("jump");
         if (Physics2D.OverlapCircle(_groundCheck.position, 0.4f, _groundLayer))
         {
@@ -129,14 +141,16 @@ public class PlayerControls : MonoBehaviour
         Debug.Log("Dash Start" + transform.localScale.x);
         _canDash = false;
         _isDashing = true;
+
         float tempGravity = _rigidbody.gravityScale;
         _rigidbody.gravityScale = 0f;
-
 
         if (_faceRight)
             _rigidbody.velocity = new Vector2(_dashMod, 0f);
         else
             _rigidbody.velocity = new Vector2(-_dashMod, 0f);
+
+        Debug.Log("Speed:" + _rigidbody.velocity.x);
 
         yield return new WaitForSeconds(_dashingTime);
         Debug.Log("Dash End");
@@ -154,6 +168,11 @@ public class PlayerControls : MonoBehaviour
     //"Z" key - basic attack
     private void OnBasicAttack(InputAction.CallbackContext context)
     {
+        if (_isDashing)
+        {
+            Debug.Log("Attack overriden by Dash");
+            return;
+        }
         Debug.Log("basic attack");
         _basicAttackCombo.Attack();
     }
@@ -161,21 +180,34 @@ public class PlayerControls : MonoBehaviour
     //"X" key - ability one
     private void OnAbilityOne(InputAction.CallbackContext context)
     {
+        if (_isDashing)
+        {
+            Debug.Log("Ability 1 overriden by Dash");
+            return;
+        }
         Debug.Log("ability one: occupied by Dash");
 
-        StartCoroutine(Dash());
+        if (_canDash)
+            StartCoroutine(Dash());
+
 
     }
 
     //"C" key - ability two
     private void OnAbilityTwo(InputAction.CallbackContext context)
     {
+        if (_isDashing)
+        {
+            Debug.Log("Ability2 overriden by Dash");
+            return;
+        }
         Debug.Log("ability two");
     }
 
     //"Esc" key - escape menu
     private void OnPauseMenu(InputAction.CallbackContext context)
     {
+
         Debug.Log("pause menu");
     }
 }
