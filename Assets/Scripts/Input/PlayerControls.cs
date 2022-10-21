@@ -6,6 +6,11 @@ using UnityEngine.InputSystem;
 
 public class PlayerControls : MonoBehaviour
 {
+    // If the Player is grounded but y-velocity is < 0, it should be reset so it doesn't accumulate while not falling.
+    // However, if the reset value is too close to 0, _characterController.isGrounded won't return reliably because the
+    // Player is not being "pushed" into the ground.
+    private const float _yVelocityResetThreshold = -0.5f;
+
     [Header("Other Movement Settings")]
     [SerializeField] private Transform _groundCheck;
     [SerializeField] private LayerMask _groundLayer;
@@ -15,8 +20,9 @@ public class PlayerControls : MonoBehaviour
     [SerializeField] private float _jumpMod = 15f;
     [SerializeField] private float _dashMod = 48f;
 
-    private float _movement;
+    private float _xInputValue;
     private bool _faceRight = true;
+    private Vector3 _velocity = Vector3.zero;
 
     [SerializeField] private float _jumpsRemaining = 2f;
     [SerializeField] private float _tempTime = 0f;
@@ -29,15 +35,15 @@ public class PlayerControls : MonoBehaviour
 
     private PlayerInputActions _playerInputActions;
     private SpriteRenderer _spriteRenderer;
-    private Rigidbody2D _rigidbody;
     private BasicAttackCombo _basicAttackCombo;
+    private CharacterController _characterController;
 
     private void Awake()
     {
         _playerInputActions = new PlayerInputActions();
         _spriteRenderer = GetComponent<SpriteRenderer>();
-        _rigidbody = GetComponent<Rigidbody2D>();
         _basicAttackCombo = GetComponent<BasicAttackCombo>();
+        _characterController = GetComponent<CharacterController>();
     }
 
     private void OnEnable()
@@ -86,11 +92,22 @@ public class PlayerControls : MonoBehaviour
         _playerInputActions.Player.PauseMenu.performed -= OnPauseMenu;
     }
 
-    void FixedUpdate()
+    void Update()
     {
-        if (_isDashing) return;
+        // Reset the y-velocity if the Player wasn't actually moving upwards last frame (eg. hit their head on a ceiling)...
+        if (!_characterController.isGrounded && _characterController.velocity.y == 0 && _velocity.y > 0.0f)
+            _velocity.y = 0;
+        // ... or if Player is on the ground but y-velocity is negative.
+        if (_characterController.isGrounded && _velocity.y < _yVelocityResetThreshold)
+            _velocity.y = _yVelocityResetThreshold;
 
-        _rigidbody.velocity = new Vector3(_movement * _speedMod, _rigidbody.velocity.y, 0);
+        if (!_isDashing)
+        {
+            _velocity.x = _xInputValue * _speedMod;
+            _velocity.y += Physics.gravity.y * 3.0f * Time.deltaTime;
+        }
+
+        _characterController.Move(_velocity * Time.deltaTime);
     }
 
     //"Left Arrow/Right Arrow" keys - movement
@@ -102,10 +119,10 @@ public class PlayerControls : MonoBehaviour
             return;
         }
 
-        _movement = context.ReadValue<float>();
+        _xInputValue = context.ReadValue<float>();
         //Flips sprite if moving to the LEFT, change if needed
-        if (_movement > 0) _spriteRenderer.flipX = false;
-        else if (_movement < 0) _spriteRenderer.flipX = true;
+        if (_xInputValue > 0) _spriteRenderer.flipX = false;
+        else if (_xInputValue < 0) _spriteRenderer.flipX = true;
 
         _faceRight = !_spriteRenderer.flipX;
 
@@ -120,7 +137,8 @@ public class PlayerControls : MonoBehaviour
             return;
         }
         Debug.Log("jump");
-        if (Physics2D.OverlapCircle(_groundCheck.position, 0.4f, _groundLayer))
+        
+        if (_characterController.isGrounded)
         {
             _jumpsRemaining = 2;
         }
@@ -128,9 +146,7 @@ public class PlayerControls : MonoBehaviour
         {
             _tempTime = Time.time + _jumpCD;
             _jumpsRemaining--;
-            //_rigidbody.velocity = new Vector2(0, _rigidbody.velocity.y > 0f ? _jumpMod * 0.5f : _jumpMod);
-            _rigidbody.velocity = new Vector2(0, _jumpMod);
-
+            _velocity.y = _jumpMod;
         }
     }
 
@@ -142,21 +158,17 @@ public class PlayerControls : MonoBehaviour
         _canDash = false;
         _isDashing = true;
 
-        float tempGravity = _rigidbody.gravityScale;
-        _rigidbody.gravityScale = 0f;
-
         if (_faceRight)
-            _rigidbody.velocity = new Vector2(_dashMod, 0f);
+            _velocity = new Vector3(_dashMod, 0.0f, 0.0f);
         else
-            _rigidbody.velocity = new Vector2(-_dashMod, 0f);
+            _velocity = new Vector3(-_dashMod, 0.0f, 0.0f);
 
-        Debug.Log("Speed:" + _rigidbody.velocity.x);
+        Debug.Log("Speed:" + _velocity.x);
 
         yield return new WaitForSeconds(_dashingTime);
         Debug.Log("Dash End");
         _isDashing = false;
-        _rigidbody.velocity = new Vector2(0f, 0f);
-        _rigidbody.gravityScale = tempGravity;
+        _velocity = Vector3.zero;
 
         yield return new WaitForSeconds(_dashCD);
         Debug.Log("Dash Refresh");
