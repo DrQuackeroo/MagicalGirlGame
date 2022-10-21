@@ -2442,7 +2442,13 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   _speedMod: 10
-  _jumpMod: 16
+  _jumpMod: 15
+  _dashMod: 48
+  _jumpsRemaining: 2
+  _tempTime: 0
+  _jumpCD: 0.2
+  _dashingTime: 0.25
+  _dashCD: 1
 --- !u!114 &1808477510
 MonoBehaviour:
   m_ObjectHideFlags: 0
