@@ -11,11 +11,12 @@ GameObject:
   - component: {fileID: 19786261565302451}
   - component: {fileID: 19786261565302462}
   - component: {fileID: 19786261565302463}
+  - component: {fileID: 5465466713511005537}
   - component: {fileID: 19786261565302448}
   - component: {fileID: 19786261565302450}
   - component: {fileID: 19786261565302449}
   - component: {fileID: 19786261565302461}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: TestEnemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -103,8 +104,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _playerDetectionRange: 10
-  _movementSpeed: 5
+  _attackRange: 5
   _patrolWaypoints: []
+--- !u!114 &5465466713511005537
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 19786261565302452}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 39fc18b15eea83f4fbc9c781632bb229, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _maxHealth: 100
+  _printToConsole: 1
 --- !u!65 &19786261565302448
 BoxCollider:
   m_ObjectHideFlags: 0

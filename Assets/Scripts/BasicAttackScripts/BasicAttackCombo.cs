@@ -32,13 +32,13 @@ public class BasicAttackCombo : MonoBehaviour
         {
             yield return new WaitForSeconds(_windUp);
 
-            List<Collider2D> uniqueEnemyColliders = new List<Collider2D>();
+            List<Collider> uniqueEnemyColliders = new List<Collider>();
 
             for (int i = 0; i < _attackColliders._origins.Count; i++)
             {
                 Vector3 origin = _combo.transform.position + new Vector3(_attackColliders._origins[i].x * ((_combo._spriteRenderer.flipX) ? -1 : 1), _attackColliders._origins[i].y, _attackColliders._origins[i].z);
 
-                Collider2D[] enemyColliders = Physics2D.OverlapCircleAll(origin, _attackColliders._radius[i], _combo._enemyLayers);
+                Collider[] enemyColliders = Physics.OverlapSphere(origin, _attackColliders._radius[i], _combo._enemyLayers);
                 
                 for (int j = 0; j < enemyColliders.Length; j++)
                 {
@@ -57,7 +57,7 @@ public class BasicAttackCombo : MonoBehaviour
             
             if (uniqueEnemyColliders.Count > 0)
             {
-                foreach (Collider2D c in uniqueEnemyColliders)
+                foreach (Collider c in uniqueEnemyColliders)
                 {
                     Health enemyHealth = c.GetComponent<Health>();
 
