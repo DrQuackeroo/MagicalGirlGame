@@ -19,6 +19,8 @@ public class PlayerControls : MonoBehaviour
     [SerializeField] private float _speedMod = 10f;
     [SerializeField] private float _jumpMod = 15f;
     [SerializeField] private float _dashMod = 48f;
+    [Tooltip("How much more the default Physics.gravity value affects the Player")]
+    [SerializeField] private float _gravityMultiplier = 3.0f;
 
     private float _xInputValue;
     private bool _faceRight = true;
@@ -104,7 +106,7 @@ public class PlayerControls : MonoBehaviour
         if (!_isDashing)
         {
             _velocity.x = _xInputValue * _speedMod;
-            _velocity.y += Physics.gravity.y * 3.0f * Time.deltaTime;
+            _velocity.y += Physics.gravity.y * _gravityMultiplier * Time.deltaTime;
         }
 
         _characterController.Move(_velocity * Time.deltaTime);
