@@ -74,6 +74,11 @@ public class BasicAttackCombo : MonoBehaviour
 
             _combo.OnAttackFinish(_nextAttack);
         }
+
+        public float GetDuration()
+        {
+            return _windUp + _windDown;
+        }
     }
 
     public LayerMask _enemyLayers;
@@ -201,5 +206,14 @@ public class BasicAttackCombo : MonoBehaviour
     {
         // will only implement if team decides they want stagger
         // _currentAttackState.OnInterrupt();
+    }
+
+    /// <returns>How long the current running attack takes in total, or 0.0f if no attack is running.</returns>
+    public float GetCurrentAttackDuration()
+    {
+        if (_currentAttackState == null)
+            return 0.0f;
+
+        return _currentAttackState.GetDuration();
     }
 }

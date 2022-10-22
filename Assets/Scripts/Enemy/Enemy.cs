@@ -5,6 +5,9 @@ using UnityEngine.AI;
 
 /// <summary>
 /// Controls basic Enemy behavior. Changes states stored in an AnimatorController, which acts as a state machine.
+/// 
+/// Enemy attacking code flow: StateMachineBehavior calls Enemy.Attack(), Enemy.Attack() calls BasicAttackCombo.Attack() and returns how long the attack takes.
+///     StateMachineBehavior uses returned attack duration to exit the "Attacking" state once the attack is over.
 /// </summary>
 public class Enemy : MonoBehaviour
 {
@@ -25,6 +28,7 @@ public class Enemy : MonoBehaviour
     protected SpriteRenderer _spriteRenderer;
     protected NavMeshAgent _navMeshAgent;
     protected Animator _animator;
+    protected BasicAttackCombo _basicAttackCombo;
     protected int _currentWaypointIndex = 0;
 
     // Animation variables need to be hashed before they can be set in code.
@@ -39,6 +43,7 @@ public class Enemy : MonoBehaviour
         _spriteRenderer = GetComponent<SpriteRenderer>();
         _navMeshAgent = GetComponent<NavMeshAgent>();
         _animator = GetComponent<Animator>();
+        _basicAttackCombo = GetComponent<BasicAttackCombo>();
     }
 
     // Update is called once per frame
@@ -91,5 +96,15 @@ public class Enemy : MonoBehaviour
 
         _currentWaypointIndex = (_currentWaypointIndex + 1) % _patrolWaypoints.Count;
         return _patrolWaypoints[_currentWaypointIndex].transform.position;
+    }
+
+    /// <summary>
+    /// Causes Enemy to attack. Can be overridden to run special attacks or attacks in series, among other things.
+    /// </summary>
+    /// <returns>The total duration of the executed attack.</returns>
+    public float Attack()
+    {
+        _basicAttackCombo.Attack();
+        return _basicAttackCombo.GetCurrentAttackDuration();
     }
 }

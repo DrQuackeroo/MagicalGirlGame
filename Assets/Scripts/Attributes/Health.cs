@@ -25,7 +25,7 @@ public class Health : MonoBehaviour
     public void TakeDamage(int damageTaken)
     {
         _currentHealth -= damageTaken;
-        if (_printToConsole is true) {Debug.LogFormat("{0} took {1} damage", gameObject.tag, damageTaken);}
+        if (_printToConsole is true) {Debug.LogFormat("{0} took {1} damage", gameObject.name, damageTaken);}
 
         if (_currentHealth <= 0)
         {

@@ -44,8 +44,10 @@ GameObject:
   - component: {fileID: 1468627978973625223}
   - component: {fileID: 866719938791137812}
   - component: {fileID: 866719938791137815}
+  - component: {fileID: 4914356325663459521}
   - component: {fileID: 866719938791137814}
-  m_Layer: 0
+  - component: {fileID: 945642454}
+  m_Layer: 7
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -158,6 +160,7 @@ MonoBehaviour:
   _speedMod: 10
   _jumpMod: 15
   _dashMod: 48
+  _gravityMultiplier: 3
   _jumpsRemaining: 2
   _tempTime: 0
   _jumpCD: 0.2
@@ -216,6 +219,20 @@ MonoBehaviour:
     _windUp: 0.1
     _windDown: 0.25
   _timeLapsed: 0
+--- !u!114 &4914356325663459521
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 866719938791137809}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 39fc18b15eea83f4fbc9c781632bb229, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _maxHealth: 100
+  _printToConsole: 1
 --- !u!120 &866719938791137814
 LineRenderer:
   m_ObjectHideFlags: 0
@@ -315,6 +332,20 @@ LineRenderer:
     generateLightingData: 0
   m_UseWorldSpace: 1
   m_Loop: 0
+--- !u!114 &945642454
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 866719938791137809}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 39fc18b15eea83f4fbc9c781632bb229, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _maxHealth: 100
+  _printToConsole: 1
 --- !u!1 &866719938975004461
 GameObject:
   m_ObjectHideFlags: 0
