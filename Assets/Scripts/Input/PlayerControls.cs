@@ -123,12 +123,21 @@ public class PlayerControls : MonoBehaviour
 
         _xInputValue = context.ReadValue<float>();
         //Flips sprite if moving to the LEFT, change if needed
-        if (_xInputValue > 0) _spriteRenderer.flipX = false;
-        else if (_xInputValue < 0) _spriteRenderer.flipX = true;
-
-        _faceRight = !_spriteRenderer.flipX;
-
+        //if (_xInputValue > 0)  = false;
+        //else if (_xInputValue < 0) _spriteRenderer.flipX = true;
+        if (_xInputValue > 0 && !_faceRight)
+            Rotate();
+        else if (_xInputValue < 0 && _faceRight)
+            Rotate();
     }
+
+    private void Rotate()
+    {
+        _faceRight = !_faceRight;
+        //transform.Rotate(0f, 180f, 0f);
+        _spriteRenderer.flipX = !_spriteRenderer.flipX;
+    }
+
 
     //"Space" key - jump
     private void OnJump(InputAction.CallbackContext context)
@@ -139,7 +148,7 @@ public class PlayerControls : MonoBehaviour
             return;
         }
         Debug.Log("jump");
-        
+
         if (_characterController.isGrounded)
         {
             _jumpsRemaining = 2;
@@ -215,7 +224,8 @@ public class PlayerControls : MonoBehaviour
             Debug.Log("Ability2 overriden by Dash");
             return;
         }
-        Debug.Log("ability two");
+        Debug.Log("ability two: occupied by Beam");
+        StartCoroutine(Beam());
     }
 
     //"Esc" key - escape menu
@@ -224,4 +234,65 @@ public class PlayerControls : MonoBehaviour
 
         Debug.Log("pause menu");
     }
+
+
+
+
+
+
+
+
+    [Header("Beam Location")]
+    public GameObject FirePoint;
+    private IEnumerator Beam()
+    {
+        //FirePoint.GetComponent<SpriteRenderer>().flipX = !FirePoint.GetComponent<SpriteRenderer>().flipX;
+        //FirePoint.GetComponent<Transform>().RotateAround(FirePoint.GetComponent<Position>, , 180f);
+
+        /*
+        bool rotated = false;
+        if (!_faceRight)
+        {
+            FirePoint.GetComponent<SpriteRenderer>().flipX = true; 
+            rotated = true;
+        }*/
+        FirePoint.GetComponent<Renderer>().enabled = true;
+        Debug.Log("Beam Start" + transform.localScale.x);
+        //_canDash = false;
+        //_isDashing = true;
+        //float tempGravity = _rigidbody.gravityScale;
+        //_rigidbody.gravityScale = 0f;
+        //if (_faceRight)
+        //     _rigidbody.velocity = new Vector2(_dashMod, 0f);
+        //else
+        //    _rigidbody.velocity = new Vector2(-_dashMod, 0f);
+        //Debug.Log("Speed:" + _rigidbody.velocity.x);
+        yield return new WaitForSeconds(_dashingTime);
+        Debug.Log("Beam End");
+        //_isDashing = false;
+        //_rigidbody.velocity = new Vector2(0f, 0f);
+        //_rigidbody.gravityScale = tempGravity;
+        FirePoint.GetComponent<Renderer>().enabled = false;
+        yield return new WaitForSeconds(_dashCD);
+        Debug.Log("Beam Refresh");
+        //_canDash = true;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
