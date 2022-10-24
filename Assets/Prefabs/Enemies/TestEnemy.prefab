@@ -105,7 +105,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 868bb05286461c4479c06dba78e6ed7c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _playerDetectionRange: 10
+  _playerDetectionRange: 20
   _attackRange: 5
   _patrolWaypoints: []
 --- !u!114 &5465466713511005537
@@ -120,6 +120,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39fc18b15eea83f4fbc9c781632bb229, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  eventHasDied:
+    m_PersistentCalls:
+      m_Calls: []
   _maxHealth: 100
   _printToConsole: 1
 --- !u!114 &3776040429677957814
@@ -201,7 +204,7 @@ NavMeshAgent:
   m_Height: 2.56
   m_BaseOffset: 1.28
   m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 4
+  m_ObstacleAvoidanceType: 0
 --- !u!95 &19786261565302461
 Animator:
   serializedVersion: 4

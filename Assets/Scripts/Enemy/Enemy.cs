@@ -31,6 +31,7 @@ public class Enemy : MonoBehaviour
     protected BasicAttackCombo _basicAttackCombo;
     protected Health _health;
     protected int _currentWaypointIndex = 0;
+    protected bool _isFacingRight = true;
 
     // Animation variables need to be hashed before they can be set in code.
     protected readonly int _hashPlayerHasBeenSighted = Animator.StringToHash("PlayerHasBeenSighted");
@@ -53,29 +54,31 @@ public class Enemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // Patrolling Enemy has sighted Player
-        if (!_animator.GetBool(_hashPlayerHasBeenSighted) && Vector3.Distance(_player.transform.position, transform.position) <= _playerDetectionRange)
-        {
-            _animator.SetBool(_hashPlayerHasBeenSighted, true);
-        }
-        else 
-        {
-            // Since Enemy is chasing the Player, check how far away they are.
-            _animator.SetBool(_hashPlayerWithinAttackRange, Vector3.Distance(_player.transform.position, transform.position) <= _attackRange);
-        }
-
-
         // Lock rotation
         transform.rotation = Quaternion.Euler(0, 0, 0);
 
         // Flip sprite if speed is above a threshold
         if (Mathf.Abs(_navMeshAgent.velocity.x) > flipSpeedThreshold)
         {
-            _spriteRenderer.flipX = _navMeshAgent.velocity.x < 0.0f;
+            _isFacingRight = _navMeshAgent.velocity.x > 0.0f;
+            _spriteRenderer.flipX = !_isFacingRight;
         }
 
         // Prevents Enemies from overlapping each other due to navigation in 3D space.
         transform.Translate(0, 0, -transform.position.z);
+
+        // Patrolling Enemy has sighted Player
+        if (!_animator.GetBool(_hashPlayerHasBeenSighted) && Vector3.Distance(_player.transform.position, transform.position) <= _playerDetectionRange)
+        {
+            _animator.SetBool(_hashPlayerHasBeenSighted, true);
+        }
+        // Enemy is able to attack the Player IF Enemy is on the ground AND facing the Player AND within attack range.
+        else 
+        {
+            _animator.SetBool(_hashPlayerWithinAttackRange, !_navMeshAgent.isOnOffMeshLink &&
+                _isFacingRight == _player.transform.position.x - transform.position.x > 0.0f &&
+                Vector3.Distance(_player.transform.position, transform.position) <= _attackRange);
+        }
 
         // NavMeshAgent needs to be disabled and Rigidbody.isKinematic needs to be set to false for physics-based forces to be applied.
         // Reverse the process to return to NavMesh movement.

@@ -7,7 +7,7 @@ using UnityEngine.Events;
 public class Health : MonoBehaviour
 {
     // Invoked when script owner takes fatal damage.
-    public UnityEvent eventHasDied;
+    [HideInInspector] public UnityEvent eventHasDied;
 
     [SerializeField] private int _maxHealth = 100;
     [SerializeField] private bool _printToConsole = true;
