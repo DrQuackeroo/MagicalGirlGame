@@ -166,6 +166,7 @@ MonoBehaviour:
   _jumpCD: 0.2
   _dashingTime: 0.25
   _dashCD: 1
+  FirePoint: {fileID: 0}
 --- !u!114 &866719938791137815
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -184,7 +185,7 @@ MonoBehaviour:
   _showColliders: 1
   _comboList:
   - _name: Slash
-    _damage: 1
+    _damage: 20
     _attackColliders:
       _origins:
       - {x: 1.25, y: 1, z: 0}
@@ -195,7 +196,7 @@ MonoBehaviour:
     _windUp: 0.05
     _windDown: 0.1
   - _name: Thrust
-    _damage: 1
+    _damage: 30
     _attackColliders:
       _origins:
       - {x: 1, y: 0, z: 0}
@@ -206,7 +207,7 @@ MonoBehaviour:
     _windUp: 0.05
     _windDown: 0.1
   - _name: Final Strike
-    _damage: 3
+    _damage: 50
     _attackColliders:
       _origins:
       - {x: 1, y: 0, z: 0}
@@ -231,6 +232,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39fc18b15eea83f4fbc9c781632bb229, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  eventHasDied:
+    m_PersistentCalls:
+      m_Calls: []
   _maxHealth: 100
   _printToConsole: 1
 --- !u!120 &866719938791137814
@@ -344,6 +348,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39fc18b15eea83f4fbc9c781632bb229, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  eventHasDied:
+    m_PersistentCalls:
+      m_Calls: []
   _maxHealth: 100
   _printToConsole: 1
 --- !u!1 &866719938975004461

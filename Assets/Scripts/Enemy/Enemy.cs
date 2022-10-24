@@ -29,6 +29,7 @@ public class Enemy : MonoBehaviour
     protected NavMeshAgent _navMeshAgent;
     protected Animator _animator;
     protected BasicAttackCombo _basicAttackCombo;
+    protected Health _health;
     protected int _currentWaypointIndex = 0;
 
     // Animation variables need to be hashed before they can be set in code.
@@ -44,6 +45,9 @@ public class Enemy : MonoBehaviour
         _navMeshAgent = GetComponent<NavMeshAgent>();
         _animator = GetComponent<Animator>();
         _basicAttackCombo = GetComponent<BasicAttackCombo>();
+        _health = GetComponent<Health>();
+
+        _health.eventHasDied.AddListener(HasDied);
     }
 
     // Update is called once per frame
@@ -81,6 +85,14 @@ public class Enemy : MonoBehaviour
         //GetComponent<NavMeshAgent>().enabled = false;
         //GetComponent<Rigidbody>().isKinematic = false;
         //GetComponent<Rigidbody>().AddForce(Vector3.up * 1000.0f);
+    }
+
+    /// <summary>
+    /// Called on the Update this Enemy runs out of health. Destroys this Enemy. Can be overridden for special behavior.
+    /// </summary>
+    private void HasDied()
+    {
+        Destroy(gameObject);
     }
 
     /// <summary>
