@@ -14,11 +14,12 @@ public class PlayerControls : MonoBehaviour
     [Header("Other Movement Settings")]
     [SerializeField] private Transform _groundCheck;
     [SerializeField] private LayerMask _groundLayer;
-    [Header("Player Stats")]
 
+    [Header("Player Stats")]
     [SerializeField] private float _speedMod = 10f;
     [SerializeField] private float _jumpMod = 15f;
     [SerializeField] private float _dashMod = 48f;
+
     [Tooltip("How much more the default Physics.gravity value affects the Player")]
     [SerializeField] private float _gravityMultiplier = 3.0f;
 
@@ -26,10 +27,12 @@ public class PlayerControls : MonoBehaviour
     private bool _faceRight = true;
     private Vector3 _velocity = Vector3.zero;
 
+    [Header("Jumps")]
     [SerializeField] private float _jumpsRemaining = 2f;
     [SerializeField] private float _tempTime = 0f;
     [SerializeField] private float _jumpCD = 0.2f;
 
+    [Header("Dash")]
     private bool _isDashing = false;
     private bool _canDash = true;
     [SerializeField] private float _dashingTime = 0.25f;
@@ -164,26 +167,33 @@ public class PlayerControls : MonoBehaviour
 
     private IEnumerator Dash()
     {
-
-        Debug.Log("Dash Start" + transform.localScale.x);
+        Debug.Log("Dash Start");
+        
+        
         _canDash = false;
         _isDashing = true;
+        Physics.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Enemy"), true);
+
 
         if (_faceRight)
             _velocity = new Vector3(_dashMod, 0.0f, 0.0f);
         else
             _velocity = new Vector3(-_dashMod, 0.0f, 0.0f);
 
-        Debug.Log("Speed:" + _velocity.x);
-
         yield return new WaitForSeconds(_dashingTime);
+
+        
         Debug.Log("Dash End");
+
         _isDashing = false;
         _velocity = Vector3.zero;
+        Physics.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Enemy"), false);
 
         yield return new WaitForSeconds(_dashCD);
         Debug.Log("Dash Refresh");
         _canDash = true;
+        
+
 
     }
 

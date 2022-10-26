@@ -501,6 +501,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39fc18b15eea83f4fbc9c781632bb229, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  eventHasDied:
+    m_PersistentCalls:
+      m_Calls: []
   _maxHealth: 100
   _printToConsole: 1
 --- !u!65 &783564357
@@ -614,6 +617,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39fc18b15eea83f4fbc9c781632bb229, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  eventHasDied:
+    m_PersistentCalls:
+      m_Calls: []
   _maxHealth: 100
   _printToConsole: 1
 --- !u!65 &837989733
@@ -862,6 +868,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39fc18b15eea83f4fbc9c781632bb229, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  eventHasDied:
+    m_PersistentCalls:
+      m_Calls: []
   _maxHealth: 100
   _printToConsole: 1
 --- !u!65 &1106477328
@@ -975,6 +984,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39fc18b15eea83f4fbc9c781632bb229, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  eventHasDied:
+    m_PersistentCalls:
+      m_Calls: []
   _maxHealth: 100
   _printToConsole: 1
 --- !u!65 &1382646128
@@ -1093,6 +1105,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39fc18b15eea83f4fbc9c781632bb229, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  eventHasDied:
+    m_PersistentCalls:
+      m_Calls: []
   _maxHealth: 100
   _printToConsole: 1
 --- !u!65 &1570829149
@@ -1591,7 +1606,7 @@ SpriteRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1868785379}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
@@ -1899,6 +1914,10 @@ PrefabInstance:
     - target: {fileID: 866719938791137809, guid: 9a8acea2dc2bae543a290a7d65555a55, type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 866719938791137810, guid: 9a8acea2dc2bae543a290a7d65555a55, type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 866719938791137812, guid: 9a8acea2dc2bae543a290a7d65555a55, type: 3}
       propertyPath: FirePoint
