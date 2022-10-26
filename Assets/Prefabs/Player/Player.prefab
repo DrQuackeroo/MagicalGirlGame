@@ -106,7 +106,7 @@ CharacterController:
   m_Radius: 1.28
   m_SlopeLimit: 45
   m_StepOffset: 0.3
-  m_SkinWidth: 0.128
+  m_SkinWidth: 0.0001
   m_MinMoveDistance: 0
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &866719938791137812
@@ -121,10 +121,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4959c1ded810ca246b71caf66a456c93, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _groundCheck: {fileID: 0}
-  _groundLayer:
-    serializedVersion: 2
-    m_Bits: 8
   _speedMod: 10
   _jumpMod: 15
   _dashMod: 48
