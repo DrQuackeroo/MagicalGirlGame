@@ -15,10 +15,6 @@ public class PlayerControls : MonoBehaviour
     // Amount in Unity units/second that velocity changes by when decelerating under friction. Cound be changed to settable field.
     private const float _frictionDeceleration = 20.0f;
 
-    [Header("Other Movement Settings")]
-    [SerializeField] private Transform _groundCheck;
-    [SerializeField] private LayerMask _groundLayer;
-
     [Header("Player Stats")]
     [SerializeField] private float _speedMod = 10f;
     [SerializeField] private float _jumpMod = 15f;
