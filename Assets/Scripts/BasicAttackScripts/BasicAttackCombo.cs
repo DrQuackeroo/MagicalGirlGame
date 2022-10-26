@@ -16,16 +16,18 @@ public class BasicAttackCombo : MonoBehaviour
     {
         private BasicAttackCombo _combo;
         private BasicAttack _nextAttack;
+        private GameObject _owner;
         public string _name;
         [SerializeField] private int _damage;
         [SerializeField] private AttackColliderInfo _attackColliders;
         [SerializeField] private float _windUp;
         [SerializeField] private float _windDown;
 
-        public void Initialize(BasicAttackCombo combo, BasicAttack nextAttack)
+        public void Initialize(BasicAttackCombo combo, BasicAttack nextAttack, GameObject owner)
         {
             _combo = combo;
             _nextAttack = nextAttack;
+            _owner = owner;
         }
 
         public IEnumerator Attack()
@@ -62,7 +64,7 @@ public class BasicAttackCombo : MonoBehaviour
                     Health enemyHealth = c.GetComponent<Health>();
 
                     if (enemyHealth != null)
-                        enemyHealth.TakeDamage(_damage);
+                        enemyHealth.TakeDamage(_damage, _owner);
                 }
             }
             
@@ -100,7 +102,7 @@ public class BasicAttackCombo : MonoBehaviour
     {
         for (int i = 0; i < _comboList.Count; i++)
         {
-            _comboList[i].Initialize(this, (i != _comboList.Count - 1 ? _comboList[i + 1] : null));
+            _comboList[i].Initialize(this, (i != _comboList.Count - 1 ? _comboList[i + 1] : null), gameObject);
         }
 
         _comboStart = _comboList[0];
