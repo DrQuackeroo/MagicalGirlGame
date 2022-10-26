@@ -51,6 +51,15 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "AbilityThree",
+                    "type": "Button",
+                    "id": "9a4fc7a6-c034-46a2-a5c5-44c60da66a8c",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "PauseMenu",
                     "type": "Button",
                     "id": "0681b862-8dff-4cb4-b8a9-9d69fe3f9dc3",
@@ -146,6 +155,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "AbilityTwo",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "186811a1-c14e-4dec-afd9-9f87e62fba13",
+                    "path": "<Keyboard>/v",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "AbilityThree",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

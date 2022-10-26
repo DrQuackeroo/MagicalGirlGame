@@ -10,6 +10,10 @@ public class PlayerControls : MonoBehaviour
     // However, if the reset value is too close to 0, _characterController.isGrounded won't return reliably because the
     // Player is not being "pushed" into the ground.
     private const float _yVelocityResetThreshold = -0.5f;
+    // How much knockback is applied to the Player if they block an attack. Could be changed to a settable field.
+    private const float _blockKnockbackVelocity = 5.0f;
+    // Amount in Unity units/second that velocity changes by when decelerating under friction. Cound be changed to settable field.
+    private const float _frictionDeceleration = 20.0f;
 
     [Header("Other Movement Settings")]
     [SerializeField] private Transform _groundCheck;
@@ -25,6 +29,14 @@ public class PlayerControls : MonoBehaviour
 
     private float _xInputValue;
     private bool _faceRight = true;
+    // If true, Player can use directional and ability controls.
+    // TODO: Possbily redundant with _isDashing
+    private bool _isInputLocked = false;
+    // If true, gravity will be applied this Update to the player's y-velocity.
+    private bool _applyGravity = true;
+    // If true, Player's x-velocity will reduce to 0 over time.
+    private bool _applyFriction = false;
+    // The Player's current velocity. Used to determine movement each Update.
     private Vector3 _velocity = Vector3.zero;
 
     [Header("Jumps")]
@@ -42,6 +54,7 @@ public class PlayerControls : MonoBehaviour
     private SpriteRenderer _spriteRenderer;
     private BasicAttackCombo _basicAttackCombo;
     private CharacterController _characterController;
+    private Health _health;
 
     private void Awake()
     {
@@ -49,6 +62,9 @@ public class PlayerControls : MonoBehaviour
         _spriteRenderer = GetComponent<SpriteRenderer>();
         _basicAttackCombo = GetComponent<BasicAttackCombo>();
         _characterController = GetComponent<CharacterController>();
+        _health = GetComponent<Health>();
+
+        _health.eventAttackBlocked.AddListener(AttackBlocked);
     }
 
     private void OnEnable()
@@ -69,6 +85,10 @@ public class PlayerControls : MonoBehaviour
 
         _playerInputActions.Player.AbilityTwo.Enable();
         _playerInputActions.Player.AbilityTwo.performed += OnAbilityTwo;
+
+        _playerInputActions.Player.AbilityThree.Enable();
+        _playerInputActions.Player.AbilityThree.performed += OnAbilityThree;
+        _playerInputActions.Player.AbilityThree.canceled += EndAbilityThree;
 
         _playerInputActions.Player.PauseMenu.Enable();
         _playerInputActions.Player.PauseMenu.performed += OnPauseMenu;
@@ -93,6 +113,10 @@ public class PlayerControls : MonoBehaviour
         _playerInputActions.Player.AbilityTwo.Disable();
         _playerInputActions.Player.AbilityTwo.performed -= OnAbilityTwo;
 
+        _playerInputActions.Player.AbilityThree.Disable();
+        _playerInputActions.Player.AbilityThree.performed -= OnAbilityThree;
+        _playerInputActions.Player.AbilityThree.canceled -= EndAbilityThree;
+
         _playerInputActions.Player.PauseMenu.Disable();
         _playerInputActions.Player.PauseMenu.performed -= OnPauseMenu;
     }
@@ -106,11 +130,12 @@ public class PlayerControls : MonoBehaviour
         if (_characterController.isGrounded && _velocity.y < _yVelocityResetThreshold)
             _velocity.y = _yVelocityResetThreshold;
 
-        if (!_isDashing)
-        {
+        if (!_isInputLocked)
             _velocity.x = _xInputValue * _speedMod;
+        if (_applyGravity)
             _velocity.y += Physics.gravity.y * _gravityMultiplier * Time.deltaTime;
-        }
+        if (_applyFriction && _velocity.x != 0.0f)
+            _velocity.x = Mathf.Max(0.0f, Mathf.Abs(_velocity.x) - _frictionDeceleration * Time.deltaTime) * (_velocity.x / Mathf.Abs(_velocity.x));
 
         _characterController.Move(_velocity * Time.deltaTime);
     }
@@ -118,7 +143,7 @@ public class PlayerControls : MonoBehaviour
     //"Left Arrow/Right Arrow" keys - movement
     private void OnMove(InputAction.CallbackContext context)
     {
-        if (_isDashing)
+        if (_isDashing || _isInputLocked)
         {
             Debug.Log("Move overriden by Dash");
             return;
@@ -137,15 +162,27 @@ public class PlayerControls : MonoBehaviour
     private void Rotate()
     {
         _faceRight = !_faceRight;
+        _health.SetFacingRight(_faceRight);
         //transform.Rotate(0f, 180f, 0f);
         _spriteRenderer.flipX = !_spriteRenderer.flipX;
+    }
+
+    /// <summary>
+    /// Invoked when the Player blocks an attack. Currently just pushes them back a bit.
+    /// </summary>
+    private void AttackBlocked()
+    {
+        if (_faceRight)
+            _velocity.x -= _blockKnockbackVelocity;
+        else
+            _velocity.x += _blockKnockbackVelocity;
     }
 
 
     //"Space" key - jump
     private void OnJump(InputAction.CallbackContext context)
     {
-        if (_isDashing)
+        if (_isDashing || _isInputLocked)
         {
             Debug.Log("Jump overriden by Dash");
             return;
@@ -172,6 +209,8 @@ public class PlayerControls : MonoBehaviour
         
         _canDash = false;
         _isDashing = true;
+        _isInputLocked = true;
+        _applyGravity = false;
         Physics.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Enemy"), true);
 
 
@@ -186,6 +225,8 @@ public class PlayerControls : MonoBehaviour
         Debug.Log("Dash End");
 
         _isDashing = false;
+        _isInputLocked = false;
+        _applyGravity = true;
         _velocity = Vector3.zero;
         Physics.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Enemy"), false);
 
@@ -197,11 +238,10 @@ public class PlayerControls : MonoBehaviour
 
     }
 
-
     //"Z" key - basic attack
     private void OnBasicAttack(InputAction.CallbackContext context)
     {
-        if (_isDashing)
+        if (_isDashing || _isInputLocked)
         {
             Debug.Log("Attack overriden by Dash");
             return;
@@ -213,7 +253,7 @@ public class PlayerControls : MonoBehaviour
     //"X" key - ability one
     private void OnAbilityOne(InputAction.CallbackContext context)
     {
-        if (_isDashing)
+        if (_isDashing || _isInputLocked)
         {
             Debug.Log("Ability 1 overriden by Dash");
             return;
@@ -229,13 +269,35 @@ public class PlayerControls : MonoBehaviour
     //"C" key - ability two
     private void OnAbilityTwo(InputAction.CallbackContext context)
     {
-        if (_isDashing)
+        if (_isDashing || _isInputLocked)
         {
             Debug.Log("Ability2 overriden by Dash");
             return;
         }
         Debug.Log("ability two: occupied by Beam");
         StartCoroutine(Beam());
+    }
+
+    //"V" key - ability three
+    private void OnAbilityThree(InputAction.CallbackContext context)
+    {
+        if (_isDashing || _isInputLocked)
+        {
+            Debug.Log("Ability3 overriden by Dash");
+            return;
+        }
+        Debug.Log("ability three: Block");
+        _health.isBlocking = true;
+        _isInputLocked = true;
+        _applyFriction = true;
+    }
+
+    private void EndAbilityThree(InputAction.CallbackContext context)
+    {
+        print("Ability three canceled");
+        _health.isBlocking = false;
+        _isInputLocked = false;
+        _applyFriction = false;
     }
 
     //"Esc" key - escape menu

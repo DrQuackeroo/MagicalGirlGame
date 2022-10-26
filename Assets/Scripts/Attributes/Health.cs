@@ -15,11 +15,18 @@ public class Health : MonoBehaviour
 {
     // Invoked when script owner takes fatal damage.
     [HideInInspector] public UnityEvent eventHasDied;
+    // Invoked when an attack was just blocked.
+    [HideInInspector] public UnityEvent eventAttackBlocked;
 
     [SerializeField] private int _maxHealth = 100;
     [SerializeField] private bool _printToConsole = true;
+    [Tooltip("Angle between an attacker and this character for which an attack is considered 'in front' and can be blocked.")]
+    [SerializeField] private float _blockAngle = 45.0f;
     private int _currentHealth;
     private bool _isAlive;
+    private bool _facingRight = true;
+
+    public void SetFacingRight(bool value) { _facingRight = value; }
 
     // TODO: Uncomment when done testing
     /*[HideInInspector]*/ public bool isBlocking;
@@ -46,7 +53,17 @@ public class Health : MonoBehaviour
         // Check if the owner is blocking
         if (isBlocking)
         {
-            return;
+            // Attacks should only be blocked if they come from in front of this character.
+            float angleToAttacker = Mathf.Abs(Vector3.Angle(gameObject.transform.right, attacker.transform.position - transform.position));
+            if (!_facingRight)
+                angleToAttacker = 180.0f - angleToAttacker;
+            print(angleToAttacker);
+
+            if (angleToAttacker <= _blockAngle)
+            {
+                eventAttackBlocked.Invoke();
+                return;
+            }
         }
 
         // Owner cannot block the damage, so reduce _currentHealth

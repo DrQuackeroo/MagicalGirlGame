@@ -73,6 +73,15 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
+                    ""name"": ""AbilityThree"",
+                    ""type"": ""Button"",
+                    ""id"": ""9a4fc7a6-c034-46a2-a5c5-44c60da66a8c"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
                     ""name"": ""PauseMenu"",
                     ""type"": ""Button"",
                     ""id"": ""0681b862-8dff-4cb4-b8a9-9d69fe3f9dc3"",
@@ -170,6 +179,17 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                     ""action"": ""AbilityTwo"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""186811a1-c14e-4dec-afd9-9f87e62fba13"",
+                    ""path"": ""<Keyboard>/v"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""AbilityThree"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -183,6 +203,7 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
         m_Player_Attack = m_Player.FindAction("Attack", throwIfNotFound: true);
         m_Player_AbilityOne = m_Player.FindAction("AbilityOne", throwIfNotFound: true);
         m_Player_AbilityTwo = m_Player.FindAction("AbilityTwo", throwIfNotFound: true);
+        m_Player_AbilityThree = m_Player.FindAction("AbilityThree", throwIfNotFound: true);
         m_Player_PauseMenu = m_Player.FindAction("PauseMenu", throwIfNotFound: true);
     }
 
@@ -248,6 +269,7 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Attack;
     private readonly InputAction m_Player_AbilityOne;
     private readonly InputAction m_Player_AbilityTwo;
+    private readonly InputAction m_Player_AbilityThree;
     private readonly InputAction m_Player_PauseMenu;
     public struct PlayerActions
     {
@@ -258,6 +280,7 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
         public InputAction @Attack => m_Wrapper.m_Player_Attack;
         public InputAction @AbilityOne => m_Wrapper.m_Player_AbilityOne;
         public InputAction @AbilityTwo => m_Wrapper.m_Player_AbilityTwo;
+        public InputAction @AbilityThree => m_Wrapper.m_Player_AbilityThree;
         public InputAction @PauseMenu => m_Wrapper.m_Player_PauseMenu;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
@@ -283,6 +306,9 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                 @AbilityTwo.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAbilityTwo;
                 @AbilityTwo.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAbilityTwo;
                 @AbilityTwo.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAbilityTwo;
+                @AbilityThree.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAbilityThree;
+                @AbilityThree.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAbilityThree;
+                @AbilityThree.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAbilityThree;
                 @PauseMenu.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPauseMenu;
                 @PauseMenu.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPauseMenu;
                 @PauseMenu.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPauseMenu;
@@ -305,6 +331,9 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                 @AbilityTwo.started += instance.OnAbilityTwo;
                 @AbilityTwo.performed += instance.OnAbilityTwo;
                 @AbilityTwo.canceled += instance.OnAbilityTwo;
+                @AbilityThree.started += instance.OnAbilityThree;
+                @AbilityThree.performed += instance.OnAbilityThree;
+                @AbilityThree.canceled += instance.OnAbilityThree;
                 @PauseMenu.started += instance.OnPauseMenu;
                 @PauseMenu.performed += instance.OnPauseMenu;
                 @PauseMenu.canceled += instance.OnPauseMenu;
@@ -319,6 +348,7 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
         void OnAttack(InputAction.CallbackContext context);
         void OnAbilityOne(InputAction.CallbackContext context);
         void OnAbilityTwo(InputAction.CallbackContext context);
+        void OnAbilityThree(InputAction.CallbackContext context);
         void OnPauseMenu(InputAction.CallbackContext context);
     }
 }
