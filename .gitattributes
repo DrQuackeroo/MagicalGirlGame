@@ -14,6 +14,7 @@
 *.mask text eol=lf
 *.spriteatlas text eol=lf
 *.meta text eol=lf
+*.prefab text eol=lf
 
 # Declaring more files have LF line endings on checkout
 *.json text eol=lf
