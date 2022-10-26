@@ -17,6 +17,7 @@ public class Health : MonoBehaviour
     [HideInInspector] public UnityEvent eventHasDied;
     // Invoked when an attack was just blocked.
     [HideInInspector] public UnityEvent eventAttackBlocked;
+    [HideInInspector] public bool isBlocking;
 
     [SerializeField] private int _maxHealth = 100;
     [SerializeField] private bool _printToConsole = true;
@@ -28,8 +29,6 @@ public class Health : MonoBehaviour
 
     public void SetFacingRight(bool value) { _facingRight = value; }
 
-    // TODO: Uncomment when done testing
-    /*[HideInInspector]*/ public bool isBlocking;
 
     void Start()
     {
@@ -51,13 +50,12 @@ public class Health : MonoBehaviour
     public void TakeDamage(int damageTaken, GameObject attacker)
     {
         // Check if the owner is blocking
-        if (isBlocking)
+        if (isBlocking && attacker != null)
         {
-            // Attacks should only be blocked if they come from in front of this character.
+            // Attacks should only be blocked if they come from in front of this character. Use angle between attacker and blocker to check if in front.
             float angleToAttacker = Mathf.Abs(Vector3.Angle(gameObject.transform.right, attacker.transform.position - transform.position));
             if (!_facingRight)
                 angleToAttacker = 180.0f - angleToAttacker;
-            print(angleToAttacker);
 
             if (angleToAttacker <= _blockAngle)
             {

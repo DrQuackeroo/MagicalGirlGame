@@ -32,7 +32,7 @@ public class PlayerControls : MonoBehaviour
     // If true, Player can use directional and ability controls.
     // TODO: Possbily redundant with _isDashing
     private bool _isInputLocked = false;
-    // If true, gravity will be applied this Update to the player's y-velocity.
+    // If true, gravity will be applied this Update to the Player's y-velocity.
     private bool _applyGravity = true;
     // If true, Player's x-velocity will reduce to 0 over time.
     private bool _applyFriction = false;
