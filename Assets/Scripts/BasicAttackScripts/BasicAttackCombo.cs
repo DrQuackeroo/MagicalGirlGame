@@ -93,8 +93,8 @@ public class BasicAttackCombo : MonoBehaviour
     private SpriteRenderer _spriteRenderer;
 
     // how long it takes before the combo cannot be continued and must be restarted
-    private const float _comboResetTimer = .5f;
-    public float _timeLapsed = 0f;
+    [SerializeField] private float _comboResetTimer = .5f;
+    private float _timeElapsed = 0f;
 
     private void Awake()
     {
@@ -119,9 +119,9 @@ public class BasicAttackCombo : MonoBehaviour
     {
         if (_currentAttackState != null && _midAttackCoroutine == null)
         {
-            _timeLapsed += Time.deltaTime;
+            _timeElapsed += Time.deltaTime;
 
-            if (_timeLapsed >= _comboResetTimer)
+            if (_timeElapsed >= _comboResetTimer)
             {
                 ResetCombo();
             }
@@ -154,7 +154,7 @@ public class BasicAttackCombo : MonoBehaviour
     private void ResetCombo()
     {
         _currentAttackState = null;
-        _timeLapsed = 0f;
+        _timeElapsed = 0f;
     }
 
     public void OnAttackFinish(BasicAttack nextAttack)
@@ -162,7 +162,7 @@ public class BasicAttackCombo : MonoBehaviour
         _currentAttackState = nextAttack;
         StopCoroutine(_midAttackCoroutine);
         _midAttackCoroutine = null;
-        _timeLapsed = 0f;
+        _timeElapsed = 0f;
     }
 
     public void DrawCollider(AttackColliderInfo attackColliders)
