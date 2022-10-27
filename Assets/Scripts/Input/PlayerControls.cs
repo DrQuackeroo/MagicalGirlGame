@@ -74,6 +74,25 @@ public class PlayerControls : MonoBehaviour
 
     private void OnEnable()
     {
+        EnablePlayerControls();
+        PauseHandler.OnPauseEnable += DisablePlayerControls;
+        PauseHandler.OnPauseDisable += EnablePlayerControls;
+        _playerInputActions.Player.PauseMenu.Enable();
+        _playerInputActions.Player.PauseMenu.performed += OnPauseMenu;
+    }
+
+    private void OnDisable()
+    {
+        DisablePlayerControls();
+        PauseHandler.OnPauseEnable -= DisablePlayerControls;
+        PauseHandler.OnPauseDisable -= EnablePlayerControls;
+        _playerInputActions.Player.PauseMenu.Disable();
+        _playerInputActions.Player.PauseMenu.performed -= OnPauseMenu;
+    }
+
+    //Made public so other classes can enable/disable player's control
+    public void EnablePlayerControls()
+    {
         _playerInputActions.Player.Movement.Enable();
         _playerInputActions.Player.Movement.started += OnMove;
         _playerInputActions.Player.Movement.performed += OnMove;
@@ -94,12 +113,10 @@ public class PlayerControls : MonoBehaviour
         _playerInputActions.Player.AbilityThree.Enable();
         _playerInputActions.Player.AbilityThree.performed += OnAbilityThree;
         _playerInputActions.Player.AbilityThree.canceled += EndAbilityThree;
-
-        _playerInputActions.Player.PauseMenu.Enable();
-        _playerInputActions.Player.PauseMenu.performed += OnPauseMenu;
     }
 
-    private void OnDisable()
+    //Made public so other classes can enable/disable player's control
+    private void DisablePlayerControls()
     {
         _playerInputActions.Player.Movement.Disable();
         _playerInputActions.Player.Movement.started -= OnMove;
@@ -121,9 +138,6 @@ public class PlayerControls : MonoBehaviour
         _playerInputActions.Player.AbilityThree.Disable();
         _playerInputActions.Player.AbilityThree.performed -= OnAbilityThree;
         _playerInputActions.Player.AbilityThree.canceled -= EndAbilityThree;
-
-        _playerInputActions.Player.PauseMenu.Disable();
-        _playerInputActions.Player.PauseMenu.performed -= OnPauseMenu;
     }
 
     void Update()
@@ -319,8 +333,9 @@ public class PlayerControls : MonoBehaviour
     //"Esc" key - escape menu
     private void OnPauseMenu(InputAction.CallbackContext context)
     {
-
+        PauseHandler.TogglePause();
         Debug.Log("pause menu");
+        
     }
 
 
