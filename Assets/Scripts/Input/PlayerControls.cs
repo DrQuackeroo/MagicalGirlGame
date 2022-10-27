@@ -286,6 +286,9 @@ public class PlayerControls : MonoBehaviour
         _health.isBlocking = true;
         _isInputLocked = true;
         _applyFriction = true;
+
+        // TESTING: Changes color when blocking
+        _spriteRenderer.color = Color.blue;
     }
 
     private void EndAbilityThree(InputAction.CallbackContext context)
@@ -294,6 +297,9 @@ public class PlayerControls : MonoBehaviour
         _health.isBlocking = false;
         _isInputLocked = false;
         _applyFriction = false;
+
+        // TESTING: Changes color when blocking
+        _spriteRenderer.color = Color.white;
     }
 
     //"Esc" key - escape menu
