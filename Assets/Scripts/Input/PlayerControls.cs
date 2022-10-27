@@ -126,6 +126,7 @@ public class PlayerControls : MonoBehaviour
         if (_characterController.isGrounded && _velocity.y < _yVelocityResetThreshold)
             _velocity.y = _yVelocityResetThreshold;
 
+        // Input is calculated but not applied while input is locked.
         if (!_isInputLocked)
             _velocity.x = _xInputValue * _speedMod;
         if (_applyGravity)
@@ -139,7 +140,7 @@ public class PlayerControls : MonoBehaviour
     //"Left Arrow/Right Arrow" keys - movement
     private void OnMove(InputAction.CallbackContext context)
     {
-        if (_isDashing || _isInputLocked)
+        if (_isDashing)
         {
             Debug.Log("Move overriden by Dash");
             return;
@@ -286,6 +287,9 @@ public class PlayerControls : MonoBehaviour
         _health.isBlocking = true;
         _isInputLocked = true;
         _applyFriction = true;
+
+        // Halt x-axis movement when blocking begins.
+        _velocity.x = 0.0f;
 
         // TESTING: Changes color when blocking
         _spriteRenderer.color = Color.blue;
