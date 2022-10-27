@@ -51,6 +51,7 @@ public class PlayerControls : MonoBehaviour
     private BasicAttackCombo _basicAttackCombo;
     private CharacterController _characterController;
     private Health _health;
+    private Transform _playerTransform;
 
     private void Awake()
     {
@@ -59,8 +60,16 @@ public class PlayerControls : MonoBehaviour
         _basicAttackCombo = GetComponent<BasicAttackCombo>();
         _characterController = GetComponent<CharacterController>();
         _health = GetComponent<Health>();
-
         _health.eventAttackBlocked.AddListener(AttackBlocked);
+
+
+
+
+        //Below are made for the Beam()
+        _playerTransform = GetComponent<Transform>();
+        _line = GetComponent<LineRenderer>();
+
+
     }
 
     private void OnEnable()
@@ -119,6 +128,7 @@ public class PlayerControls : MonoBehaviour
 
     void Update()
     {
+
         // Reset the y-velocity if the Player wasn't actually moving upwards last frame (eg. hit their head on a ceiling)...
         if (!_characterController.isGrounded && _characterController.velocity.y == 0 && _velocity.y > 0.0f)
             _velocity.y = 0;
@@ -202,8 +212,8 @@ public class PlayerControls : MonoBehaviour
     private IEnumerator Dash()
     {
         Debug.Log("Dash Start");
-        
-        
+
+
         _canDash = false;
         _isDashing = true;
         _isInputLocked = true;
@@ -218,7 +228,7 @@ public class PlayerControls : MonoBehaviour
 
         yield return new WaitForSeconds(_dashingTime);
 
-        
+
         Debug.Log("Dash End");
 
         _isDashing = false;
@@ -230,7 +240,7 @@ public class PlayerControls : MonoBehaviour
         yield return new WaitForSeconds(_dashCD);
         Debug.Log("Dash Refresh");
         _canDash = true;
-        
+
 
 
     }
@@ -320,40 +330,57 @@ public class PlayerControls : MonoBehaviour
 
 
 
-    [Header("Beam Location")]
-    public GameObject FirePoint;
+    [Header("Beam")]
+    [SerializeField] private float distanceRay = 20;
+    private LineRenderer _line;
+
     private IEnumerator Beam()
     {
-        //FirePoint.GetComponent<SpriteRenderer>().flipX = !FirePoint.GetComponent<SpriteRenderer>().flipX;
-        //FirePoint.GetComponent<Transform>().RotateAround(FirePoint.GetComponent<Position>, , 180f);
+        _isInputLocked = true;
+        _applyGravity = false;
+        _velocity.x = 0f;
+        _velocity.y = 0f;
 
-        /*
-        bool rotated = false;
-        if (!_faceRight)
+        bool temp = _line.useWorldSpace; // don't know if this actually matters anywhere
+        _line.useWorldSpace = true; // this acutally matters, i don't know what worldspace is exactly
+        _line.startWidth = 2f;
+        _line.endWidth = 2.5f;
+
+
+        Debug.Log("Beam Start");
+
+
+        Vector3 startPoint = new Vector3(_playerTransform.position.x, _playerTransform.position.y, _playerTransform.position.z);
+
+        Vector3 endPoint;
+
+        if (_faceRight)
         {
-            FirePoint.GetComponent<SpriteRenderer>().flipX = true; 
-            rotated = true;
-        }*/
-        FirePoint.GetComponent<Renderer>().enabled = true;
-        Debug.Log("Beam Start" + transform.localScale.x);
-        //_canDash = false;
-        //_isDashing = true;
-        //float tempGravity = _rigidbody.gravityScale;
-        //_rigidbody.gravityScale = 0f;
-        //if (_faceRight)
-        //     _rigidbody.velocity = new Vector2(_dashMod, 0f);
-        //else
-        //    _rigidbody.velocity = new Vector2(-_dashMod, 0f);
-        //Debug.Log("Speed:" + _rigidbody.velocity.x);
-        yield return new WaitForSeconds(_dashingTime);
+            startPoint.x += 2;
+            endPoint = new Vector3(_playerTransform.position.x + distanceRay, _playerTransform.position.y, _playerTransform.position.z);
+        }
+        else
+        {
+            startPoint.x -= 2;
+            endPoint = new Vector3(_playerTransform.position.x - distanceRay, _playerTransform.position.y, _playerTransform.position.z);
+        }
+        _line.SetPosition(0, startPoint);
+        _line.SetPosition(1, endPoint);
+        _line.enabled = true;
+
+        yield return new WaitForSeconds(1.5f);
         Debug.Log("Beam End");
-        //_isDashing = false;
-        //_rigidbody.velocity = new Vector2(0f, 0f);
-        //_rigidbody.gravityScale = tempGravity;
-        FirePoint.GetComponent<Renderer>().enabled = false;
-        yield return new WaitForSeconds(_dashCD);
+
+        _line.enabled = false;
+        _isInputLocked = false;
+        _applyGravity = true;
+        _line.useWorldSpace = temp;
+
+
+
+        yield return new WaitForSeconds(2f);
         Debug.Log("Beam Refresh");
-        //_canDash = true;
+
     }
 
 
