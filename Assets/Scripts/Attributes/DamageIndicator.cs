@@ -21,6 +21,6 @@ public class DamageIndicator : MonoBehaviour
         objectPosition += new Vector3(0, yColliderBounds + _yOffset, 0);
         GameObject damageText = Instantiate(_damageTextPrefab, objectPosition, Quaternion.identity);
         damageText.transform.GetChild(0).GetComponent<TextMesh>().text = damage.ToString();
-        Destroy(damageText, 0.5f);
+        Destroy(damageText, 1.0f);
     }
 }
