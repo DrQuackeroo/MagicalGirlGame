@@ -108,13 +108,9 @@ public class BasicAttackCombo : MonoBehaviour
         _comboStart = _comboList[0];
 
         _spriteRenderer = GetComponent<SpriteRenderer>();
-        
-        // used to show colliders
-        _line = GetComponent<LineRenderer>();
-        _line.useWorldSpace = false;
-        _line.startWidth = .1f;
-        _line.endWidth = .1f;
 
+        // used to show colliders of attacks
+        _line = GetComponent<LineRenderer>();
     }
 
     private void Update()
@@ -171,6 +167,11 @@ public class BasicAttackCombo : MonoBehaviour
     {
         if (!_showColliders)
             return;
+
+        // set up for LineRenderer
+        _line.useWorldSpace = false;
+        _line.startWidth = .1f;
+        _line.endWidth = .1f;
 
         _line.enabled = true;
 
