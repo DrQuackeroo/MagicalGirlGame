@@ -12,7 +12,7 @@ public class PlayerControls : MonoBehaviour
     private const float _yVelocityResetThreshold = -0.5f;
     // How much knockback is applied to the Player if they block an attack. Could be changed to a settable field.
     private const float _blockKnockbackVelocity = 5.0f;
-    // Amount in Unity units/second that velocity changes by when decelerating under friction. Cound be changed to settable field.
+    // Amount in units/second^2 that velocity changes by when decelerating under friction. Cound be changed to settable field.
     private const float _frictionDeceleration = 20.0f;
 
     [Header("Player Stats")]

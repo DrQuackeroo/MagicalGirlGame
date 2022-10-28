@@ -38,7 +38,7 @@ public class Enemy : MonoBehaviour
     protected readonly int _hashPlayerWithinAttackRange = Animator.StringToHash("PlayerWithinAttackRange");
 
     // Start is called before the first frame update
-    void Start()
+    protected virtual void Start()
     {
         _player = GameObject.FindWithTag(playerTag);
         _rigidbody = GetComponent<Rigidbody>();
