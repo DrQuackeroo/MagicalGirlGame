@@ -3,6 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+/*
+ * If the buttons do not work properly, make sure there is a (1) PauseUI prefab in the scene and (2) an EventSystem GameObject in the scene.
+ * To make an EventSystem: Right Click in hierarchy -> UI -> EventSystem (default settings it has are fine).
+ */
+
 public class PauseGameObject : MonoBehaviour
 {
     [SerializeField] private GameObject _UICanvas;
@@ -37,17 +42,20 @@ public class PauseGameObject : MonoBehaviour
     //Untoggles pause then restarts scene
     public void RestartButton()
     {
-        PauseHandler.TogglePause();
+        Debug.Log("Restart button pressed");
+        PauseHandler.Pause(true);
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     public void ResumeButton()
     {
-        PauseHandler.TogglePause();
+        Debug.Log("Resume button pressed");
+        PauseHandler.Pause(true);
     }
 
     public void AbilityButton()
     {
+        Debug.Log("Ability button pressed");
         //to be added
     }
 }

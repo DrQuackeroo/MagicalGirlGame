@@ -35,4 +35,10 @@ public static class PauseHandler
             Debug.Log("Pause enabled");
         }
     }
+
+    public static void Pause(bool turnOffPause)
+    {
+        IsPaused = turnOffPause;
+        TogglePause();
+    }
 }
