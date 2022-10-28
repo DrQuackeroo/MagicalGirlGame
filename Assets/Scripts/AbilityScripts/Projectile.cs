@@ -58,7 +58,7 @@ public class Projectile : MonoBehaviour
     /// <param name="isMovingRight">True if it starts off moving in the +X-axis</param>
     /// <param name="damage">Damage Projectile does. Can be negative or blank to use prefab value.</param>
     /// <param name="speed">How fast Projectile moves. Can be negative or blank to use prefab value.</param>
-    public void Initialize(GameObject thrower, bool isMovingRight=true, int damage=-1, float speed=-1.0f)
+    public void Initialize(GameObject thrower, bool isMovingRight = true, int damage=-1, float speed=-1.0f)
     {
         _thrower = thrower;
         _spriteRenderer.flipX = !isMovingRight;
