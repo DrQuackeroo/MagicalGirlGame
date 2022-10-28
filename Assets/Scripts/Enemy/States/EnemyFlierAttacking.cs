@@ -1,15 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI;
 
 public class EnemyFlierAttacking : StateMachineBehaviour
 {
     // The time until the attack ends. Counts down and exits state when it reaches 0.
     protected float _attackTimer;
-
-    protected NavMeshAgent _navMeshAgent;
-    protected Enemy _enemy;
+    protected EnemyFlier _enemyFlier;
 
     // Trigger to exit state
     protected readonly int _hashAttackEnded = Animator.StringToHash("AttackEnded");
@@ -17,13 +14,11 @@ public class EnemyFlierAttacking : StateMachineBehaviour
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        if (_navMeshAgent == null)
-            _navMeshAgent = animator.GetComponent<NavMeshAgent>();
-        if (_enemy == null)
-            _enemy = animator.GetComponent<Enemy>();
+        if (_enemyFlier == null)
+            _enemyFlier = animator.GetComponent<EnemyFlier>();
 
-        _navMeshAgent.isStopped = true;
-        _attackTimer = _enemy.Attack();
+        _enemyFlier.isStopped = true;
+        _attackTimer = _enemyFlier.Attack();
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
@@ -37,7 +32,7 @@ public class EnemyFlierAttacking : StateMachineBehaviour
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        _navMeshAgent.isStopped = false;
+        _enemyFlier.isStopped = false;
     }
 
     // OnStateMove is called right after Animator.OnAnimatorMove()

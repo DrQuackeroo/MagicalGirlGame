@@ -7,8 +7,14 @@ using UnityEngine;
 /// </summary>
 public class EnemyFlier : Enemy
 {
+    // Difference of y-axis position for which the Flyer will attempt to shoot the Player. Flyer will not shoot if value is too low.
+    protected const float shootingVerticalRange = 0.25f;
+
     [Tooltip("How fast this Flier moves in units/second.")]
     [SerializeField] protected float _speed;
+
+    // True if Flier is unable to move this Update.
+    [HideInInspector] public bool isStopped = false;
 
     // Where this Flier is currently trying to move to.
     protected Vector3 _currentDestination;
@@ -39,7 +45,8 @@ public class EnemyFlier : Enemy
         transform.rotation = Quaternion.Euler(0, 0, 0);
 
         // Move Flier 
-        MoveToDestination();
+        if (!isStopped)
+            MoveToDestination();
 
         // Flip sprite if speed is above a threshold
         if (Mathf.Abs(_currentMovement.x) * _speed > 0.01f)
@@ -62,7 +69,7 @@ public class EnemyFlier : Enemy
             _animator.SetBool(_hashPlayerWithinAttackRange,
                 _isFacingRight == _player.transform.position.x - transform.position.x > 0.0f &&
                 Vector3.Distance(_player.transform.position, transform.position) <= _attackRange &&
-                Mathf.Approximately(transform.position.y, _player.transform.position.y));
+                Mathf.Abs(transform.position.y - _player.transform.position.y) <= shootingVerticalRange);
         }
     }
 
@@ -103,5 +110,15 @@ public class EnemyFlier : Enemy
     protected void ArrivedAtDestination()
     {
         _hasArrivedAtDestination = true;
+    }
+
+    /// <summary>
+    /// Causes EnemyFlier to shoot. Fliers are assumed to be ranged, but this can be modified for melee attacks too.
+    /// </summary>
+    /// <returns>The total duration of the executed attack.</returns>
+    public override float Attack()
+    {
+        // TODO: Make shooting
+        return 1.0f;
     }
 }

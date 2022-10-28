@@ -2610,13 +2610,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _playerDetectionRange: 30
-  _attackRange: 20
+  _attackRange: 10
   _patrolWaypoints:
   - {fileID: 163909351}
   - {fileID: 1364925247}
   - {fileID: 422772243}
   - {fileID: 296528763}
   _speed: 3.5
+  isStopped: 0
 --- !u!143 &5128814003681287749
 CharacterController:
   m_ObjectHideFlags: 0

@@ -37,6 +37,8 @@ public class Enemy : MonoBehaviour
     protected readonly int _hashPlayerHasBeenSighted = Animator.StringToHash("PlayerHasBeenSighted");
     protected readonly int _hashPlayerWithinAttackRange = Animator.StringToHash("PlayerWithinAttackRange");
 
+    public float GetAttackRange() { return _attackRange; }
+
     // Start is called before the first frame update
     protected virtual void Start()
     {
@@ -118,7 +120,7 @@ public class Enemy : MonoBehaviour
     /// Causes Enemy to attack. Can be overridden to run special attacks or attacks in series, among other things.
     /// </summary>
     /// <returns>The total duration of the executed attack.</returns>
-    public float Attack()
+    public virtual float Attack()
     {
         _basicAttackCombo.Attack();
         return _basicAttackCombo.GetCurrentAttackDuration();
