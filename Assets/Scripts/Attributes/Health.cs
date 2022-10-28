@@ -67,6 +67,13 @@ public class Health : MonoBehaviour
         // Owner cannot block the damage, so reduce _currentHealth
         _currentHealth -= damageTaken;
         if (_printToConsole is true) {Debug.LogFormat("{0} took {1} damage", gameObject.name, damageTaken);}
+        // if the object has a DamageIndicator script then we want to create a damage indicator
+        if (gameObject.GetComponent<DamageIndicator>() != null)
+        {
+            gameObject.GetComponent<DamageIndicator>().CreateDamageIndicator(damageTaken, transform.position, 
+                                                                             gameObject.GetComponent<Collider>().bounds.extents.y);
+        }
+        
 
         if (_currentHealth <= 0)
         {
