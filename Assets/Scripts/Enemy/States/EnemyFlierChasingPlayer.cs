@@ -2,28 +2,27 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-/// <summary>
-/// Special patrolling state for Fliers, which can move through the environment.
-/// </summary>
-public class EnemyFlierPatrolling : StateMachineBehaviour
+public class EnemyFlierChasingPlayer : StateMachineBehaviour
 {
-    private EnemyFlier _enemy;
+    private GameObject _player;
+    private EnemyFlier _enemyFlier;
+
+    private void Awake()
+    {
+        _player = GameObject.FindWithTag("Player");
+    }
 
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        if (_enemy == null)
-            _enemy = animator.GetComponent<EnemyFlier>();
+        if (_enemyFlier == null)
+            _enemyFlier = animator.GetComponent<EnemyFlier>();
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        // Flier movement is handled by EnemyFlier script instead of NavMeshAgent.
-        if (_enemy.GetHasArrivedAtDestination())
-        {
-            _enemy.SetDestination(_enemy.GetNextWaypoint());
-        }
+        _enemyFlier.SetDestination(_player.transform.position);
     }
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state

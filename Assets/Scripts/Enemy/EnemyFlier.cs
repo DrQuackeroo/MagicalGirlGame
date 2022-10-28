@@ -8,14 +8,16 @@ using UnityEngine;
 public class EnemyFlier : Enemy
 {
     [Tooltip("How fast this Flier moves in units/second.")]
-    [SerializeField] private float _speed;
+    [SerializeField] protected float _speed;
 
     // Where this Flier is currently trying to move to.
-    private Vector3 _currentDestination;
-    // How far from _currentDestination the Flier will stop, at most. Will be at least this far from the destination when it arrives.
-    private float _maxStoppingDistance = 0.2f;
+    protected Vector3 _currentDestination;
+    // How far from _currentDestination the Flier will stop. Will be this far from the destination when it arrives.
+    protected float _stoppingDistance = 0.0f;
     // Has the Flier arrived at its destination?
-    private bool _hasArrivedAtDestination = true;
+    protected bool _hasArrivedAtDestination = true;
+    // How much the Flier moved this Update
+    protected Vector3 _currentMovement;
 
     public bool GetHasArrivedAtDestination() { return _hasArrivedAtDestination; }
 
@@ -27,22 +29,53 @@ public class EnemyFlier : Enemy
         _currentDestination = transform.position;
     }
 
-    // Update is called once per frame
-    void Update()
+    /// <summary>
+    /// Slightly different movement compared to base class. Could make more functions in Enemy.cs and override them here to make this
+    /// look better, but copying works for now.
+    /// </summary>
+    protected override void Update()
     {
+        // Lock rotation
+        transform.rotation = Quaternion.Euler(0, 0, 0);
+
+        // Move Flier 
         MoveToDestination();
+
+        // Flip sprite if speed is above a threshold
+        if (Mathf.Abs(_currentMovement.x) * _speed > 0.01f)
+        {
+            _isFacingRight = _currentMovement.x > 0.0f;
+            _spriteRenderer.flipX = !_isFacingRight;
+        }
+
+        // Prevents Enemies from overlapping each other due to navigation in 3D space.
+        transform.Translate(0, 0, -transform.position.z);
+
+        // Patrolling Enemy has sighted Player
+        if (!_animator.GetBool(_hashPlayerHasBeenSighted) && Vector3.Distance(_player.transform.position, transform.position) <= _playerDetectionRange)
+        {
+            _animator.SetBool(_hashPlayerHasBeenSighted, true);
+        }
+        // Enemy is able to attack the Player IF Enemy is facing the Player AND within attack range AND has about the same y-coordinate.
+        else
+        {
+            _animator.SetBool(_hashPlayerWithinAttackRange,
+                _isFacingRight == _player.transform.position.x - transform.position.x > 0.0f &&
+                Vector3.Distance(_player.transform.position, transform.position) <= _attackRange &&
+                Mathf.Approximately(transform.position.y, _player.transform.position.y));
+        }
     }
 
     /// <summary>
     /// Set the Flier's current destination. It will try to moves towards this position each Update.
     /// </summary>
     /// <param name="destination">World space coordinates of the destination.</param>
-    /// <param name="maxStoppingDistance">At least how far from the destination the Flier will be before stopping.</param>
-    public void SetDestination(Vector3 destination, float maxStoppingDistance=0.2f)
+    /// <param name="stoppingDistance">How far from the destination the Flier will be before stopping.</param>
+    public void SetDestination(Vector3 destination, float stoppingDistance=0.0f)
     {
         _hasArrivedAtDestination = false;
         _currentDestination = destination;
-        _maxStoppingDistance = maxStoppingDistance;
+        _stoppingDistance = stoppingDistance;
     }
 
     /// <summary>
@@ -50,10 +83,15 @@ public class EnemyFlier : Enemy
     /// </summary>
     protected void MoveToDestination()
     {
-        Vector3 step = (_currentDestination - transform.position).normalized * _speed * Time.deltaTime;
-        transform.Translate(step);
+        _currentMovement = (_currentDestination - transform.position).normalized;
+        float distance = Vector3.Distance(transform.position, _currentDestination) - _stoppingDistance;
 
-        if (Vector3.Distance(transform.position, _currentDestination) <= _maxStoppingDistance)
+        // Don't overshoot the destination.
+        _currentMovement *= Mathf.Min(_speed * Time.deltaTime, distance);
+
+        transform.Translate(_currentMovement);
+
+        if (Vector3.Distance(transform.position, _currentDestination) <= _stoppingDistance)
         {
             ArrivedAtDestination();
         }

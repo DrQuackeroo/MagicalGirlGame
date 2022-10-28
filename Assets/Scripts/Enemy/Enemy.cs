@@ -12,9 +12,9 @@ using UnityEngine.AI;
 public class Enemy : MonoBehaviour
 {
     // Tag used only by the Player
-    const string playerTag = "Player";
+    protected const string playerTag = "Player";
     // Minimum x-axis speed Enemy needs to be moving at to change sprite facing direction. Causes jittery flipping if too low.
-    const float flipSpeedThreshold = 0.85f;
+    protected const float flipSpeedThreshold = 0.85f;
 
     [Tooltip("Range at which Enemy sees the player and starts moving towards them.")]
     [SerializeField] protected float _playerDetectionRange = 20.0f;
@@ -52,7 +52,7 @@ public class Enemy : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    protected virtual void Update()
     {
         // Lock rotation
         transform.rotation = Quaternion.Euler(0, 0, 0);
@@ -75,7 +75,8 @@ public class Enemy : MonoBehaviour
         // Enemy is able to attack the Player IF Enemy is on the ground AND facing the Player AND within attack range.
         else 
         {
-            _animator.SetBool(_hashPlayerWithinAttackRange, !_navMeshAgent.isOnOffMeshLink &&
+            _animator.SetBool(_hashPlayerWithinAttackRange, 
+                !_navMeshAgent.isOnOffMeshLink &&
                 _isFacingRight == _player.transform.position.x - transform.position.x > 0.0f &&
                 Vector3.Distance(_player.transform.position, transform.position) <= _attackRange);
         }
