@@ -36,6 +36,12 @@ public static class PauseHandler
         }
     }
 
+    public static void PauseAndOpenAbilityMenu()
+    {
+        UnPause(false);
+
+    }
+
     public static void UnPause(bool turnOffPause)
     {
         IsPaused = turnOffPause;

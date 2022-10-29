@@ -37,7 +37,8 @@ public class PlayerControls : MonoBehaviour
     // The Player's current velocity. Used to determine movement each Update.
     private Vector3 _velocity = Vector3.zero;
 
-    
+    [Header("Abilities")]
+    [SerializeField] private bool _requireAbilitySelectionOnStart;
     private List<Ability> abilities = new List<Ability>();
 
 
@@ -151,6 +152,21 @@ public class PlayerControls : MonoBehaviour
         _playerInputActions.Player.AbilityThree.Disable();
         _playerInputActions.Player.AbilityThree.performed -= OnAbilityThree;
         _playerInputActions.Player.AbilityThree.canceled -= EndAbilityThree;
+    }
+
+    private void Start()
+    {
+        if (_requireAbilitySelectionOnStart) AbilitySelectionOnStart();
+    }
+
+    private void AbilitySelectionOnStart()
+    {
+        //pause the game at the start
+        PauseHandler.UnPause(false);
+        //clear currently stored abilities
+        AbilityHandler.ClearCurrentAbilities();
+        //make the player select abilities
+        AbilityHandler.EnterAbilityMenu();
     }
 
     void Update()

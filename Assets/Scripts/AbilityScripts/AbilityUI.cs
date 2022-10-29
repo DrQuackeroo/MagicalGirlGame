@@ -92,6 +92,11 @@ public class AbilityUI : MonoBehaviour
     //Here in case I need to add more to cancel button
     public void CancelButton()
     {
+        if (AbilityHandler.CurrentAbilities.Count == 0)
+        {
+            _errorText.text = "Error: You must set your abilities intially.";
+            return;
+        }
         ExitMenu();
     }
 

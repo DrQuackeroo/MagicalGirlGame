@@ -4,7 +4,7 @@ using UnityEngine;
 
 public static class AbilityHandler
 {
-    public static List<Ability> CurrentAbilities { get; private set; }
+    public static List<Ability> CurrentAbilities = new List<Ability>();
 
     public delegate void SetAbilityDel(List<Ability> abs);
     public static event SetAbilityDel OnSetAbility;
@@ -21,5 +21,10 @@ public static class AbilityHandler
     public static void EnterAbilityMenu()
     {
         OnAbilityMenuEnter?.Invoke();
+    }
+
+    public static void ClearCurrentAbilities()
+    {
+        CurrentAbilities.Clear();
     }
 }
