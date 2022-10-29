@@ -22,8 +22,7 @@ public class Projectile : MonoBehaviour
     private GameObject _thrower;
     private SpriteRenderer _spriteRenderer;
 
-    // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         _ground = LayerMask.NameToLayer("Ground");
         _spriteRenderer = GetComponent<SpriteRenderer>();
@@ -55,13 +54,13 @@ public class Projectile : MonoBehaviour
     /// Initialize the parameters for this Projectile. Should be called right after instantiation.
     /// </summary>
     /// <param name="thrower">The GameObject that created this projectile.</param>
-    /// <param name="isMovingRight">True if it starts off moving in the +X-axis</param>
+    /// <param name="isFlipped">True if sprite is flipped on the x-axis</param>
     /// <param name="damage">Damage Projectile does. Can be negative or blank to use prefab value.</param>
     /// <param name="speed">How fast Projectile moves. Can be negative or blank to use prefab value.</param>
-    public void Initialize(GameObject thrower, bool isMovingRight = true, int damage=-1, float speed=-1.0f)
+    public void Initialize(GameObject thrower, bool isFlipped = false, int damage=-1, float speed=-1.0f)
     {
         _thrower = thrower;
-        _spriteRenderer.flipX = !isMovingRight;
+        _spriteRenderer.flipX = isFlipped;
         if (damage >= 0.0f)
             _damage = damage;
         if (speed >= 0.0f)
@@ -83,7 +82,6 @@ public class Projectile : MonoBehaviour
     /// <param name="target">The GameObject this Projectile hit.</param>
     protected void OnHitTarget(GameObject target)
     {
-        print("hit a target"); 
         Health enemyHealth = target.GetComponent<Health>();
 
         if (enemyHealth != null)

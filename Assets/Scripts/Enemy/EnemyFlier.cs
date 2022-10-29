@@ -10,8 +10,13 @@ public class EnemyFlier : Enemy
     // Difference of y-axis position for which the Flyer will attempt to shoot the Player. Flyer will not shoot if value is too low.
     protected const float shootingVerticalRange = 0.25f;
 
+    [Tooltip("At least how far the Flier should be from the Player before shooting. If Flier is closer than this amount, it will move away. Flier performs an " +
+        "attack at a distance between 'Attack Range' and 'Min Attack Range'.")]
+    [SerializeField] protected float _minAttackRange;
     [Tooltip("How fast this Flier moves in units/second.")]
     [SerializeField] protected float _speed;
+    [Tooltip("Prefab for the Projectile this Flier shoots.")]
+    [SerializeField] protected GameObject _projectile;
 
     // True if Flier is unable to move this Update.
     [HideInInspector] public bool isStopped = false;
@@ -26,6 +31,7 @@ public class EnemyFlier : Enemy
     protected Vector3 _currentMovement;
 
     public bool GetHasArrivedAtDestination() { return _hasArrivedAtDestination; }
+    public float GetMinAttackRange() { return _minAttackRange; }
 
     // Start is called before the first frame update
     protected override void Start()
@@ -66,9 +72,17 @@ public class EnemyFlier : Enemy
         // Enemy is able to attack the Player IF Enemy is facing the Player AND within attack range AND has about the same y-coordinate.
         else
         {
-            _animator.SetBool(_hashPlayerWithinAttackRange,
-                _isFacingRight == _player.transform.position.x - transform.position.x > 0.0f &&
-                Vector3.Distance(_player.transform.position, transform.position) <= _attackRange &&
+            bool _playerWithinRange = Vector3.Distance(_player.transform.position, transform.position) <= _attackRange &&
+                Vector3.Distance(_player.transform.position, transform.position) >= _minAttackRange;
+
+            // Make sure Flier is facing the Player if it can shoot.
+            if (_playerWithinRange)
+            {
+                _isFacingRight = _player.transform.position.x > transform.position.x;
+                _spriteRenderer.flipX = !_isFacingRight;
+            }
+
+            _animator.SetBool(_hashPlayerWithinAttackRange,_playerWithinRange && 
                 Mathf.Abs(transform.position.y - _player.transform.position.y) <= shootingVerticalRange);
         }
     }
@@ -114,11 +128,20 @@ public class EnemyFlier : Enemy
 
     /// <summary>
     /// Causes EnemyFlier to shoot. Fliers are assumed to be ranged, but this can be modified for melee attacks too.
+    /// TODO: Make work with new ability hierarchy.
     /// </summary>
     /// <returns>The total duration of the executed attack.</returns>
     public override float Attack()
     {
-        // TODO: Make shooting
+        GameObject newProjectile = Instantiate(_projectile, transform.position, Quaternion.identity);
+        Projectile projectileComponent = newProjectile.GetComponent<Projectile>();
+
+        if (projectileComponent != null)
+        {
+            projectileComponent.Initialize(gameObject, _spriteRenderer.flipX);
+        }
+
+        // Change to the actual time the attack takes.
         return 1.0f;
     }
 }
