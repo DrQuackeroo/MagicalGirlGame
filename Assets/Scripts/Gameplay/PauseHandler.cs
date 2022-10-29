@@ -36,9 +36,14 @@ public static class PauseHandler
         }
     }
 
-    public static void Pause(bool turnOffPause)
+    public static void UnPause(bool turnOffPause)
     {
         IsPaused = turnOffPause;
         TogglePause();
+    }
+
+    public static void UnpauseIfPaused()
+    {
+        if (IsPaused || TimeScale == 0) UnPause(true);
     }
 }

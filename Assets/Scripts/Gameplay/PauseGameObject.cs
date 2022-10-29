@@ -43,20 +43,20 @@ public class PauseGameObject : MonoBehaviour
     public void RestartButton()
     {
         Debug.Log("Restart button pressed");
-        PauseHandler.Pause(true);
+        PauseHandler.UnPause(true);
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     public void ResumeButton()
     {
         Debug.Log("Resume button pressed");
-        PauseHandler.Pause(true);
+        PauseHandler.UnPause(true);
     }
 
     public void AbilityButton()
     {
         Debug.Log("Ability button pressed");
-        //to be added
+        AbilityHandler.EnterAbilityMenu();
     }
 }
 

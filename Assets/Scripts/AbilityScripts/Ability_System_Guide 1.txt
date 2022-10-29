@@ -1,0 +1,38 @@
+NEW ABILITY SYSTEM WIP GUIDE:
+
+
+HOW TO MAKE A NEW ABILITY SCRIPT
+1. CREATE a new C# Script
+2. CHANGE the class to inherit from Ability instead of MonoBehaviour
+3. IMPLEMENT and override the Activate() method it inherits (see CODE 1)
+4. CUSTOMIZE the script with whatever is needed to make the ability function - make sure to remove any/all variables/methods you are able to from the PlayerControls script and put them in your own script. A reference to the player's GameObject is given in the Activate() method, so if you need to access something in PlayerControls, use "player.GetComponent<PlayerControls>()" in Activate() (I recommend saving the return value of that function as a class filed in your script) - you may need to change some things in PlayerControls to public from private if needed.
+5. ATTACH the new ability script to the "AbilityHolder" GameObject on the AbilityUI prefab
+6. UPDATE your script's display name field with the ability's name (e.g., Dash, Laser, etc. - see IMAGE 1)
+7. UPDATE the prefab: click on AbilityUI -> "Overrides" (top right under layer) -> Apply All
+8. CONFIRM there are AT LEAST 3 DIFFERENT scripts that derive from Ability attached to "AbilityHolder" at ALL TIMES (there are three placeholder scripts you can use temporarily - you can tell a script is from Ability if it has the fields "Display Name," "Image Icon," and "Description").
+
+
+HOW TO UPDATE AN OLD ABILITY SCRIPT:
+1. CHANGE the class to inherit from Ability instead of MonoBehaviour
+2. IMPLEMENT and override the Activate() method it inherits (see CODE 1)
+3. MOVE any/all variables and methods you can from the PlayerControls script to your own script
+3. FIX any reference errors to something on the PlayerControls script by using the player GameObject reference given in the Activate() method using "player.GetComponent<PlayerControls>()" (might want to save the result of that line to a variable in your script).
+4. ATTACH the new ability script to the "AbilityHolder" GameObject on the AbilityUI prefab
+5. UPDATE your script's display name field with the ability's name (e.g., Dash, Laser, etc. - see IMAGE 1)
+6. UPDATE the prefab: click on AbilityUI -> "Overrides" (top right under layer) -> Apply All
+7. CONFIRM there are AT LEAST 3 DIFFERENT scripts that derive from Ability attached to "AbilityHolder" at ALL TIMES (there are three placeholder scripts you can use temporarily - you can tell a script is from Ability if it has the fields "Display Name," "Image Icon," and "Description").
+
+
+CODE 1 (example ability script - Activate() method signature must match exactly):
+using UnityEngine;
+public class PlaceholderAbilityOne : Ability
+{
+    public override void Activate(GameObject player)
+    {
+        Debug.Log("PlaceholderAbilityOne Activated");
+    }
+}
+
+
+IMAGE 1 (how AbilityHolder should look - only Ability-derived scripts that have a display name set):
+https://gyazo.com/5bea724135e6c07a46878ff22df8670d

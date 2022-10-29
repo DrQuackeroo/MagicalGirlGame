@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -35,6 +37,10 @@ public class PlayerControls : MonoBehaviour
     // The Player's current velocity. Used to determine movement each Update.
     private Vector3 _velocity = Vector3.zero;
 
+    
+    private List<Ability> abilities = new List<Ability>();
+
+
     [Header("Jumps")]
     [SerializeField] private float _jumpsRemaining = 2f;
     [SerializeField] private float _tempTime = 0f;
@@ -63,7 +69,7 @@ public class PlayerControls : MonoBehaviour
         _health.eventAttackBlocked.AddListener(AttackBlocked);
 
 
-
+        
 
         //Below are made for the Beam()
         _playerTransform = GetComponent<Transform>();
@@ -72,9 +78,15 @@ public class PlayerControls : MonoBehaviour
 
     }
 
+    private void GetAbilities(List<Ability> abs)
+    {
+        abilities = abs;
+    }
+
     private void OnEnable()
     {
         EnablePlayerControls();
+        AbilityHandler.OnSetAbility += GetAbilities;
         PauseHandler.OnPauseEnable += DisablePlayerControls;
         PauseHandler.OnPauseDisable += EnablePlayerControls;
         _playerInputActions.Player.PauseMenu.Enable();
@@ -84,6 +96,7 @@ public class PlayerControls : MonoBehaviour
     private void OnDisable()
     {
         DisablePlayerControls();
+        AbilityHandler.OnSetAbility -= GetAbilities;
         PauseHandler.OnPauseEnable -= DisablePlayerControls;
         PauseHandler.OnPauseDisable -= EnablePlayerControls;
         _playerInputActions.Player.PauseMenu.Disable();
@@ -116,7 +129,7 @@ public class PlayerControls : MonoBehaviour
     }
 
     //Made public so other classes can enable/disable player's control
-    private void DisablePlayerControls()
+    public void DisablePlayerControls()
     {
         _playerInputActions.Player.Movement.Disable();
         _playerInputActions.Player.Movement.started -= OnMove;
@@ -274,6 +287,11 @@ public class PlayerControls : MonoBehaviour
     //"X" key - ability one
     private void OnAbilityOne(InputAction.CallbackContext context)
     {
+        //vv new ability system, WIP
+        int abilityNum = 0; //num will be one less than method name
+        if (abilityNum >= 0 && abilityNum < abilities.Count) abilities[abilityNum].Activate(gameObject);
+        //^^ For new ability system
+
         if (_isDashing || _isInputLocked)
         {
             Debug.Log("Ability 1 overriden by Dash");
@@ -290,6 +308,11 @@ public class PlayerControls : MonoBehaviour
     //"C" key - ability two
     private void OnAbilityTwo(InputAction.CallbackContext context)
     {
+        //vv new ability system, WIP
+        int abilityNum = 1; //num will be one less than method name
+        if (abilityNum >= 0 && abilityNum < abilities.Count) abilities[abilityNum].Activate(gameObject);
+        //^^ For new ability system
+
         if (_isDashing || _isInputLocked)
         {
             Debug.Log("Ability2 overriden by Dash");
@@ -302,6 +325,11 @@ public class PlayerControls : MonoBehaviour
     //"V" key - ability three
     private void OnAbilityThree(InputAction.CallbackContext context)
     {
+        //vv new ability system, WIP
+        int abilityNum = 2; //num will be one less than method name
+        if (abilityNum >= 0 && abilityNum < abilities.Count) abilities[abilityNum].Activate(gameObject);
+        //^^ For new ability system
+
         if (_isDashing || _isInputLocked)
         {
             Debug.Log("Ability3 overriden by Dash");
