@@ -100,6 +100,11 @@ public class Health : MonoBehaviour
         TakeDamage(_currentHealth, null);
     }
 
+    public int GetMaxHealth()
+    {
+        return _maxHealth;
+    }
+
     public int GetHealth()
     {
         return _currentHealth;
