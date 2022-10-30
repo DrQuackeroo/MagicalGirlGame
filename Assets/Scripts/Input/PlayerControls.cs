@@ -28,7 +28,7 @@ public class PlayerControls : MonoBehaviour
     private float _xInputValue;
     private bool _faceRight = true;
     // If true, Player can use directional and ability controls.
-    // TODO: Possbily redundant with _isDashing
+
     private bool _isInputLocked = false;
     // If true, gravity will be applied this Update to the Player's y-velocity.
     private bool _applyGravity = true;
@@ -48,10 +48,15 @@ public class PlayerControls : MonoBehaviour
     [SerializeField] private float _jumpCD = 0.2f;
 
     [Header("Dash")]
-    private bool _isDashing = false;
     private bool _canDash = true;
     [SerializeField] private float _dashingTime = 0.25f;
     [SerializeField] private float _dashCD = 1f;
+
+
+    [Header("Beam")]
+    [SerializeField] private float distanceRay = 20; //Has not implemented changing hitbox size yet
+    public GameObject laserHitBox;
+    private bool _canBeam = true;
 
     private PlayerInputActions _playerInputActions;
     private SpriteRenderer _spriteRenderer;
@@ -70,11 +75,10 @@ public class PlayerControls : MonoBehaviour
         _health.eventAttackBlocked.AddListener(AttackBlocked);
 
 
-        
+
 
         //Below are made for the Beam()
         _playerTransform = GetComponent<Transform>();
-        _line = GetComponent<LineRenderer>();
 
 
     }
@@ -193,16 +197,14 @@ public class PlayerControls : MonoBehaviour
     //"Left Arrow/Right Arrow" keys - movement
     private void OnMove(InputAction.CallbackContext context)
     {
-        if (_isDashing)
+        if (_isInputLocked)
         {
-            Debug.Log("Move overriden by Dash");
+            Debug.Log("Input Locked");
             return;
         }
 
         _xInputValue = context.ReadValue<float>();
-        //Flips sprite if moving to the LEFT, change if needed
-        //if (_xInputValue > 0)  = false;
-        //else if (_xInputValue < 0) _spriteRenderer.flipX = true;
+
         if (_xInputValue > 0 && !_faceRight)
             Rotate();
         else if (_xInputValue < 0 && _faceRight)
@@ -215,6 +217,7 @@ public class PlayerControls : MonoBehaviour
         _health.SetFacingRight(_faceRight);
         //transform.Rotate(0f, 180f, 0f);
         _spriteRenderer.flipX = !_spriteRenderer.flipX;
+        laserHitBox.transform.RotateAround(_playerTransform.position, Vector3.up, 180);
     }
 
     /// <summary>
@@ -232,12 +235,12 @@ public class PlayerControls : MonoBehaviour
     //"Space" key - jump
     private void OnJump(InputAction.CallbackContext context)
     {
-        if (_isDashing || _isInputLocked)
+        if (_isInputLocked)
         {
-            Debug.Log("Jump overriden by Dash");
+            Debug.Log("Input Locked");
             return;
         }
-        Debug.Log("jump");
+        Debug.Log("Input: Jump");
 
         if (_characterController.isGrounded)
         {
@@ -252,51 +255,18 @@ public class PlayerControls : MonoBehaviour
     }
 
 
-    private IEnumerator Dash()
-    {
-        Debug.Log("Dash Start");
 
-
-        _canDash = false;
-        _isDashing = true;
-        _isInputLocked = true;
-        _applyGravity = false;
-        Physics.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Enemy"), true);
-
-
-        if (_faceRight)
-            _velocity = new Vector3(_dashMod, 0.0f, 0.0f);
-        else
-            _velocity = new Vector3(-_dashMod, 0.0f, 0.0f);
-
-        yield return new WaitForSeconds(_dashingTime);
-
-
-        Debug.Log("Dash End");
-
-        _isDashing = false;
-        _isInputLocked = false;
-        _applyGravity = true;
-        _velocity = Vector3.zero;
-        Physics.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Enemy"), false);
-
-        yield return new WaitForSeconds(_dashCD);
-        Debug.Log("Dash Refresh");
-        _canDash = true;
-
-
-
-    }
 
     //"Z" key - basic attack
     private void OnBasicAttack(InputAction.CallbackContext context)
     {
-        if (_isDashing || _isInputLocked)
+        if (_isInputLocked)
         {
-            Debug.Log("Attack overriden by Dash");
+            Debug.Log("Input Locked");
             return;
         }
-        Debug.Log("basic attack");
+
+        Debug.Log("Input: Basic Attack");
         _basicAttackCombo.Attack();
     }
 
@@ -308,12 +278,12 @@ public class PlayerControls : MonoBehaviour
         if (abilityNum >= 0 && abilityNum < abilities.Count) abilities[abilityNum].Activate(gameObject);
         //^^ For new ability system
 
-        if (_isDashing || _isInputLocked)
+        if (_isInputLocked)
         {
-            Debug.Log("Ability 1 overriden by Dash");
+            Debug.Log("Input Locked");
             return;
         }
-        Debug.Log("ability one: occupied by Dash");
+        Debug.Log("Input: Dash");
 
         if (_canDash)
             StartCoroutine(Dash());
@@ -329,13 +299,14 @@ public class PlayerControls : MonoBehaviour
         if (abilityNum >= 0 && abilityNum < abilities.Count) abilities[abilityNum].Activate(gameObject);
         //^^ For new ability system
 
-        if (_isDashing || _isInputLocked)
+        if (_isInputLocked)
         {
-            Debug.Log("Ability2 overriden by Dash");
+            Debug.Log("Input Locked");
             return;
         }
-        Debug.Log("ability two: occupied by Beam");
-        StartCoroutine(Beam());
+        Debug.Log("Input: Beam");
+        if (_canBeam)
+            StartCoroutine(Beam());
     }
 
     //"V" key - ability three
@@ -346,12 +317,12 @@ public class PlayerControls : MonoBehaviour
         if (abilityNum >= 0 && abilityNum < abilities.Count) abilities[abilityNum].Activate(gameObject);
         //^^ For new ability system
 
-        if (_isDashing || _isInputLocked)
+        if (_isInputLocked)
         {
-            Debug.Log("Ability3 overriden by Dash");
+            Debug.Log("Input Locked");
             return;
         }
-        Debug.Log("ability three: Block");
+        Debug.Log("Input: Block");
         _health.isBlocking = true;
         _isInputLocked = true;
         _applyFriction = true;
@@ -374,88 +345,76 @@ public class PlayerControls : MonoBehaviour
         _spriteRenderer.color = Color.white;
     }
 
+
     //"Esc" key - escape menu
     private void OnPauseMenu(InputAction.CallbackContext context)
     {
         PauseHandler.TogglePause();
         Debug.Log("pause menu");
-        
+
     }
 
 
 
+    private IEnumerator Dash()
+    {
+        Debug.Log("Dash Start");
+
+        _canDash = false;
+        _isInputLocked = true;
+        _applyGravity = false;
+        Physics.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Enemy"), true);
 
 
+        if (_faceRight)
+            _velocity = new Vector3(_dashMod, 0.0f, 0.0f);
+        else
+            _velocity = new Vector3(-_dashMod, 0.0f, 0.0f);
 
+        yield return new WaitForSeconds(_dashingTime);
 
+        Debug.Log("Dash End");
 
-    [Header("Beam")]
-    [SerializeField] private float distanceRay = 20;
-    private LineRenderer _line;
+        _isInputLocked = false;
+        _applyGravity = true;
+        _velocity = Vector3.zero;
+        Physics.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Enemy"), false);
+
+        yield return new WaitForSeconds(_dashCD);
+        Debug.Log("Dash Refresh");
+        _canDash = true;
+
+    }
+
 
     private IEnumerator Beam()
     {
+        //laserHitBox.Transform.scale = new Vector3(distanceRay, laserHitBox.Transform.Scale.y, laserHitBox.Transform.Scale.z);
+        _canBeam = false;
         _isInputLocked = true;
         _applyGravity = false;
         _velocity.x = 0f;
         _velocity.y = 0f;
 
-        bool temp = _line.useWorldSpace; // don't know if this actually matters anywhere
-        _line.useWorldSpace = true; // this acutally matters, i don't know what worldspace is exactly
-        _line.startWidth = 2f;
-        _line.endWidth = 2.5f;
-
 
         Debug.Log("Beam Start");
 
-
-        Vector3 startPoint = new Vector3(_playerTransform.position.x, _playerTransform.position.y, _playerTransform.position.z);
-
-        Vector3 endPoint;
-
-        if (_faceRight)
-        {
-            startPoint.x += 2;
-            endPoint = new Vector3(_playerTransform.position.x + distanceRay, _playerTransform.position.y, _playerTransform.position.z);
-        }
-        else
-        {
-            startPoint.x -= 2;
-            endPoint = new Vector3(_playerTransform.position.x - distanceRay, _playerTransform.position.y, _playerTransform.position.z);
-        }
-        _line.SetPosition(0, startPoint);
-        _line.SetPosition(1, endPoint);
-        _line.enabled = true;
+        laserHitBox.GetComponent<Renderer>().enabled = true;
 
         yield return new WaitForSeconds(1.5f);
+
         Debug.Log("Beam End");
 
-        _line.enabled = false;
+        laserHitBox.GetComponent<Renderer>().enabled = false;
+
         _isInputLocked = false;
         _applyGravity = true;
-        _line.useWorldSpace = temp;
 
-
-
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(4f);
         Debug.Log("Beam Refresh");
+        _canBeam = true;
 
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
