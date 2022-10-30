@@ -1,0 +1,22 @@
+fileFormatVersion: 2
+guid: c78a9962eb904154d949f6d2d5f248d8
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontNames:
+  - Brandsom
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 33c5f949db95c0644a9e7cf464f507e0, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

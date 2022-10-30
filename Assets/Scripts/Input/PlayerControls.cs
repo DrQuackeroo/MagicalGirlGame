@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -12,7 +14,7 @@ public class PlayerControls : MonoBehaviour
     private const float _yVelocityResetThreshold = -0.5f;
     // How much knockback is applied to the Player if they block an attack. Could be changed to a settable field.
     private const float _blockKnockbackVelocity = 5.0f;
-    // Amount in Unity units/second that velocity changes by when decelerating under friction. Cound be changed to settable field.
+    // Amount in units/second^2 that velocity changes by when decelerating under friction. Cound be changed to settable field.
     private const float _frictionDeceleration = 20.0f;
 
     [Header("Player Stats")]
@@ -34,6 +36,11 @@ public class PlayerControls : MonoBehaviour
     private bool _applyFriction = false;
     // The Player's current velocity. Used to determine movement each Update.
     private Vector3 _velocity = Vector3.zero;
+
+    [Header("Abilities")]
+    [SerializeField] private bool _requireAbilitySelectionOnStart;
+    private List<Ability> abilities = new List<Ability>();
+
 
     [Header("Jumps")]
     [SerializeField] private float _jumpsRemaining = 2f;
@@ -63,7 +70,7 @@ public class PlayerControls : MonoBehaviour
         _health.eventAttackBlocked.AddListener(AttackBlocked);
 
 
-
+        
 
         //Below are made for the Beam()
         _playerTransform = GetComponent<Transform>();
@@ -72,7 +79,33 @@ public class PlayerControls : MonoBehaviour
 
     }
 
+    private void GetAbilities(List<Ability> abs)
+    {
+        abilities = abs;
+    }
+
     private void OnEnable()
+    {
+        EnablePlayerControls();
+        AbilityHandler.OnSetAbility += GetAbilities;
+        PauseHandler.OnPauseEnable += DisablePlayerControls;
+        PauseHandler.OnPauseDisable += EnablePlayerControls;
+        _playerInputActions.Player.PauseMenu.Enable();
+        _playerInputActions.Player.PauseMenu.performed += OnPauseMenu;
+    }
+
+    private void OnDisable()
+    {
+        DisablePlayerControls();
+        AbilityHandler.OnSetAbility -= GetAbilities;
+        PauseHandler.OnPauseEnable -= DisablePlayerControls;
+        PauseHandler.OnPauseDisable -= EnablePlayerControls;
+        _playerInputActions.Player.PauseMenu.Disable();
+        _playerInputActions.Player.PauseMenu.performed -= OnPauseMenu;
+    }
+
+    //Made public so other classes can enable/disable player's control
+    public void EnablePlayerControls()
     {
         _playerInputActions.Player.Movement.Enable();
         _playerInputActions.Player.Movement.started += OnMove;
@@ -94,12 +127,10 @@ public class PlayerControls : MonoBehaviour
         _playerInputActions.Player.AbilityThree.Enable();
         _playerInputActions.Player.AbilityThree.performed += OnAbilityThree;
         _playerInputActions.Player.AbilityThree.canceled += EndAbilityThree;
-
-        _playerInputActions.Player.PauseMenu.Enable();
-        _playerInputActions.Player.PauseMenu.performed += OnPauseMenu;
     }
 
-    private void OnDisable()
+    //Made public so other classes can enable/disable player's control
+    public void DisablePlayerControls()
     {
         _playerInputActions.Player.Movement.Disable();
         _playerInputActions.Player.Movement.started -= OnMove;
@@ -121,9 +152,21 @@ public class PlayerControls : MonoBehaviour
         _playerInputActions.Player.AbilityThree.Disable();
         _playerInputActions.Player.AbilityThree.performed -= OnAbilityThree;
         _playerInputActions.Player.AbilityThree.canceled -= EndAbilityThree;
+    }
 
-        _playerInputActions.Player.PauseMenu.Disable();
-        _playerInputActions.Player.PauseMenu.performed -= OnPauseMenu;
+    private void Start()
+    {
+        if (_requireAbilitySelectionOnStart) AbilitySelectionOnStart();
+    }
+
+    private void AbilitySelectionOnStart()
+    {
+        //pause the game at the start
+        PauseHandler.UnPause(false);
+        //clear currently stored abilities
+        AbilityHandler.ClearCurrentAbilities();
+        //make the player select abilities
+        AbilityHandler.EnterAbilityMenu();
     }
 
     void Update()
@@ -260,6 +303,11 @@ public class PlayerControls : MonoBehaviour
     //"X" key - ability one
     private void OnAbilityOne(InputAction.CallbackContext context)
     {
+        //vv new ability system, WIP
+        int abilityNum = 0; //num will be one less than method name
+        if (abilityNum >= 0 && abilityNum < abilities.Count) abilities[abilityNum].Activate(gameObject);
+        //^^ For new ability system
+
         if (_isDashing || _isInputLocked)
         {
             Debug.Log("Ability 1 overriden by Dash");
@@ -276,6 +324,11 @@ public class PlayerControls : MonoBehaviour
     //"C" key - ability two
     private void OnAbilityTwo(InputAction.CallbackContext context)
     {
+        //vv new ability system, WIP
+        int abilityNum = 1; //num will be one less than method name
+        if (abilityNum >= 0 && abilityNum < abilities.Count) abilities[abilityNum].Activate(gameObject);
+        //^^ For new ability system
+
         if (_isDashing || _isInputLocked)
         {
             Debug.Log("Ability2 overriden by Dash");
@@ -288,6 +341,11 @@ public class PlayerControls : MonoBehaviour
     //"V" key - ability three
     private void OnAbilityThree(InputAction.CallbackContext context)
     {
+        //vv new ability system, WIP
+        int abilityNum = 2; //num will be one less than method name
+        if (abilityNum >= 0 && abilityNum < abilities.Count) abilities[abilityNum].Activate(gameObject);
+        //^^ For new ability system
+
         if (_isDashing || _isInputLocked)
         {
             Debug.Log("Ability3 overriden by Dash");
@@ -319,8 +377,9 @@ public class PlayerControls : MonoBehaviour
     //"Esc" key - escape menu
     private void OnPauseMenu(InputAction.CallbackContext context)
     {
-
+        PauseHandler.TogglePause();
         Debug.Log("pause menu");
+        
     }
 
 

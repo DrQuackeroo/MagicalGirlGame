@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 19786261565302462}
   - component: {fileID: 19786261565302463}
   - component: {fileID: 5465466713511005537}
+  - component: {fileID: 2699388574728260196}
   - component: {fileID: 3776040429677957814}
   - component: {fileID: 19786261565302448}
   - component: {fileID: 19786261565302450}
@@ -129,6 +130,20 @@ MonoBehaviour:
   _maxHealth: 100
   _printToConsole: 1
   _blockAngle: 45
+--- !u!114 &2699388574728260196
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 19786261565302452}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aeb2724dfb443a6449653407723932ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _damageTextPrefab: {fileID: 2567034649440588344, guid: de41b77eb9d5dc94a9008c9c9102c65e, type: 3}
+  _yOffset: 0
 --- !u!114 &3776040429677957814
 MonoBehaviour:
   m_ObjectHideFlags: 0
