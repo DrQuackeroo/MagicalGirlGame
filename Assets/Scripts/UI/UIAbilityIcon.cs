@@ -7,11 +7,8 @@ using TMPro;
 public class UIAbilityIcon : MonoBehaviour
 {
     [SerializeField] private Slider _slider;
-
     [SerializeField] private TextMeshProUGUI _cooldownText;
-
     [SerializeField] private Image _backgroundImage;
-
     [SerializeField] private Image _fillImage;
 
     private IEnumerator _cooldownCoroutine;
@@ -22,24 +19,6 @@ public class UIAbilityIcon : MonoBehaviour
     private void Awake()
     {
         _cooldownText.text = string.Empty;
-    }
-
-    //Pseudocode until the hierarchy code for abilities have been implemented
-
-    // UIAbilityIconsManager will set up a UIAbilityIcon for each ability the player has selected by passing the ability's image field. StartCooldown is called by UIAbilityIconsManager when ability begins being on cooldown
-    private void Start()
-    {
-        // for testing
-        SetUpAbilityIconUI(_testSprite);
-    }
-    
-    private void Update()
-    {
-        // for testing
-        if (Input.GetMouseButtonDown(0))
-        {
-            StartCooldown(5f);
-        }
     }
     
     public void SetUpAbilityIconUI(Sprite sprite)
