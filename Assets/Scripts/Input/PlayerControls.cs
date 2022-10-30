@@ -267,7 +267,7 @@ public class PlayerControls : MonoBehaviour
         }
 
         Debug.Log("Input: Basic Attack");
-        _basicAttackCombo.Attack();
+        _basicAttackCombo.Activate(gameObject);
     }
 
     //"X" key - ability one

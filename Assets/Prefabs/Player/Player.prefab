@@ -125,12 +125,14 @@ MonoBehaviour:
   _jumpMod: 15
   _dashMod: 48
   _gravityMultiplier: 3
+  _requireAbilitySelectionOnStart: 0
   _jumpsRemaining: 2
   _tempTime: 0
   _jumpCD: 0.2
   _dashingTime: 0.25
   _dashCD: 1
-  FirePoint: {fileID: 0}
+  distanceRay: 20
+  laserHitBox: {fileID: 0}
 --- !u!114 &866719938791137815
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -143,6 +145,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4613bdf5612003649ad986e8b0870dbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _displayName: 
+  _imageIcon: {fileID: 0}
+  _description: 
   _enemyLayers:
     serializedVersion: 2
     m_Bits: 64
@@ -154,7 +159,7 @@ MonoBehaviour:
       _origins:
       - {x: 1.25, y: 1, z: 0}
       - {x: 1.35, y: 0, z: 0}
-      _radius:
+      _radiuses:
       - 0.75
       - 1
     _windUp: 0.05
@@ -165,7 +170,7 @@ MonoBehaviour:
       _origins:
       - {x: 1, y: 0, z: 0}
       - {x: 2.25, y: 0, z: 0}
-      _radius:
+      _radiuses:
       - 1
       - 0.75
     _windUp: 0.05
@@ -177,10 +182,10 @@ MonoBehaviour:
       - {x: 1, y: 0, z: 0}
       - {x: 2, y: 0, z: 0}
       - {x: 3.15, y: 0, z: 0}
-      _radius:
-      - 1.25
-      - 1
-      - 0.5
+      _radiuses:
+      - 1.5
+      - 1.15
+      - 0.75
     _windUp: 0.1
     _windDown: 0.25
   _comboResetTimer: 0.5

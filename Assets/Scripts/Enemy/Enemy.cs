@@ -122,7 +122,7 @@ public class Enemy : MonoBehaviour
     /// <returns>The total duration of the executed attack.</returns>
     public virtual float Attack()
     {
-        _basicAttackCombo.Attack();
+        _basicAttackCombo.Activate(gameObject);
         return _basicAttackCombo.GetCurrentAttackDuration();
     }
 }

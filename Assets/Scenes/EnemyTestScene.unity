@@ -1475,6 +1475,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 866719938791137815, guid: 9a8acea2dc2bae543a290a7d65555a55, type: 3}
+      propertyPath: _comboList.Array.data[2]._attackColliders._radiuses.Array.data[0]
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 866719938791137815, guid: 9a8acea2dc2bae543a290a7d65555a55, type: 3}
+      propertyPath: _comboList.Array.data[2]._attackColliders._radiuses.Array.data[1]
+      value: 1.15
+      objectReference: {fileID: 0}
     - target: {fileID: 4914356325663459521, guid: 9a8acea2dc2bae543a290a7d65555a55, type: 3}
       propertyPath: isBlocking
       value: 0

@@ -156,6 +156,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4613bdf5612003649ad986e8b0870dbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _displayName: 
+  _imageIcon: {fileID: 0}
+  _description: 
   _enemyLayers:
     serializedVersion: 2
     m_Bits: 128
@@ -167,7 +170,7 @@ MonoBehaviour:
       _origins:
       - {x: 1.25, y: 1, z: 0}
       - {x: 1.35, y: 0, z: 0}
-      _radius:
+      _radiuses:
       - 0.75
       - 1
     _windUp: 0.5

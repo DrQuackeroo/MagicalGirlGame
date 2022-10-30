@@ -2,13 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BasicAttackCombo : MonoBehaviour
+public class BasicAttackCombo : Ability
 {
     [System.Serializable]
     public class AttackColliderInfo
     {
         public List<Vector3> _origins;
-        public List<float> _radius;
+        public List<float> _radiuses;
     }
 
     [System.Serializable]
@@ -16,21 +16,19 @@ public class BasicAttackCombo : MonoBehaviour
     {
         private BasicAttackCombo _combo;
         private BasicAttack _nextAttack;
-        private GameObject _owner;
         public string _name;
         [SerializeField] private int _damage;
         [SerializeField] private AttackColliderInfo _attackColliders;
         [SerializeField] private float _windUp;
         [SerializeField] private float _windDown;
 
-        public void Initialize(BasicAttackCombo combo, BasicAttack nextAttack, GameObject owner)
+        public void Initialize(BasicAttackCombo combo, BasicAttack nextAttack)
         {
             _combo = combo;
             _nextAttack = nextAttack;
-            _owner = owner;
         }
 
-        public IEnumerator Attack()
+        public IEnumerator Attack(GameObject owner)
         {
             yield return new WaitForSeconds(_windUp);
 
@@ -40,7 +38,7 @@ public class BasicAttackCombo : MonoBehaviour
             {
                 Vector3 origin = _combo.transform.position + new Vector3(_attackColliders._origins[i].x * ((_combo._spriteRenderer.flipX) ? -1 : 1), _attackColliders._origins[i].y, _attackColliders._origins[i].z);
 
-                Collider[] enemyColliders = Physics.OverlapSphere(origin, _attackColliders._radius[i], _combo._enemyLayers);
+                Collider[] enemyColliders = Physics.OverlapSphere(origin, _attackColliders._radiuses[i], _combo._enemyLayers);
                 
                 for (int j = 0; j < enemyColliders.Length; j++)
                 {
@@ -51,11 +49,9 @@ public class BasicAttackCombo : MonoBehaviour
                 }
             }
 
-            // turn on and set line renderer showing this attack collider
+            // turns on and set line renderer showing this attack collider
             _combo.DrawCollider(_attackColliders);
-
             Debug.LogFormat("BasicAttackCombo.Attack(): Attack '{0}' used", _name);
-
             
             if (uniqueEnemyColliders.Count > 0)
             {
@@ -64,7 +60,7 @@ public class BasicAttackCombo : MonoBehaviour
                     Health enemyHealth = c.GetComponent<Health>();
 
                     if (enemyHealth != null)
-                        enemyHealth.TakeDamage(_damage, _owner);
+                        enemyHealth.TakeDamage(_damage, owner);
                 }
             }
             
@@ -102,7 +98,7 @@ public class BasicAttackCombo : MonoBehaviour
     {
         for (int i = 0; i < _comboList.Count; i++)
         {
-            _comboList[i].Initialize(this, (i != _comboList.Count - 1 ? _comboList[i + 1] : null), gameObject);
+            _comboList[i].Initialize(this, (i != _comboList.Count - 1 ? _comboList[i + 1] : null));
         }
 
         _comboStart = _comboList[0];
@@ -127,21 +123,21 @@ public class BasicAttackCombo : MonoBehaviour
     }
 
     // main player script can call this to use basic attack
-    public void Attack()
+    public override void Activate(GameObject player)
     {
         // prevents player from spamming basic attack while already mid-animation in an attack
         if (_midAttackCoroutine != null)
             return;
 
-        // decides whether or not to begin or continue the combo
+        // decides whether to begin or continue the combo
         if (_currentAttackState == null)
         {
-            _midAttackCoroutine = _comboStart.Attack();
+            _midAttackCoroutine = _comboStart.Attack(gameObject);
             _currentAttackState = _comboStart;
         }
         else
         {
-            _midAttackCoroutine = _currentAttackState.Attack();
+            _midAttackCoroutine = _currentAttackState.Attack(gameObject);
         }
 
         StartCoroutine(_midAttackCoroutine);
@@ -185,7 +181,7 @@ public class BasicAttackCombo : MonoBehaviour
         for (int i = 0; i < attackColliders._origins.Count; i++)
         {
             Vector3 origin = attackColliders._origins[i];
-            float radius = attackColliders._radius[i];
+            float radius = attackColliders._radiuses[i];
 
             for (int j = 0; j < 361; j++)
             {
@@ -202,13 +198,6 @@ public class BasicAttackCombo : MonoBehaviour
     public void EraseCollider()
     {
         _line.enabled = false;
-    }
-
-    // if staggering is implemented, main player script could call this to handle logic for when player is attacked midcombo
-    public void OnInterrupt()
-    {
-        // will only implement if team decides they want stagger
-        // _currentAttackState.OnInterrupt();
     }
 
     /// <returns>How long the current running attack takes in total, or 0.0f if no attack is running.</returns>
