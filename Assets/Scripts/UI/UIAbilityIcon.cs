@@ -47,7 +47,7 @@ public class UIAbilityIcon : MonoBehaviour
         {
             timeElapsed += Time.deltaTime;
 
-            _cooldownText.text = string.Format("{0:N2}", cooldown - timeElapsed);
+            _cooldownText.text = string.Format("{0:N2}", Mathf.Max(0, cooldown - timeElapsed));
 
             _slider.value = Mathf.Min(timeElapsed / cooldown, 1);
 
