@@ -8,4 +8,9 @@ public class PlaceholderAbilityTwo : Ability
     {
         Debug.Log("PlaceholderAbilityTwo Activated");
     }
+
+    public override void Deactivate(GameObject player)
+    {
+
+    }
 }

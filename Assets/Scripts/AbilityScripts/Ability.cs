@@ -16,4 +16,6 @@ public abstract class Ability : MonoBehaviour
     public float GetCooldown() { return _cooldown; }
 
     public abstract void Activate(GameObject player);
+    // Called when the ability button is released.
+    public abstract void Deactivate(GameObject player);
 }

@@ -145,6 +145,11 @@ public class BasicAttackCombo : Ability
         // should probably start animation here. either use the attack's string name or will have to modify BasicAttack class
     }
 
+    public override void Deactivate(GameObject player)
+    {
+
+    }
+
     private void ResetCombo()
     {
         _currentAttackState = null;

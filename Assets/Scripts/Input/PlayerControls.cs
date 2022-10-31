@@ -25,17 +25,17 @@ public class PlayerControls : MonoBehaviour
     [Tooltip("How much more the default Physics.gravity value affects the Player")]
     [SerializeField] private float _gravityMultiplier = 3.0f;
 
+    // If true, Player cannot use directional and ability controls.
+    [HideInInspector] public bool isInputLocked = false;
+    // If true, gravity will be applied this Update to the Player's y-velocity.
+    [HideInInspector] public bool applyGravity = true;
+    // If true, Player's x-velocity will reduce to 0 over time.
+    [HideInInspector] public bool applyFriction = false;
+    // The Player's current velocity. Used to determine movement each Update.
+    [HideInInspector] public Vector3 velocity = Vector3.zero;
+
     private float _xInputValue;
     private bool _faceRight = true;
-    // If true, Player can use directional and ability controls.
-
-    private bool _isInputLocked = false;
-    // If true, gravity will be applied this Update to the Player's y-velocity.
-    private bool _applyGravity = true;
-    // If true, Player's x-velocity will reduce to 0 over time.
-    private bool _applyFriction = false;
-    // The Player's current velocity. Used to determine movement each Update.
-    private Vector3 _velocity = Vector3.zero;
 
     [Header("Abilities")]
     [SerializeField] private bool _requireAbilitySelectionOnStart;
@@ -124,9 +124,11 @@ public class PlayerControls : MonoBehaviour
 
         _playerInputActions.Player.AbilityOne.Enable();
         _playerInputActions.Player.AbilityOne.performed += OnAbilityOne;
+        _playerInputActions.Player.AbilityOne.canceled += EndAbilityOne;
 
         _playerInputActions.Player.AbilityTwo.Enable();
         _playerInputActions.Player.AbilityTwo.performed += OnAbilityTwo;
+        _playerInputActions.Player.AbilityTwo.canceled += EndAbilityTwo;
 
         _playerInputActions.Player.AbilityThree.Enable();
         _playerInputActions.Player.AbilityThree.performed += OnAbilityThree;
@@ -149,9 +151,11 @@ public class PlayerControls : MonoBehaviour
 
         _playerInputActions.Player.AbilityOne.Disable();
         _playerInputActions.Player.AbilityOne.performed -= OnAbilityOne;
+        _playerInputActions.Player.AbilityOne.canceled -= EndAbilityOne;
 
         _playerInputActions.Player.AbilityTwo.Disable();
         _playerInputActions.Player.AbilityTwo.performed -= OnAbilityTwo;
+        _playerInputActions.Player.AbilityTwo.canceled -= EndAbilityTwo;
 
         _playerInputActions.Player.AbilityThree.Disable();
         _playerInputActions.Player.AbilityThree.performed -= OnAbilityThree;
@@ -177,38 +181,35 @@ public class PlayerControls : MonoBehaviour
     {
 
         // Reset the y-velocity if the Player wasn't actually moving upwards last frame (eg. hit their head on a ceiling)...
-        if (!_characterController.isGrounded && _characterController.velocity.y == 0 && _velocity.y > 0.0f)
-            _velocity.y = 0;
+        if (!_characterController.isGrounded && _characterController.velocity.y == 0 && velocity.y > 0.0f)
+            velocity.y = 0;
         // ... or if Player is on the ground but y-velocity is negative.
-        if (_characterController.isGrounded && _velocity.y < _yVelocityResetThreshold)
-            _velocity.y = _yVelocityResetThreshold;
+        if (_characterController.isGrounded && velocity.y < _yVelocityResetThreshold)
+            velocity.y = _yVelocityResetThreshold;
 
         // Input is calculated but not applied while input is locked.
-        if (!_isInputLocked)
-            _velocity.x = _xInputValue * _speedMod;
-        if (_applyGravity)
-            _velocity.y += Physics.gravity.y * _gravityMultiplier * Time.deltaTime;
-        if (_applyFriction && _velocity.x != 0.0f)
-            _velocity.x = Mathf.Max(0.0f, Mathf.Abs(_velocity.x) - _frictionDeceleration * Time.deltaTime) * (_velocity.x / Mathf.Abs(_velocity.x));
+        if (!isInputLocked)
+        {
+            velocity.x = _xInputValue * _speedMod;
 
-        _characterController.Move(_velocity * Time.deltaTime);
+            // Rotate character based on input direction.
+            if (_xInputValue > 0 && !_faceRight)
+                Rotate();
+            else if (_xInputValue < 0 && _faceRight)
+                Rotate();
+        }
+        if (applyGravity)
+            velocity.y += Physics.gravity.y * _gravityMultiplier * Time.deltaTime;
+        if (applyFriction && velocity.x != 0.0f)
+            velocity.x = Mathf.Max(0.0f, Mathf.Abs(velocity.x) - _frictionDeceleration * Time.deltaTime) * (velocity.x / Mathf.Abs(velocity.x));
+
+        _characterController.Move(velocity * Time.deltaTime);
     }
 
-    //"Left Arrow/Right Arrow" keys - movement
+    // "Left Arrow/Right Arrow" keys - movement
     private void OnMove(InputAction.CallbackContext context)
     {
-        if (_isInputLocked)
-        {
-            Debug.Log("Input Locked");
-            return;
-        }
-
         _xInputValue = context.ReadValue<float>();
-
-        if (_xInputValue > 0 && !_faceRight)
-            Rotate();
-        else if (_xInputValue < 0 && _faceRight)
-            Rotate();
     }
 
     private void Rotate()
@@ -226,16 +227,16 @@ public class PlayerControls : MonoBehaviour
     private void AttackBlocked()
     {
         if (_faceRight)
-            _velocity.x -= _blockKnockbackVelocity;
+            velocity.x -= _blockKnockbackVelocity;
         else
-            _velocity.x += _blockKnockbackVelocity;
+            velocity.x += _blockKnockbackVelocity;
     }
 
 
     //"Space" key - jump
     private void OnJump(InputAction.CallbackContext context)
     {
-        if (_isInputLocked)
+        if (isInputLocked)
         {
             Debug.Log("Input Locked");
             return;
@@ -250,7 +251,7 @@ public class PlayerControls : MonoBehaviour
         {
             _tempTime = Time.time + _jumpCD;
             _jumpsRemaining--;
-            _velocity.y = _jumpMod;
+            velocity.y = _jumpMod;
         }
     }
 
@@ -260,7 +261,7 @@ public class PlayerControls : MonoBehaviour
     //"Z" key - basic attack
     private void OnBasicAttack(InputAction.CallbackContext context)
     {
-        if (_isInputLocked)
+        if (isInputLocked)
         {
             Debug.Log("Input Locked");
             return;
@@ -278,7 +279,7 @@ public class PlayerControls : MonoBehaviour
         if (abilityNum >= 0 && abilityNum < abilities.Count) abilities[abilityNum].Activate(gameObject);
         //^^ For new ability system
 
-        if (_isInputLocked)
+        if (isInputLocked)
         {
             Debug.Log("Input Locked");
             return;
@@ -291,6 +292,14 @@ public class PlayerControls : MonoBehaviour
 
     }
 
+    private void EndAbilityOne(InputAction.CallbackContext context)
+    {
+        //vv new ability system, WIP
+        int abilityNum = 0; //num will be one less than method name
+        if (abilityNum >= 0 && abilityNum < abilities.Count) abilities[abilityNum].Deactivate(gameObject);
+        //^^ For new ability system
+    }
+
     //"C" key - ability two
     private void OnAbilityTwo(InputAction.CallbackContext context)
     {
@@ -299,7 +308,7 @@ public class PlayerControls : MonoBehaviour
         if (abilityNum >= 0 && abilityNum < abilities.Count) abilities[abilityNum].Activate(gameObject);
         //^^ For new ability system
 
-        if (_isInputLocked)
+        if (isInputLocked)
         {
             Debug.Log("Input Locked");
             return;
@@ -307,6 +316,14 @@ public class PlayerControls : MonoBehaviour
         Debug.Log("Input: Beam");
         if (_canBeam)
             StartCoroutine(Beam());
+    }
+
+    private void EndAbilityTwo(InputAction.CallbackContext context)
+    {
+        //vv new ability system, WIP
+        int abilityNum = 1; //num will be one less than method name
+        if (abilityNum >= 0 && abilityNum < abilities.Count) abilities[abilityNum].Deactivate(gameObject);
+        //^^ For new ability system
     }
 
     //"V" key - ability three
@@ -317,32 +334,19 @@ public class PlayerControls : MonoBehaviour
         if (abilityNum >= 0 && abilityNum < abilities.Count) abilities[abilityNum].Activate(gameObject);
         //^^ For new ability system
 
-        if (_isInputLocked)
+        if (isInputLocked)
         {
             Debug.Log("Input Locked");
             return;
         }
-        Debug.Log("Input: Block");
-        _health.isBlocking = true;
-        _isInputLocked = true;
-        _applyFriction = true;
-
-        // Halt x-axis movement when blocking begins.
-        _velocity.x = 0.0f;
-
-        // TESTING: Changes color when blocking
-        _spriteRenderer.color = Color.blue;
     }
 
     private void EndAbilityThree(InputAction.CallbackContext context)
     {
-        print("Ability three canceled");
-        _health.isBlocking = false;
-        _isInputLocked = false;
-        _applyFriction = false;
-
-        // TESTING: Changes color when blocking
-        _spriteRenderer.color = Color.white;
+        //vv new ability system, WIP
+        int abilityNum = 2; //num will be one less than method name
+        if (abilityNum >= 0 && abilityNum < abilities.Count) abilities[abilityNum].Deactivate(gameObject);
+        //^^ For new ability system
     }
 
 
@@ -361,23 +365,23 @@ public class PlayerControls : MonoBehaviour
         Debug.Log("Dash Start");
 
         _canDash = false;
-        _isInputLocked = true;
-        _applyGravity = false;
+        isInputLocked = true;
+        applyGravity = false;
         Physics.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Enemy"), true);
 
 
         if (_faceRight)
-            _velocity = new Vector3(_dashMod, 0.0f, 0.0f);
+            velocity = new Vector3(_dashMod, 0.0f, 0.0f);
         else
-            _velocity = new Vector3(-_dashMod, 0.0f, 0.0f);
+            velocity = new Vector3(-_dashMod, 0.0f, 0.0f);
 
         yield return new WaitForSeconds(_dashingTime);
 
         Debug.Log("Dash End");
 
-        _isInputLocked = false;
-        _applyGravity = true;
-        _velocity = Vector3.zero;
+        isInputLocked = false;
+        applyGravity = true;
+        velocity = Vector3.zero;
         Physics.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Enemy"), false);
 
         yield return new WaitForSeconds(_dashCD);
@@ -391,10 +395,10 @@ public class PlayerControls : MonoBehaviour
     {
         //laserHitBox.Transform.scale = new Vector3(distanceRay, laserHitBox.Transform.Scale.y, laserHitBox.Transform.Scale.z);
         _canBeam = false;
-        _isInputLocked = true;
-        _applyGravity = false;
-        _velocity.x = 0f;
-        _velocity.y = 0f;
+        isInputLocked = true;
+        applyGravity = false;
+        velocity.x = 0f;
+        velocity.y = 0f;
 
 
         Debug.Log("Beam Start");
@@ -407,8 +411,8 @@ public class PlayerControls : MonoBehaviour
 
         laserHitBox.GetComponent<Renderer>().enabled = false;
 
-        _isInputLocked = false;
-        _applyGravity = true;
+        isInputLocked = false;
+        applyGravity = true;
 
         yield return new WaitForSeconds(4f);
         Debug.Log("Beam Refresh");
