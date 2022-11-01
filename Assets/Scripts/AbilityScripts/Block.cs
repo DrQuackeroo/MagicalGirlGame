@@ -39,5 +39,7 @@ public class Block : Ability
 
         // TESTING: Changes color when blocking
         _spriteRenderer.color = Color.white;
+
+        UIAbilityIconsManager.ShowCooldown(this);
     }
 }

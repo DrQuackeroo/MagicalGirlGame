@@ -77,7 +77,7 @@ public class OverheadSwing : BasicAttackCombo
         StopCoroutine(_midAttackCoroutine);
         _timeElapsed = 0f;
 
-        // If there is a next attack, start it automatically. Reset _midAttackCoroutine otherwise.
+        // If there is a next attack, start it automatically. Otherwise, this Ability ends and variables should be reset.
         if (_currentAttackState != null)
         {
             _midAttackCoroutine = _currentAttackState.AttackNewCollidersOnly(_player, _currentHitColliders);
@@ -87,6 +87,7 @@ public class OverheadSwing : BasicAttackCombo
         {
             _midAttackCoroutine = null;
             _playerControls.isInputLocked = false;
+            UIAbilityIconsManager.ShowCooldown(this);
         }
     }
 }
