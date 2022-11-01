@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class BasicAttackCombo : Ability
@@ -16,54 +17,77 @@ public class BasicAttackCombo : Ability
     {
         private BasicAttackCombo _combo;
         private BasicAttack _nextAttack;
+        // Player GameObject reference. With the new Ability hierarchy, this will be different than _combo.GameObject and should be changed after initialization.
+        private GameObject _player;
+        private List<Collider> _hitColliders = new List<Collider>();
         public string _name;
         [SerializeField] private int _damage;
         [SerializeField] private AttackColliderInfo _attackColliders;
         [SerializeField] private float _windUp;
         [SerializeField] private float _windDown;
 
+        public List<Collider> GetHitColliders() { return _hitColliders; }
+        public void ClearHitColliders() { _hitColliders.Clear(); }
+        public void SetPlayer(GameObject player) { _player = player; }
+        public void SetDamage(int damage) { _damage = damage; }
+        public void SetWindDown(float windDown) { _windDown = windDown; }
+
         public void Initialize(BasicAttackCombo combo, BasicAttack nextAttack)
         {
             _combo = combo;
             _nextAttack = nextAttack;
+            _player = _combo.gameObject;
         }
 
         public IEnumerator Attack(GameObject owner)
         {
             yield return new WaitForSeconds(_windUp);
 
-            List<Collider> uniqueEnemyColliders = new List<Collider>();
-
-            for (int i = 0; i < _attackColliders._origins.Count; i++)
-            {
-                Vector3 origin = _combo.transform.position + new Vector3(_attackColliders._origins[i].x * ((_combo._spriteRenderer.flipX) ? -1 : 1), _attackColliders._origins[i].y, _attackColliders._origins[i].z);
-
-                Collider[] enemyColliders = Physics.OverlapSphere(origin, _attackColliders._radiuses[i], _combo._enemyLayers);
-                
-                for (int j = 0; j < enemyColliders.Length; j++)
-                {
-                    if (!uniqueEnemyColliders.Contains(enemyColliders[j]))
-                    {
-                        uniqueEnemyColliders.Add(enemyColliders[j]);
-                    }
-                }
-            }
+            _hitColliders = GetUniqueColliders();
 
             // turns on and set line renderer showing this attack collider
             _combo.DrawCollider(_attackColliders);
             Debug.LogFormat("BasicAttackCombo.Attack(): Attack '{0}' used", _name);
-            
-            if (uniqueEnemyColliders.Count > 0)
-            {
-                foreach (Collider c in uniqueEnemyColliders)
-                {
-                    Health enemyHealth = c.GetComponent<Health>();
 
-                    if (enemyHealth != null)
-                        enemyHealth.TakeDamage(_damage, owner);
-                }
-            }
+            // Actually damage hit objects.
+            DamageHitColliders(_hitColliders, owner);
             
+
+            yield return new WaitForSeconds(_windDown);
+
+            // turn off line renderer showing this attack collider
+            _combo.EraseCollider();
+
+            _combo.OnAttackFinish(_nextAttack);
+        }
+
+        /// <summary>
+        /// Special attack function that will only apply damage to targets that were not hit by a previous attack.
+        /// </summary>
+        /// <param name="owner">Who is attacking?</param>
+        /// <param name="previousEnemies">Colliders that were hit by a previous attack or who should not be considered for this attack.</param>
+        /// <returns></returns>
+        public IEnumerator AttackNewCollidersOnly(GameObject owner, List<Collider> previousColliders)
+        {
+            yield return new WaitForSeconds(_windUp);
+
+            List<Collider> newCollidersHit = GetUniqueColliders().Except(previousColliders).ToList();
+
+            // turns on and set line renderer showing this attack collider
+            _combo.DrawCollider(_attackColliders);
+            //Debug.LogFormat("BasicAttackCombo.AttackNewCollidersOnly(): Attack '{0}' used", _name);
+
+            // Actually damage hit objects. Add new hit colliders afterwards.
+            DamageHitColliders(newCollidersHit, owner);
+            if (previousColliders.Count > 0)
+            {
+                _hitColliders.AddRange(previousColliders);
+            }
+            if (newCollidersHit.Count > 0)
+            {
+                _hitColliders.AddRange(newCollidersHit);
+            }
+
 
             yield return new WaitForSeconds(_windDown);
 
@@ -77,22 +101,66 @@ public class BasicAttackCombo : Ability
         {
             return _windUp + _windDown;
         }
+
+        /// <summary>
+        /// Get a list of all unique colliders hit by this BasicAttack.
+        /// </summary>
+        private List<Collider> GetUniqueColliders()
+        {
+            List<Collider> uniqueEnemyColliders = new List<Collider>();
+
+            for (int i = 0; i < _attackColliders._origins.Count; i++)
+            {
+                Vector3 origin = _player.transform.position + new Vector3(_attackColliders._origins[i].x * ((_combo._spriteRenderer.flipX) ? -1 : 1), _attackColliders._origins[i].y, _attackColliders._origins[i].z);
+
+                Collider[] enemyColliders = Physics.OverlapSphere(origin, _attackColliders._radiuses[i], _combo._enemyLayers);
+
+                for (int j = 0; j < enemyColliders.Length; j++)
+                {
+                    if (!uniqueEnemyColliders.Contains(enemyColliders[j]))
+                    {
+                        uniqueEnemyColliders.Add(enemyColliders[j]);
+                    }
+                }
+            }
+
+            return uniqueEnemyColliders;
+        }
+
+        /// <summary>
+        /// Attempt to damage the colliders that were hit.
+        /// </summary>
+        /// <param name="uniqueEnemyColliders">Colliders to damage.</param>
+        /// <param name="owner">Who is attacking?</param>
+        private void DamageHitColliders(List<Collider> uniqueEnemyColliders, GameObject owner)
+        {
+            if (uniqueEnemyColliders.Count > 0)
+            {
+                foreach (Collider c in uniqueEnemyColliders)
+                {
+                    Health enemyHealth = c.GetComponent<Health>();
+
+                    if (enemyHealth != null)
+                        enemyHealth.TakeDamage(_damage, owner);
+                }
+            }
+        }
     }
 
     public LayerMask _enemyLayers;
     [SerializeField] private bool _showColliders;
-    private LineRenderer _line;
-    [SerializeField] private List<BasicAttack> _comboList;
-    private BasicAttack _currentAttackState = null;
-    private IEnumerator _midAttackCoroutine = null;
-    private BasicAttack _comboStart;
+    protected LineRenderer _line;
+    [SerializeField] protected List<BasicAttack> _comboList;
+    protected BasicAttack _currentAttackState = null;
+    protected IEnumerator _midAttackCoroutine = null;
+    protected BasicAttack _comboStart;
 
     // used to determine where player is facing
-    private SpriteRenderer _spriteRenderer;
+    protected SpriteRenderer _spriteRenderer;
 
     // how long it takes before the combo cannot be continued and must be restarted
-    [SerializeField] private float _comboResetTimer = .5f;
-    private float _timeElapsed = 0f;
+    [SerializeField] protected float _comboResetTimer = .5f;
+    protected float _timeElapsed = 0f;
 
     private void Awake()
     {
@@ -156,7 +224,7 @@ public class BasicAttackCombo : Ability
         _timeElapsed = 0f;
     }
 
-    public void OnAttackFinish(BasicAttack nextAttack)
+    public virtual void OnAttackFinish(BasicAttack nextAttack)
     {
         _currentAttackState = nextAttack;
         StopCoroutine(_midAttackCoroutine);
