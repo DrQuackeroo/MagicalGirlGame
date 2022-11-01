@@ -27,7 +27,6 @@ public class BasicAttackCombo : Ability
         [SerializeField] private float _windDown;
 
         public List<Collider> GetHitColliders() { return _hitColliders; }
-        public void ClearHitColliders() { _hitColliders.Clear(); }
         public void SetPlayer(GameObject player) { _player = player; }
         public void SetDamage(int damage) { _damage = damage; }
         public void SetWindDown(float windDown) { _windDown = windDown; }
@@ -52,7 +51,6 @@ public class BasicAttackCombo : Ability
             // Actually damage hit objects.
             DamageHitColliders(_hitColliders, owner);
             
-
             yield return new WaitForSeconds(_windDown);
 
             // turn off line renderer showing this attack collider
@@ -71,23 +69,15 @@ public class BasicAttackCombo : Ability
         {
             yield return new WaitForSeconds(_windUp);
 
-            List<Collider> newCollidersHit = GetUniqueColliders().Except(previousColliders).ToList();
+            // Get only the colliders that haven't been hit already.
+            _hitColliders = GetUniqueColliders().Except(previousColliders).ToList();
 
             // turns on and set line renderer showing this attack collider
             _combo.DrawCollider(_attackColliders);
             //Debug.LogFormat("BasicAttackCombo.AttackNewCollidersOnly(): Attack '{0}' used", _name);
 
-            // Actually damage hit objects. Add new hit colliders afterwards.
-            DamageHitColliders(newCollidersHit, owner);
-            if (previousColliders.Count > 0)
-            {
-                _hitColliders.AddRange(previousColliders);
-            }
-            if (newCollidersHit.Count > 0)
-            {
-                _hitColliders.AddRange(newCollidersHit);
-            }
-
+            // Actually damage hit objects.
+            DamageHitColliders(_hitColliders, owner);
 
             yield return new WaitForSeconds(_windDown);
 

@@ -274,22 +274,21 @@ public class PlayerControls : MonoBehaviour
     //"X" key - ability one
     private void OnAbilityOne(InputAction.CallbackContext context)
     {
-        //vv new ability system, WIP
-        int abilityNum = 0; //num will be one less than method name
-        if (abilityNum >= 0 && abilityNum < abilities.Count) abilities[abilityNum].Activate(gameObject);
-        //^^ For new ability system
-
         if (isInputLocked)
         {
             Debug.Log("Input Locked");
             return;
         }
+
+        //vv new ability system, WIP
+        int abilityNum = 0; //num will be one less than method name
+        if (abilityNum >= 0 && abilityNum < abilities.Count) abilities[abilityNum].Activate(gameObject);
+        //^^ For new ability system
+
         Debug.Log("Input: Dash");
 
         if (_canDash)
             StartCoroutine(Dash());
-
-
     }
 
     private void EndAbilityOne(InputAction.CallbackContext context)
@@ -303,16 +302,17 @@ public class PlayerControls : MonoBehaviour
     //"C" key - ability two
     private void OnAbilityTwo(InputAction.CallbackContext context)
     {
-        //vv new ability system, WIP
-        int abilityNum = 1; //num will be one less than method name
-        if (abilityNum >= 0 && abilityNum < abilities.Count) abilities[abilityNum].Activate(gameObject);
-        //^^ For new ability system
-
         if (isInputLocked)
         {
             Debug.Log("Input Locked");
             return;
         }
+
+        //vv new ability system, WIP
+        int abilityNum = 1; //num will be one less than method name
+        if (abilityNum >= 0 && abilityNum < abilities.Count) abilities[abilityNum].Activate(gameObject);
+        //^^ For new ability system
+
         Debug.Log("Input: Beam");
         if (_canBeam)
             StartCoroutine(Beam());
@@ -329,16 +329,16 @@ public class PlayerControls : MonoBehaviour
     //"V" key - ability three
     private void OnAbilityThree(InputAction.CallbackContext context)
     {
-        //vv new ability system, WIP
-        int abilityNum = 2; //num will be one less than method name
-        if (abilityNum >= 0 && abilityNum < abilities.Count) abilities[abilityNum].Activate(gameObject);
-        //^^ For new ability system
-
         if (isInputLocked)
         {
             Debug.Log("Input Locked");
             return;
         }
+
+        //vv new ability system, WIP
+        int abilityNum = 2; //num will be one less than method name
+        if (abilityNum >= 0 && abilityNum < abilities.Count) abilities[abilityNum].Activate(gameObject);
+        //^^ For new ability system
     }
 
     private void EndAbilityThree(InputAction.CallbackContext context)

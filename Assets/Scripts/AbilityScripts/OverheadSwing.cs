@@ -13,6 +13,8 @@ public class OverheadSwing : BasicAttackCombo
     protected bool hasBeenInitialized = false;
     protected GameObject _player;
     protected PlayerControls _playerControls;
+    // List of all colliders hit so far by one execution of this attack
+    protected List<Collider> _currentHitColliders = new List<Collider>();
 
     // Set variables in _comboList if override values were set in inspector.
     private void Start()
@@ -32,7 +34,6 @@ public class OverheadSwing : BasicAttackCombo
             {
                 attack.SetWindDown(interval);
             }
-            _comboResetTimer = _duration;
         }
     }
 
@@ -62,6 +63,7 @@ public class OverheadSwing : BasicAttackCombo
         if (_midAttackCoroutine != null)
             return;
 
+        _currentHitColliders.Clear();
         _midAttackCoroutine = _comboStart.AttackNewCollidersOnly(_player, new List<Collider>());
         _currentAttackState = _comboStart;
 
@@ -70,8 +72,7 @@ public class OverheadSwing : BasicAttackCombo
 
     public override void OnAttackFinish(BasicAttack nextAttack)
     {
-        List<Collider> previousColliders = new List<Collider>(_currentAttackState.GetHitColliders());
-        _currentAttackState.ClearHitColliders();
+        _currentHitColliders.AddRange(_currentAttackState.GetHitColliders());
         _currentAttackState = nextAttack;
         StopCoroutine(_midAttackCoroutine);
         _timeElapsed = 0f;
@@ -79,7 +80,7 @@ public class OverheadSwing : BasicAttackCombo
         // If there is a next attack, start it automatically. Reset _midAttackCoroutine otherwise.
         if (_currentAttackState != null)
         {
-            _midAttackCoroutine = _currentAttackState.AttackNewCollidersOnly(_player, previousColliders);
+            _midAttackCoroutine = _currentAttackState.AttackNewCollidersOnly(_player, _currentHitColliders);
             StartCoroutine(_midAttackCoroutine);
         }
         else
