@@ -33,6 +33,9 @@ public class UIAbilityIconsManager : MonoBehaviour
 
     public static void ShowCooldown(Ability ability)
     {
+        if (!_abilityIconsDict.ContainsKey(ability.GetName()))
+            return;
+
         _abilityIconsDict[ability.GetName()].StartCooldown(ability.GetCooldown());
     }
 }
