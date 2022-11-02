@@ -35,6 +35,17 @@ public class AbilityUI : MonoBehaviour
                 dd.options.Add(new TMP_Dropdown.OptionData() { text = s });
             }
         }
+        //Default abilities - add first three abilities from abilityholder as default abilities
+        AbilityHandler.ClearCurrentAbilities();
+        for (int i = 0; i < 3; i++)
+        {
+            AbilityHandler.CurrentAbilities.Add(abilities[i]);
+        }
+    }
+
+    private void Start()
+    {
+        
     }
 
     private void OnEnable()

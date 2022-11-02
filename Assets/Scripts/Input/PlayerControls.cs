@@ -37,7 +37,7 @@ public class PlayerControls : MonoBehaviour
     private bool _faceRight = true;
 
     [Header("Abilities")]
-    [SerializeField] private bool _requireAbilitySelectionOnStart;
+    [SerializeField] private bool _abilitySelectOnSpawn = false;
     private List<Ability> abilities = new List<Ability>();
 
 
@@ -88,19 +88,29 @@ public class PlayerControls : MonoBehaviour
     private void OnEnable()
     {
         EnablePlayerControls();
+        EnablePauseControl();
         AbilityHandler.OnSetAbility += GetAbilities;
         PauseHandler.OnPauseEnable += DisablePlayerControls;
         PauseHandler.OnPauseDisable += EnablePlayerControls;
-        _playerInputActions.Player.PauseMenu.Enable();
-        _playerInputActions.Player.PauseMenu.performed += OnPauseMenu;
     }
 
     private void OnDisable()
     {
         DisablePlayerControls();
+        DisablePauseControl();
         AbilityHandler.OnSetAbility -= GetAbilities;
         PauseHandler.OnPauseEnable -= DisablePlayerControls;
         PauseHandler.OnPauseDisable -= EnablePlayerControls;
+    }
+
+    public void EnablePauseControl()
+    {
+        _playerInputActions.Player.PauseMenu.Enable();
+        _playerInputActions.Player.PauseMenu.performed += OnPauseMenu;
+    }
+
+    public void DisablePauseControl()
+    {
         _playerInputActions.Player.PauseMenu.Disable();
         _playerInputActions.Player.PauseMenu.performed -= OnPauseMenu;
     }
@@ -161,7 +171,8 @@ public class PlayerControls : MonoBehaviour
 
     private void Start()
     {
-        if (_requireAbilitySelectionOnStart) AbilitySelectionOnStart();
+        if (_abilitySelectOnSpawn) AbilitySelectionOnStart(); 
+        else abilities = AbilityHandler.CurrentAbilities;
     }
 
     private void AbilitySelectionOnStart()
@@ -279,7 +290,10 @@ public class PlayerControls : MonoBehaviour
 
         //vv new ability system, WIP
         int abilityNum = 0; //num will be one less than method name
-        if (abilityNum >= 0 && abilityNum < abilities.Count) abilities[abilityNum].Activate(gameObject);
+        if (abilityNum < 0 || abilityNum >= abilities.Count) return;
+        if (abilities[abilityNum].IsOnCooldown) return;
+        StartCoroutine(abilities[abilityNum].ActivateCooldown());
+        abilities[abilityNum].Activate(gameObject);
         //^^ For new ability system
     }
 
@@ -302,7 +316,10 @@ public class PlayerControls : MonoBehaviour
 
         //vv new ability system, WIP
         int abilityNum = 1; //num will be one less than method name
-        if (abilityNum >= 0 && abilityNum < abilities.Count) abilities[abilityNum].Activate(gameObject);
+        if (abilityNum < 0 || abilityNum >= abilities.Count) return;
+        if (abilities[abilityNum].IsOnCooldown) return;
+        StartCoroutine(abilities[abilityNum].ActivateCooldown());
+        abilities[abilityNum].Activate(gameObject);
         //^^ For new ability system
 
         Debug.Log("Input: Beam");
@@ -329,7 +346,10 @@ public class PlayerControls : MonoBehaviour
 
         //vv new ability system, WIP
         int abilityNum = 2; //num will be one less than method name
-        if (abilityNum >= 0 && abilityNum < abilities.Count) abilities[abilityNum].Activate(gameObject);
+        if (abilityNum < 0 || abilityNum >= abilities.Count) return;
+        if (abilities[abilityNum].IsOnCooldown) return;
+        StartCoroutine(abilities[abilityNum].ActivateCooldown());
+        abilities[abilityNum].Activate(gameObject);
         //^^ For new ability system
     }
 

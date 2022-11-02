@@ -10,6 +10,8 @@ public abstract class Ability : MonoBehaviour
     [TextArea(3, 10), SerializeField] protected string _description = "";
     [SerializeField] protected float _cooldown = 0;
 
+    public bool IsOnCooldown { get; private set; }
+
     public string GetName() { return _displayName; }
     public Sprite GetIcon() { return _imageIcon; }
     public string GetDescription() { return _description; }
@@ -18,4 +20,11 @@ public abstract class Ability : MonoBehaviour
     public abstract void Activate(GameObject player);
     // Called when the ability button is released.
     public abstract void Deactivate(GameObject player);
+
+    public virtual IEnumerator ActivateCooldown()
+    {
+        IsOnCooldown = true;
+        yield return new WaitForSeconds(_cooldown);
+        IsOnCooldown = false;
+    }
 }

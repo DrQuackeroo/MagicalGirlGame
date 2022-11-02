@@ -1862,9 +1862,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5152138703258184190}
-  - component: {fileID: 7324371283673841161}
-  - component: {fileID: 4832078530085662260}
-  - component: {fileID: 6030889541768043700}
   - component: {fileID: 1028598629}
   - component: {fileID: 1979083295}
   - component: {fileID: 1312990970}
@@ -1891,54 +1888,6 @@ Transform:
   m_Father: {fileID: 1426806926195045965}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7324371283673841161
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2428446723640177120}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9a1540ea0426c5c41951a0fcba3ea3d2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _displayName: Ability 1
-  _imageIcon: {fileID: 0}
-  _description: 
-  _cooldown: 0
---- !u!114 &4832078530085662260
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2428446723640177120}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 98ce3ceb427a5e24dace7855e67bbc57, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _displayName: Ability 2
-  _imageIcon: {fileID: 0}
-  _description: 
-  _cooldown: 0
---- !u!114 &6030889541768043700
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2428446723640177120}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a788bd907a84c1c44871d8cec7ac8f93, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _displayName: Ability 3
-  _imageIcon: {fileID: 0}
-  _description: 
-  _cooldown: 0
 --- !u!114 &1028598629
 MonoBehaviour:
   m_ObjectHideFlags: 0
