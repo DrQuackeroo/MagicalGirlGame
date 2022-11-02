@@ -20,7 +20,6 @@ public class PlayerControls : MonoBehaviour
     [Header("Player Stats")]
     [SerializeField] private float _speedMod = 10f;
     [SerializeField] private float _jumpMod = 15f;
-    [SerializeField] private float _dashMod = 48f;
 
     [Tooltip("How much more the default Physics.gravity value affects the Player")]
     [SerializeField] private float _gravityMultiplier = 3.0f;
@@ -47,11 +46,6 @@ public class PlayerControls : MonoBehaviour
     [SerializeField] private float _tempTime = 0f;
     [SerializeField] private float _jumpCD = 0.2f;
 
-    [Header("Dash")]
-    private bool _canDash = true;
-    [SerializeField] private float _dashingTime = 0.25f;
-    [SerializeField] private float _dashCD = 1f;
-
 
     [Header("Beam")]
     [SerializeField] private float distanceRay = 20; //Has not implemented changing hitbox size yet
@@ -64,6 +58,9 @@ public class PlayerControls : MonoBehaviour
     private CharacterController _characterController;
     private Health _health;
     private Transform _playerTransform;
+
+    // Getters
+    public bool IsFacingRight() { return _faceRight; }
 
     private void Awake()
     {
@@ -284,11 +281,6 @@ public class PlayerControls : MonoBehaviour
         int abilityNum = 0; //num will be one less than method name
         if (abilityNum >= 0 && abilityNum < abilities.Count) abilities[abilityNum].Activate(gameObject);
         //^^ For new ability system
-
-        Debug.Log("Input: Dash");
-
-        if (_canDash)
-            StartCoroutine(Dash());
     }
 
     private void EndAbilityOne(InputAction.CallbackContext context)
@@ -355,38 +347,6 @@ public class PlayerControls : MonoBehaviour
     {
         PauseHandler.TogglePause();
         Debug.Log("pause menu");
-
-    }
-
-
-
-    private IEnumerator Dash()
-    {
-        Debug.Log("Dash Start");
-
-        _canDash = false;
-        isInputLocked = true;
-        applyGravity = false;
-        Physics.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Enemy"), true);
-
-
-        if (_faceRight)
-            velocity = new Vector3(_dashMod, 0.0f, 0.0f);
-        else
-            velocity = new Vector3(-_dashMod, 0.0f, 0.0f);
-
-        yield return new WaitForSeconds(_dashingTime);
-
-        Debug.Log("Dash End");
-
-        isInputLocked = false;
-        applyGravity = true;
-        velocity = Vector3.zero;
-        Physics.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Enemy"), false);
-
-        yield return new WaitForSeconds(_dashCD);
-        Debug.Log("Dash Refresh");
-        _canDash = true;
 
     }
 

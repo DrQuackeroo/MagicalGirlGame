@@ -1952,26 +1952,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1028598629, guid: 0fb6dbd8d1e44404facd33b230981783, type: 3}
-      propertyPath: _imageIcon
-      value: 
-      objectReference: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
-    - target: {fileID: 1028598629, guid: 0fb6dbd8d1e44404facd33b230981783, type: 3}
-      propertyPath: _description
-      value: Block attacks from the front.
-      objectReference: {fileID: 0}
-    - target: {fileID: 1979083295, guid: 0fb6dbd8d1e44404facd33b230981783, type: 3}
-      propertyPath: _cooldown
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 1979083295, guid: 0fb6dbd8d1e44404facd33b230981783, type: 3}
-      propertyPath: _imageIcon
-      value: 
-      objectReference: {fileID: 21300000, guid: b52fb3884e51c3043979209d91defaff, type: 3}
-    - target: {fileID: 1979083295, guid: 0fb6dbd8d1e44404facd33b230981783, type: 3}
-      propertyPath: _description
-      value: 'Big overhead swing that hits enemies above and to the side. '
-      objectReference: {fileID: 0}
     - target: {fileID: 1426806926195045965, guid: 0fb6dbd8d1e44404facd33b230981783, type: 3}
       propertyPath: m_RootOrder
       value: 17
