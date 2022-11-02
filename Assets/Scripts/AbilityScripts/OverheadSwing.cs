@@ -2,12 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Can be modified to perform any number of attack hitboxes in series.
+/// </summary>
 public class OverheadSwing : BasicAttackCombo
 {
     [Tooltip("How much damage this attack does. If negative, damage will be set to Damage values in 'Combo List'.")]
     [SerializeField] protected int _damage = 40;
     [Tooltip("How long this attack takes in total. If negative, duration will be total Wind Up + Wind Down times in 'Combo List'.")]
     [SerializeField] protected float _duration = 0.25f;
+    [Tooltip("Should the Player's y-position remain the same during this Ability?")]
+    [SerializeField] protected bool _stopMidairWhileExecuting = false;
 
     // True if Activate() has been called before on this script.
     protected bool hasBeenInitialized = false;
@@ -58,6 +63,11 @@ public class OverheadSwing : BasicAttackCombo
         // Halt player movement. Might be a better way to do this in general, if you want to improve it.
         _playerControls.isInputLocked = true;
         _playerControls.velocity.x = 0.0f;
+        if (_stopMidairWhileExecuting)
+        {
+            _playerControls.applyGravity = false;
+            _playerControls.velocity.y = 0.0f;
+        }
 
         // prevents player from spamming basic attack while already mid-animation in an attack
         if (_midAttackCoroutine != null)
@@ -87,6 +97,7 @@ public class OverheadSwing : BasicAttackCombo
         {
             _midAttackCoroutine = null;
             _playerControls.isInputLocked = false;
+            _playerControls.applyGravity = true;
             UIAbilityIconsManager.ShowCooldown(this);
         }
     }
