@@ -58,6 +58,7 @@ public class PlayerControls : MonoBehaviour
     private CharacterController _characterController;
     private Health _health;
     private Transform _playerTransform;
+    private CameraController _cameraController;
 
     // Getters
     public bool IsFacingRight() { return _faceRight; }
@@ -68,6 +69,7 @@ public class PlayerControls : MonoBehaviour
         _spriteRenderer = GetComponent<SpriteRenderer>();
         _basicAttackCombo = GetComponent<BasicAttackCombo>();
         _characterController = GetComponent<CharacterController>();
+        _cameraController = transform.GetComponentInChildren<CameraController>();
         _health = GetComponent<Health>();
         _health.eventAttackBlocked.AddListener(AttackBlocked);
 
@@ -212,6 +214,9 @@ public class PlayerControls : MonoBehaviour
             velocity.x = Mathf.Max(0.0f, Mathf.Abs(velocity.x) - _frictionDeceleration * Time.deltaTime) * (velocity.x / Mathf.Abs(velocity.x));
 
         _characterController.Move(velocity * Time.deltaTime);
+
+        // Update the camera position at the same time the Player moves.
+        _cameraController.UpdatePosition();
     }
 
     // "Left Arrow/Right Arrow" keys - movement
