@@ -406,5 +406,31 @@ public class PlayerControls : MonoBehaviour
     }
 
 
+    // TODO: Testing some hit effect stuff
+    private bool _isTimeSlowed = false;
+    public void SlowdownTime()
+    {
+        print("Slow down time now");
+        //IEnumerable slowdownCoroutine = Slowdown();
+        if (_isTimeSlowed)
+        {
+            StopCoroutine(Slowdown());
+        }
+        StartCoroutine(Slowdown());
+    }
+
+    // TODO: Testing hit effects
+    private IEnumerator Slowdown()
+    {
+        // TODO: Fix bad interaction with pause/unpause menu.
+
+        Time.timeScale = 0.025f;
+        _isTimeSlowed = true;
+
+        yield return new WaitForSecondsRealtime(0.05f);
+
+        Time.timeScale = 1.0f;
+        _isTimeSlowed = false;
+    }
 
 }

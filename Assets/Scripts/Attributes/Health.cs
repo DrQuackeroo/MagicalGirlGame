@@ -72,6 +72,10 @@ public class Health : MonoBehaviour
         {
             gameObject.GetComponent<DamageIndicator>().CreateDamageIndicator(damageTaken, transform.position, 
                                                                              gameObject.GetComponent<Collider>().bounds.extents.y);
+
+            // TODO: Testing hit effects
+            // Assumes that only Enemies have damage indicators
+            //GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerControls>().SlowdownTime();
         }
         
 
