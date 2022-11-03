@@ -24,6 +24,7 @@ public abstract class Ability : MonoBehaviour
     public virtual IEnumerator ActivateCooldown()
     {
         IsOnCooldown = true;
+        UIAbilityIconsManager.ShowCooldown(this);
         yield return new WaitForSeconds(_cooldown);
         IsOnCooldown = false;
     }
