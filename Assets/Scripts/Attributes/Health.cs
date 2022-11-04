@@ -18,6 +18,8 @@ public class Health : MonoBehaviour
     // Invoked when an attack was just blocked.
     [HideInInspector] public UnityEvent eventAttackBlocked;
     [HideInInspector] public bool isBlocking;
+    // Invoked when owner's health is reduced.
+    [HideInInspector] public UnityEvent eventTookDamage;
 
     [SerializeField] private int _maxHealth = 100;
     [SerializeField] private bool _printToConsole = true;
@@ -66,6 +68,7 @@ public class Health : MonoBehaviour
 
         // Owner cannot block the damage, so reduce _currentHealth
         _currentHealth -= damageTaken;
+        eventTookDamage.Invoke();
         if (_printToConsole is true) {Debug.LogFormat("{0} took {1} damage", gameObject.name, damageTaken);}
         // if the object has a DamageIndicator script then we want to create a damage indicator
         if (gameObject.GetComponent<DamageIndicator>() != null)

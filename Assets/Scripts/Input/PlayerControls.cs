@@ -59,6 +59,10 @@ public class PlayerControls : MonoBehaviour
     private Health _health;
     private Transform _playerTransform;
     private CameraController _cameraController;
+    private Animator _animator;
+
+    // Animation variables need to be hashed before they can be set in code.
+    protected readonly int _hashTookDamage = Animator.StringToHash("TookDamage");
 
     // Getters
     public bool IsFacingRight() { return _faceRight; }
@@ -72,6 +76,8 @@ public class PlayerControls : MonoBehaviour
         _cameraController = transform.GetComponentInChildren<CameraController>();
         _health = GetComponent<Health>();
         _health.eventAttackBlocked.AddListener(AttackBlocked);
+        _health.eventTookDamage.AddListener(TookDamage);
+        _animator = GetComponent<Animator>();
 
 
 
@@ -243,6 +249,15 @@ public class PlayerControls : MonoBehaviour
             velocity.x -= _blockKnockbackVelocity;
         else
             velocity.x += _blockKnockbackVelocity;
+    }
+
+    /// <summary>
+    /// Invoked when the Player takes damage. Causes blinking animation.
+    /// </summary>
+    private void TookDamage()
+    {
+        print("Took damage");
+        _animator.SetTrigger(_hashTookDamage);
     }
 
 
