@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 4914356325663459521}
   - component: {fileID: 866719938791137814}
   - component: {fileID: 945642454}
+  - component: {fileID: 1872277376}
   m_Layer: 7
   m_Name: Player
   m_TagString: Player
@@ -129,7 +130,7 @@ MonoBehaviour:
   applyGravity: 1
   applyFriction: 0
   velocity: {x: 0, y: 0, z: 0}
-  _abilitySelectOnSpawn: 0
+  _abilitySelectOnSpawn: 1
   _jumpsRemaining: 2
   _tempTime: 0
   _jumpCD: 0.2
@@ -211,6 +212,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   isBlocking: 0
+  eventTookDamage:
+    m_PersistentCalls:
+      m_Calls: []
   _maxHealth: 100
   _printToConsole: 1
   _blockAngle: 45
@@ -332,9 +336,32 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   isBlocking: 0
+  eventTookDamage:
+    m_PersistentCalls:
+      m_Calls: []
   _maxHealth: 100
   _printToConsole: 1
   _blockAngle: 45
+--- !u!95 &1872277376
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 866719938791137809}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 9852860dfca2d534fba1e8e3870a56c2, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &866719938975004461
 GameObject:
   m_ObjectHideFlags: 0

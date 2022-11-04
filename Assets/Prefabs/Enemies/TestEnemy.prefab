@@ -127,6 +127,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   isBlocking: 0
+  eventTookDamage:
+    m_PersistentCalls:
+      m_Calls: []
   _maxHealth: 100
   _printToConsole: 1
   _blockAngle: 45
@@ -159,13 +162,14 @@ MonoBehaviour:
   _displayName: 
   _imageIcon: {fileID: 0}
   _description: 
+  _cooldown: 0
   _enemyLayers:
     serializedVersion: 2
     m_Bits: 128
   _showColliders: 1
   _comboList:
   - _name: Slash
-    _damage: 1
+    _damage: 3
     _attackColliders:
       _origins:
       - {x: 1.25, y: 1, z: 0}
