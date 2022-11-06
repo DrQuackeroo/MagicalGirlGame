@@ -341,10 +341,6 @@ public class PlayerControls : MonoBehaviour
         StartCoroutine(abilities[abilityNum].ActivateCooldown());
         abilities[abilityNum].Activate(gameObject);
         //^^ For new ability system
-
-        Debug.Log("Input: Beam");
-        if (_canBeam)
-            StartCoroutine(Beam());
     }
 
     private void EndAbilityTwo(InputAction.CallbackContext context)
