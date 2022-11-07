@@ -2048,7 +2048,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _displayName: Block
-  _imageIcon: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+  _imageIcon: {fileID: 21300000, guid: ab903c47f665b0c4d98170003dcdcc7f, type: 3}
   _description: Block attacks from the front.
   _cooldown: 0
   _shieldPrefab: {fileID: 1336845220168289153, guid: 460da323713ec0a4b9454a02e089f2e7, type: 3}
@@ -2065,7 +2065,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _displayName: 'Overhead Swing '
-  _imageIcon: {fileID: 21300000, guid: b52fb3884e51c3043979209d91defaff, type: 3}
+  _imageIcon: {fileID: 21300000, guid: b3255515fadc9194eae11c1e18556863, type: 3}
   _description: 'Big overhead swing that hits enemies above and to the side. '
   _cooldown: 4
   _enemyLayers:
@@ -2135,7 +2135,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _displayName: Dash
-  _imageIcon: {fileID: 21300000, guid: ee5ab12db0b73344f9a1c89177d56025, type: 3}
+  _imageIcon: {fileID: 21300000, guid: c41c07e97e4c7a24d99dcd8066edb4d1, type: 3}
   _description: Dash really fast!
   _cooldown: 1
   _dashSpeed: 48
@@ -2153,7 +2153,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _displayName: Explosion
-  _imageIcon: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+  _imageIcon: {fileID: 21300000, guid: da0d970f2bfc6c04fa92a6419013813b, type: 3}
   _description: Omega huge AoE around the player.
   _cooldown: 10
   _enemyLayers:
