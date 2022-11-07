@@ -4,10 +4,14 @@ using UnityEngine;
 
 public class Block : Ability
 {
+    [Tooltip("A shield sprite that will appear when the Player blocks. Will be used during testing for now.")]
+    [SerializeField] protected GameObject _shieldPrefab;
+
     protected GameObject _player;
     protected PlayerControls _playerControls;
     protected Health _health;
     protected SpriteRenderer _spriteRenderer;
+    protected GameObject _shield;
 
     public override void Activate(GameObject player)
     {
@@ -18,17 +22,24 @@ public class Block : Ability
             _playerControls = player.GetComponent<PlayerControls>();
             _health = player.GetComponent<Health>();
             _spriteRenderer = player.GetComponent<SpriteRenderer>();
+
+
+            // Make the shield sprite
+            _shield = Instantiate(_shieldPrefab, _player.transform.position, _player.transform.rotation, _player.transform);
         }
+
+        if (_playerControls.IsFacingRight())
+            _shield.transform.localScale = new Vector3(1, 1, 1);
+        else
+            _shield.transform.localScale = new Vector3(-1, 1, 1);
 
         _health.isBlocking = true;
         _playerControls.isInputLocked = true;
         _playerControls.applyFriction = true;
+        _shield.SetActive(true);
 
         // Halt x-axis movement when blocking begins.
         _playerControls.velocity.x = 0.0f;
-
-        // TESTING: Changes color when blocking
-        _spriteRenderer.color = Color.blue;
     }
 
     public override void Deactivate(GameObject player)
@@ -40,9 +51,7 @@ public class Block : Ability
             _health.isBlocking = false;
             _playerControls.isInputLocked = false;
             _playerControls.applyFriction = false;
-
-            // TESTING: Changes color when blocking
-            _spriteRenderer.color = Color.white;
+            _shield.SetActive(false);
 
             UIAbilityIconsManager.ShowCooldown(this);
         }

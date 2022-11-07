@@ -2051,6 +2051,7 @@ MonoBehaviour:
   _imageIcon: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
   _description: Block attacks from the front.
   _cooldown: 0
+  _shieldPrefab: {fileID: 1336845220168289153, guid: 460da323713ec0a4b9454a02e089f2e7, type: 3}
 --- !u!114 &1979083295
 MonoBehaviour:
   m_ObjectHideFlags: 0
