@@ -1926,7 +1926,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 866719938791137812, guid: 9a8acea2dc2bae543a290a7d65555a55, type: 3}
       propertyPath: _abilitySelectOnSpawn
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 866719938791137813, guid: 9a8acea2dc2bae543a290a7d65555a55, type: 3}
       propertyPath: m_RootOrder
@@ -2220,6 +2220,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1312990977, guid: 0fb6dbd8d1e44404facd33b230981783, type: 3}
+      propertyPath: _cooldown
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1426806926195045965, guid: 0fb6dbd8d1e44404facd33b230981783, type: 3}
       propertyPath: m_RootOrder
       value: 16

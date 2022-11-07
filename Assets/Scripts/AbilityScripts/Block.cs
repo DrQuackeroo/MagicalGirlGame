@@ -33,13 +33,18 @@ public class Block : Ability
 
     public override void Deactivate(GameObject player)
     {
-        _health.isBlocking = false;
-        _playerControls.isInputLocked = false;
-        _playerControls.applyFriction = false;
+        // Hack solution. To prevent Deactivate() from being called when Block was never activated to begin with, check isBlocking first.
+        // Should be generalized by calling Ability.Deactivate in PlayerControls.cs only if the associated ability is running.
+        if (_health.isBlocking)
+        {
+            _health.isBlocking = false;
+            _playerControls.isInputLocked = false;
+            _playerControls.applyFriction = false;
 
-        // TESTING: Changes color when blocking
-        _spriteRenderer.color = Color.white;
+            // TESTING: Changes color when blocking
+            _spriteRenderer.color = Color.white;
 
-        UIAbilityIconsManager.ShowCooldown(this);
+            UIAbilityIconsManager.ShowCooldown(this);
+        }
     }
 }
