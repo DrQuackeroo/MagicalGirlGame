@@ -36,6 +36,8 @@ public class Enemy : MonoBehaviour
     // Animation variables need to be hashed before they can be set in code.
     protected readonly int _hashPlayerHasBeenSighted = Animator.StringToHash("PlayerHasBeenSighted");
     protected readonly int _hashPlayerWithinAttackRange = Animator.StringToHash("PlayerWithinAttackRange");
+    // TODO: Testing stunned state
+    protected readonly int _hashStunned = Animator.StringToHash("Stunned");
 
     public float GetAttackRange() { return _attackRange; }
 
@@ -82,15 +84,6 @@ public class Enemy : MonoBehaviour
                 _isFacingRight == _player.transform.position.x - transform.position.x > 0.0f &&
                 Vector3.Distance(_player.transform.position, transform.position) <= _attackRange);
         }
-
-        // NavMeshAgent needs to be disabled and Rigidbody.isKinematic needs to be set to false for physics-based forces to be applied.
-        // Reverse the process to return to NavMesh movement.
-        // For example, if the Enemy is launched by a Player attack, Enemy movement would switch to being controlled by physics.
-        // https://docs.unity3d.com/Manual/nav-MixingComponents.html for more details.
-
-        //GetComponent<NavMeshAgent>().enabled = false;
-        //GetComponent<Rigidbody>().isKinematic = false;
-        //GetComponent<Rigidbody>().AddForce(Vector3.up * 1000.0f);
     }
 
     /// <summary>
@@ -122,6 +115,8 @@ public class Enemy : MonoBehaviour
     /// <returns>The total duration of the executed attack.</returns>
     public virtual float Attack()
     {
+        // TODO: Testing stunned state
+        _animator.SetBool(_hashStunned, true);
         _basicAttackCombo.Activate(gameObject);
         return _basicAttackCombo.GetCurrentAttackDuration();
     }
