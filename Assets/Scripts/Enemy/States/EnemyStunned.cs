@@ -8,8 +8,10 @@ public class EnemyStunned : StateMachineBehaviour
     private Rigidbody _rigidbody;
     private NavMeshAgent _navMeshAgent;
     private Enemy _enemy;
+    private EnemyFlier _enemyFlier;
     private Health _health;
     private float _currentStunTime = 0.0f;
+    // TODO: Set to some value from inspector or const 
     private float _minimumStunTime = 0.1f;
 
     private readonly int _hashStunnedEnd = Animator.StringToHash("StunnedEnd");
@@ -22,6 +24,7 @@ public class EnemyStunned : StateMachineBehaviour
             _rigidbody = animator.GetComponent<Rigidbody>();
             _navMeshAgent = animator.GetComponent<NavMeshAgent>();
             _enemy = animator.GetComponent<Enemy>();
+            _enemyFlier = animator.GetComponent<EnemyFlier>();
             _health = animator.GetComponent<Health>();
         }
 
@@ -30,10 +33,10 @@ public class EnemyStunned : StateMachineBehaviour
         // For example, if the Enemy is launched by a Player attack, Enemy movement would switch to being controlled by physics.
         // https://docs.unity3d.com/Manual/nav-MixingComponents.html for more details.
 
-        //GetComponent<NavMeshAgent>().enabled = false;
-        //GetComponent<Rigidbody>().isKinematic = false;
-        //GetComponent<Rigidbody>().AddForce(Vector3.up * 1000.0f);
-        _navMeshAgent.enabled = false;
+        if (_navMeshAgent != null)
+            _navMeshAgent.enabled = false;
+        if (_enemyFlier != null)
+            _enemyFlier.isStopped = true;
         _rigidbody.isKinematic = false;
         _rigidbody.AddForce(_health.GetKnockbackToApply(), ForceMode.Impulse);
         _currentStunTime = 0.0f;
@@ -59,6 +62,8 @@ public class EnemyStunned : StateMachineBehaviour
         Debug.Log("Exit state");
         if (_navMeshAgent != null)
             _navMeshAgent.enabled = true;
+        if (_enemyFlier != null)
+            _enemyFlier.isStopped = false;
         if (_rigidbody != null)
             _rigidbody.isKinematic = true;
     }

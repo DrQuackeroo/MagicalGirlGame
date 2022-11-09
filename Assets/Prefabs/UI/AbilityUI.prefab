@@ -2209,11 +2209,11 @@ MonoBehaviour:
       - {x: 0, y: 0, z: 0}
       _radiuses:
       - 10
-    _windUp: 0.25
-    _windDown: 0.1
+    _windUp: 0
+    _windDown: 0.15
     _knockbackImpulse: {x: 12, y: 12}
   _comboResetTimer: 0.5
-  _damage: 40
+  _damage: 15
   _duration: 0.25
   _stopMidairWhileExecuting: 0
 --- !u!1 &2785752141849177927
