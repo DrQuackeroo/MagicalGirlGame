@@ -56,7 +56,7 @@ public class Laser : MonoBehaviour
                 Health enemyHealth = hitColliders[i].GetComponent<Health>();
 
                 if (enemyHealth != null)
-                    enemyHealth.TakeDamage(_damage, _owner);
+                    enemyHealth.TakeDamage(new DamageParameters(_damage, _owner));
             }
 
         }

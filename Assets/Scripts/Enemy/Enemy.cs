@@ -38,6 +38,7 @@ public class Enemy : MonoBehaviour
     protected readonly int _hashPlayerWithinAttackRange = Animator.StringToHash("PlayerWithinAttackRange");
     // TODO: Testing stunned state
     protected readonly int _hashStunned = Animator.StringToHash("Stunned");
+    protected readonly int _hashStunnedStart = Animator.StringToHash("StunnedStart");
 
     public float GetAttackRange() { return _attackRange; }
 
@@ -53,6 +54,7 @@ public class Enemy : MonoBehaviour
         _health = GetComponent<Health>();
 
         _health.eventHasDied.AddListener(HasDied);
+        _health.eventTookDamage.AddListener(WasHit);
     }
 
     // Update is called once per frame
@@ -115,9 +117,15 @@ public class Enemy : MonoBehaviour
     /// <returns>The total duration of the executed attack.</returns>
     public virtual float Attack()
     {
-        // TODO: Testing stunned state
-        _animator.SetBool(_hashStunned, true);
         _basicAttackCombo.Activate(gameObject);
         return _basicAttackCombo.GetCurrentAttackDuration();
+    }
+
+    /// <summary>
+    /// TODO: Testing getting stunned
+    /// </summary>
+    public virtual void WasHit()
+    {
+        _animator.SetTrigger(_hashStunnedStart);
     }
 }

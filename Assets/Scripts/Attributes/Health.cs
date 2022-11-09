@@ -3,6 +3,47 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
+/// <summary>
+/// Used to communicate parameters when calling Health.TakeDamage(). Data is used to make damage-related calculations. Can be modified to pass more information.
+/// </summary>
+public struct DamageParameters
+{
+    public DamageParameters(int d, GameObject character)
+    {
+        Damage = d;
+        AttackingCharacter = character;
+        DamagingObject = character;
+        HasKnockback = false;
+        Knockback = Vector3.zero;
+    }
+
+    public DamageParameters(int d, GameObject character, GameObject dObject)
+    {
+        Damage = d;
+        AttackingCharacter = character;
+        DamagingObject = dObject;
+        HasKnockback = false;
+        Knockback = Vector3.zero;
+    }
+
+    public DamageParameters(int d, GameObject character, Vector2 knockback)
+    {
+        Damage = d;
+        AttackingCharacter = character;
+        DamagingObject = character;
+        HasKnockback = knockback != Vector2.zero;
+        Knockback = new Vector3(knockback.x, knockback.y, 0.0f);
+    }
+
+    public int Damage { get; }
+    // The Enemy/Player that caused this damage
+    public GameObject AttackingCharacter { get; }
+    // Object that directly dealt damage. Different from AttackingCharacter for projectiles.
+    public GameObject DamagingObject { get; }
+    public bool HasKnockback { get; }
+    // Impulse to apply if this attack hits.
+    public Vector3 Knockback { get; }
+}
 
 /// <summary>
 /// Basic component for any object that has health.
@@ -28,8 +69,11 @@ public class Health : MonoBehaviour
     private int _currentHealth;
     private bool _isAlive;
     private bool _facingRight = true;
+    // Current amount of knockback impulse that will be applied to this Enemy once they transition into the Stunned state.
+    private Vector3 _knockbackToApply = Vector3.zero;
 
     public void SetFacingRight(bool value) { _facingRight = value; }
+    public Vector3 GetKnockbackToApply() { return _knockbackToApply; }
 
 
     void Start()
@@ -47,15 +91,14 @@ public class Health : MonoBehaviour
     /// <summary>
     /// Attempt to damage this component's owner. Damage could fail to apply if the owner is blocking.
     /// </summary>
-    /// <param name="damageTaken">Amount of damage attacker is trying to apply.</param>
-    /// <param name="attacker">What object is trying to damage this owner. Should be another character or a projectile.</param>
-    public void TakeDamage(int damageTaken, GameObject attacker)
+    /// <param name="damageParameters">Struct containing information for this damage attempt.</param>
+    public void TakeDamage(DamageParameters parameters)
     {
         // Check if the owner is blocking
-        if (isBlocking && attacker != null)
+        if (isBlocking && parameters.DamagingObject != null)
         {
             // Attacks should only be blocked if they come from in front of this character. Use angle between attacker and blocker to check if in front.
-            float angleToAttacker = Mathf.Abs(Vector3.Angle(gameObject.transform.right, attacker.transform.position - transform.position));
+            float angleToAttacker = Mathf.Abs(Vector3.Angle(gameObject.transform.right, parameters.DamagingObject.transform.position - transform.position));
             if (!_facingRight)
                 angleToAttacker = 180.0f - angleToAttacker;
 
@@ -67,13 +110,15 @@ public class Health : MonoBehaviour
         }
 
         // Owner cannot block the damage, so reduce _currentHealth
-        _currentHealth -= damageTaken;
+        _currentHealth -= parameters.Damage;
+        if (parameters.HasKnockback)
+            _knockbackToApply = parameters.Knockback;
         eventTookDamage.Invoke();
-        if (_printToConsole is true) {Debug.LogFormat("{0} took {1} damage", gameObject.name, damageTaken);}
+        if (_printToConsole is true) {Debug.LogFormat("{0} took {1} damage", gameObject.name, parameters.Damage);}
         // if the object has a DamageIndicator script then we want to create a damage indicator
         if (gameObject.GetComponent<DamageIndicator>() != null)
         {
-            gameObject.GetComponent<DamageIndicator>().CreateDamageIndicator(damageTaken, transform.position, 
+            gameObject.GetComponent<DamageIndicator>().CreateDamageIndicator(parameters.Damage, transform.position, 
                                                                              gameObject.GetComponent<Collider>().bounds.extents.y);
 
             // TODO: Testing hit effects
@@ -104,7 +149,7 @@ public class Health : MonoBehaviour
 
     public void Kill()
     {
-        TakeDamage(_currentHealth, null);
+        TakeDamage(new DamageParameters(_currentHealth, null));
     }
 
     public int GetMaxHealth()

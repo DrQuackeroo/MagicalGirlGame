@@ -25,6 +25,8 @@ public class BasicAttackCombo : Ability
         [SerializeField] private AttackColliderInfo _attackColliders;
         [SerializeField] private float _windUp;
         [SerializeField] private float _windDown;
+        [Tooltip("Knockback to apply if this attack hits. Positive x-values will push targets away from the attacker.")]
+        [SerializeField] private Vector2 _knockbackImpulse = Vector2.zero;
 
         public List<Collider> GetHitColliders() { return _hitColliders; }
         public void SetPlayer(GameObject player) { _player = player; }
@@ -131,7 +133,7 @@ public class BasicAttackCombo : Ability
                     Health enemyHealth = c.GetComponent<Health>();
 
                     if (enemyHealth != null)
-                        enemyHealth.TakeDamage(_damage, owner);
+                        enemyHealth.TakeDamage(new DamageParameters(_damage, owner, _knockbackImpulse));
                 }
             }
         }

@@ -7,6 +7,8 @@ public class EnemyStunned : StateMachineBehaviour
 {
     private Rigidbody _rigidbody;
     private NavMeshAgent _navMeshAgent;
+    private Enemy _enemy;
+    private Health _health;
 
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -15,6 +17,8 @@ public class EnemyStunned : StateMachineBehaviour
         {
             _rigidbody = animator.GetComponent<Rigidbody>();
             _navMeshAgent = animator.GetComponent<NavMeshAgent>();
+            _enemy = animator.GetComponent<Enemy>();
+            _health = animator.GetComponent<Health>();
         }
 
         // NavMeshAgent needs to be disabled and Rigidbody.isKinematic needs to be set to false for physics-based forces to be applied.
@@ -27,13 +31,13 @@ public class EnemyStunned : StateMachineBehaviour
         //GetComponent<Rigidbody>().AddForce(Vector3.up * 1000.0f);
         _navMeshAgent.enabled = false;
         _rigidbody.isKinematic = false;
-        _rigidbody.AddForce(Vector3.up * 500.0f);
+        _rigidbody.AddForce(_health.GetKnockbackToApply(), ForceMode.Impulse);
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-
+        
     }
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
