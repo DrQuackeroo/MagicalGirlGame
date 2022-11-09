@@ -18,8 +18,10 @@ public class AbilityUI : MonoBehaviour
     [SerializeField] private List<TMP_Dropdown> _dropdownList;
     [SerializeField] private TMP_Text _errorText;
 
-    [Tooltip("Reference to the Ability Button prefab asset. Will be spawned at runtime for each Ability")]
+    [Tooltip("Reference to the Ability Button prefab asset. Will be spawned at runtime for each Ability.")]
     [SerializeField] private GameObject _abilityButtonPrefab;
+    [Tooltip("List of TextMeshPro components that will display each selected Ability name.")]
+    [SerializeField] private List<TMP_Text> _abilityTextList;
 
     private Dictionary<string, Ability> allAbilitiesDict = new Dictionary<string, Ability>();
     private List<string> _selectedAbilityNames = new List<string>();
@@ -56,6 +58,7 @@ public class AbilityUI : MonoBehaviour
         for (int i = 0; i < MaxAbilities; i++)
         {
             _selectedAbilityNames.Add("");
+            _abilityTextList[i].text = "";
         }
     }
 
@@ -93,12 +96,11 @@ public class AbilityUI : MonoBehaviour
                 // We are unable to add the Ability.
                 // TODO: Change error message
                 Debug.LogError("Unable To add ability");
-                foreach (string s in _selectedAbilityNames)
-                    print(s);
                 return false;
             }
 
             _selectedAbilityNames[i] = abilityName;
+            _abilityTextList[i].text = abilityName;
         }
         // Remove this Ability from _selectedAbilityNames
         else
@@ -107,11 +109,9 @@ public class AbilityUI : MonoBehaviour
             if (i > -1)
             {
                 _selectedAbilityNames[i] = "";
+                _abilityTextList[i].text = "";
             }
         }
-
-        foreach (string s in _selectedAbilityNames)
-            print(s);
 
         return true;
     }
@@ -127,17 +127,17 @@ public class AbilityUI : MonoBehaviour
     {
         try
         {
-            List<string> ability_names = new List<string>();
-            foreach (TMP_Dropdown dd in _dropdownList)
+            //List<string> ability_names = new List<string>();
+            foreach (string s in _selectedAbilityNames)
             {
-                string temp = dd.options[dd.value].text;
-                if (temp.Equals("")) throw new NullAbilityChosenError();
-                if (ability_names.Contains(temp)) throw new RepeatAbilityError();
-                ability_names.Add(temp);
+                //string temp = dd.options[dd.value].text;
+                if (s.Equals("")) throw new NullAbilityChosenError();
+                //if (ability_names.Contains(temp)) throw new RepeatAbilityError();
+                //ability_names.Add(temp);
             }
             _errorText.text = "";
             List<Ability> ability_real = new List<Ability>();
-            foreach (string name in ability_names)
+            foreach (string name in _selectedAbilityNames)
             {
                 ability_real.Add(allAbilitiesDict[name]);
             }
