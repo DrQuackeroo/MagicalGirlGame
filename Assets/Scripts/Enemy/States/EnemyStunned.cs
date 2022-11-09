@@ -9,6 +9,10 @@ public class EnemyStunned : StateMachineBehaviour
     private NavMeshAgent _navMeshAgent;
     private Enemy _enemy;
     private Health _health;
+    private float _currentStunTime = 0.0f;
+    private float _minimumStunTime = 0.1f;
+
+    private readonly int _hashStunnedEnd = Animator.StringToHash("StunnedEnd");
 
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -32,12 +36,21 @@ public class EnemyStunned : StateMachineBehaviour
         _navMeshAgent.enabled = false;
         _rigidbody.isKinematic = false;
         _rigidbody.AddForce(_health.GetKnockbackToApply(), ForceMode.Impulse);
+        _currentStunTime = 0.0f;
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        
+        // Enemy resumes movement once they stop moving. Should probably be modified later because it doesn't work in all cases.
+        if (_currentStunTime > _minimumStunTime && _rigidbody.velocity.sqrMagnitude == 0.0f)
+        {
+            animator.SetTrigger(_hashStunnedEnd);
+        }
+        else
+        {
+            _currentStunTime += Time.deltaTime;
+        }
     }
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state

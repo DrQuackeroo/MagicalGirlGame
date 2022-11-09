@@ -2013,6 +2013,7 @@ GameObject:
   - component: {fileID: 1979083295}
   - component: {fileID: 1312990970}
   - component: {fileID: 1312990977}
+  - component: {fileID: 601606821}
   m_Layer: 0
   m_Name: AbilityHolder
   m_TagString: Untagged
@@ -2082,6 +2083,7 @@ MonoBehaviour:
       - 0.5
     _windUp: 0
     _windDown: 0.5
+    _knockbackImpulse: {x: 0, y: 0}
   - _name: Second hit
     _damage: 10
     _attackColliders:
@@ -2091,6 +2093,7 @@ MonoBehaviour:
       - 1
     _windUp: 0
     _windDown: 0.5
+    _knockbackImpulse: {x: 0, y: 0}
   - _name: Thrid hit
     _damage: 10
     _attackColliders:
@@ -2100,6 +2103,7 @@ MonoBehaviour:
       - 1
     _windUp: 0
     _windDown: 0.5
+    _knockbackImpulse: {x: 0, y: 0}
   - _name: Fourth hit
     _damage: 10
     _attackColliders:
@@ -2109,6 +2113,7 @@ MonoBehaviour:
       - 1
     _windUp: 0
     _windDown: 0.5
+    _knockbackImpulse: {x: 0, y: 0}
   - _name: Fifth hit
     _damage: 10
     _attackColliders:
@@ -2118,6 +2123,7 @@ MonoBehaviour:
       - 2
     _windUp: 0
     _windDown: 0.5
+    _knockbackImpulse: {x: 0, y: 0}
   _comboResetTimer: 1
   _damage: 60
   _duration: 0.15
@@ -2170,10 +2176,46 @@ MonoBehaviour:
       - 10
     _windUp: 0.75
     _windDown: 0.25
+    _knockbackImpulse: {x: 0, y: 0}
   _comboResetTimer: 0.5
   _damage: 100
   _duration: -1
   _stopMidairWhileExecuting: 1
+--- !u!114 &601606821
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2428446723640177120}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78aaa76deb0ab2b45be312cda361f97d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _displayName: Shove
+  _imageIcon: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+  _description: Push back all the enemies around the player.
+  _cooldown: 1
+  _enemyLayers:
+    serializedVersion: 2
+    m_Bits: 64
+  _showColliders: 0
+  _comboList:
+  - _name: Shove
+    _damage: 20
+    _attackColliders:
+      _origins:
+      - {x: 0, y: 0, z: 0}
+      _radiuses:
+      - 10
+    _windUp: 0.25
+    _windDown: 0.1
+    _knockbackImpulse: {x: 12, y: 12}
+  _comboResetTimer: 0.5
+  _damage: 40
+  _duration: 0.25
+  _stopMidairWhileExecuting: 0
 --- !u!1 &2785752141849177927
 GameObject:
   m_ObjectHideFlags: 0

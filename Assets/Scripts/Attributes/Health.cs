@@ -91,7 +91,7 @@ public class Health : MonoBehaviour
     /// <summary>
     /// Attempt to damage this component's owner. Damage could fail to apply if the owner is blocking.
     /// </summary>
-    /// <param name="damageParameters">Struct containing information for this damage attempt.</param>
+    /// <param name="parameters">Struct containing information for this damage attempt.</param>
     public void TakeDamage(DamageParameters parameters)
     {
         // Check if the owner is blocking
@@ -111,8 +111,15 @@ public class Health : MonoBehaviour
 
         // Owner cannot block the damage, so reduce _currentHealth
         _currentHealth -= parameters.Damage;
+
         if (parameters.HasKnockback)
+        {
             _knockbackToApply = parameters.Knockback;
+            // Flip knockback direction if attack came from the right.
+            if (parameters.DamagingObject.transform.position.x > transform.position.x)
+                _knockbackToApply.x *= -1;
+        }
+
         eventTookDamage.Invoke();
         if (_printToConsole is true) {Debug.LogFormat("{0} took {1} damage", gameObject.name, parameters.Damage);}
         // if the object has a DamageIndicator script then we want to create a damage indicator

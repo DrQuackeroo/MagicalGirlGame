@@ -36,8 +36,6 @@ public class Enemy : MonoBehaviour
     // Animation variables need to be hashed before they can be set in code.
     protected readonly int _hashPlayerHasBeenSighted = Animator.StringToHash("PlayerHasBeenSighted");
     protected readonly int _hashPlayerWithinAttackRange = Animator.StringToHash("PlayerWithinAttackRange");
-    // TODO: Testing stunned state
-    protected readonly int _hashStunned = Animator.StringToHash("Stunned");
     protected readonly int _hashStunnedStart = Animator.StringToHash("StunnedStart");
 
     public float GetAttackRange() { return _attackRange; }
