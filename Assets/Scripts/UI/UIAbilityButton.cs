@@ -15,21 +15,17 @@ public class UIAbilityButton : MonoBehaviour
         _toggle = GetComponent<Toggle>();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     /// <summary>
-    /// Set up variables for this AbilityButton
+    /// Set up variables for this AbilityButton. Sets the button images associated with the Ability.
     /// </summary>
     /// <param name="abilityUI">The AbilityUI script in this scene.</param>
-    /// <param name="abilityName">The name of the ability associated with this button. The player clicks this button to select/deselect this ability.</param>
-    public void Initialize(AbilityUI abilityUI, string abilityName)
+    /// <param name="ability">The ability associated with this button. The player clicks this button to select/deselect this ability.</param>
+    public void Initialize(AbilityUI abilityUI, Ability ability)
     {
         _abilityUI = abilityUI;
-        _abilityName = abilityName;
+        _abilityName = ability.GetName();
+        transform.Find("Background").GetComponent<Image>().sprite = ability.GetIcon();
+        transform.Find("Background").Find("Checkmark").GetComponent<Image>().sprite = ability.GetIcon();
     }
 
     /// <summary>

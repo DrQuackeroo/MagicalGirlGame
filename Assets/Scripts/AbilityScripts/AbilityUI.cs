@@ -37,20 +37,11 @@ public class AbilityUI : MonoBehaviour
             allAbilitiesDict.Add(ability.GetName(), ability);
 
             GameObject newButton = Instantiate(_abilityButtonPrefab, _abilityButtonGrid.transform);
-            newButton.GetComponent<UIAbilityButton>().Initialize(this, ability.GetName());
-        }
-        foreach (TMP_Dropdown dd in _dropdownList)
-        {
-            dd.ClearOptions();
-            dd.options.Add(new TMP_Dropdown.OptionData() { text = "" });
-            foreach (string s in allAbilitiesDict.Keys)
-            {
-                dd.options.Add(new TMP_Dropdown.OptionData() { text = s });
-            }
+            newButton.GetComponent<UIAbilityButton>().Initialize(this, ability);
         }
         //Default abilities - add first three abilities from abilityholder as default abilities
         AbilityHandler.ClearCurrentAbilities();
-        for (int i = 0; i < 3; i++)
+        for (int i = 0; i < MaxAbilities; i++)
         {
             AbilityHandler.CurrentAbilities.Add(abilities[i]);
         }
@@ -83,7 +74,7 @@ public class AbilityUI : MonoBehaviour
     /// </summary>
     /// <param name="abilityName">The ability button that was clicked.</param>
     /// <param name="isOn">True if the ability is now selected.</param>
-    /// <returns>True if the Ability was successfully added to the list of selected Abilities. Otherwise, return false.</returns>
+    /// <returns>True if the Ability was successfully added to or removed from the list of selected Abilities. Otherwise, return false.</returns>
     public bool TrySelectAbility(string abilityName, bool isOn)
     {
         // Try to add this Ability to _selectedAbilityNames
@@ -94,8 +85,7 @@ public class AbilityUI : MonoBehaviour
             if (i == -1)
             {
                 // We are unable to add the Ability.
-                // TODO: Change error message
-                Debug.LogError("Unable To add ability");
+                _errorText.text = "Error: You have already chosen the max number of abilities.";
                 return false;
             }
 
@@ -118,7 +108,6 @@ public class AbilityUI : MonoBehaviour
 
     //Custom exceptions for confirm button
     public class NullAbilityChosenError : Exception { }
-    public class RepeatAbilityError : Exception { }
 
     //For each drop down, add the ability to a list, throw any errors (repeated/null ability)
     //If successful in previous step, then turn the name list into an Ability list using the dictionary
@@ -127,13 +116,9 @@ public class AbilityUI : MonoBehaviour
     {
         try
         {
-            //List<string> ability_names = new List<string>();
             foreach (string s in _selectedAbilityNames)
             {
-                //string temp = dd.options[dd.value].text;
                 if (s.Equals("")) throw new NullAbilityChosenError();
-                //if (ability_names.Contains(temp)) throw new RepeatAbilityError();
-                //ability_names.Add(temp);
             }
             _errorText.text = "";
             List<Ability> ability_real = new List<Ability>();
@@ -146,11 +131,7 @@ public class AbilityUI : MonoBehaviour
         }
         catch (NullAbilityChosenError)
         {
-            _errorText.text = "Error: Must choose an ability for each dropdown.";
-        }
-        catch (RepeatAbilityError)
-        {
-            _errorText.text = "Error: Each chosen ability must be unique.";
+            _errorText.text = "Error: Must choose an ability for each slot.";
         }
         catch (Exception e)
         {
