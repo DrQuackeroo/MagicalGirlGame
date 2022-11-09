@@ -7,14 +7,22 @@ using System;
 
 public class AbilityUI : MonoBehaviour
 {
+    // At most how many abilities the Player can select.
+    private const int MaxAbilities = 3;
     
     [SerializeField] private GameObject _allAbilitiesHolder;
+    [Tooltip("The grid parent GameObject of the Ability Buttons.")]
+    [SerializeField] private GameObject _abilityButtonGrid;
 
     [SerializeField] private Canvas _canvas;
     [SerializeField] private List<TMP_Dropdown> _dropdownList;
     [SerializeField] private TMP_Text _errorText;
 
+    [Tooltip("Reference to the Ability Button prefab asset. Will be spawned at runtime for each Ability")]
+    [SerializeField] private GameObject _abilityButtonPrefab;
+
     private Dictionary<string, Ability> allAbilitiesDict = new Dictionary<string, Ability>();
+    private List<string> _selectedAbilityNames = new List<string>();
 
     //First get all abilities from abilities holder gameobject (get all scripts that inherit Abilty)
     //Next, add them to a dictionary where key = ability name (serialized field on script), value = ability script
@@ -25,6 +33,9 @@ public class AbilityUI : MonoBehaviour
         foreach (Ability ability in abilities)
         {
             allAbilitiesDict.Add(ability.GetName(), ability);
+
+            GameObject newButton = Instantiate(_abilityButtonPrefab, _abilityButtonGrid.transform);
+            newButton.GetComponent<UIAbilityButton>().Initialize(this, ability.GetName());
         }
         foreach (TMP_Dropdown dd in _dropdownList)
         {
@@ -41,6 +52,11 @@ public class AbilityUI : MonoBehaviour
         {
             AbilityHandler.CurrentAbilities.Add(abilities[i]);
         }
+
+        for (int i = 0; i < MaxAbilities; i++)
+        {
+            _selectedAbilityNames.Add("");
+        }
     }
 
     private void Start()
@@ -56,6 +72,48 @@ public class AbilityUI : MonoBehaviour
     private void OnDisable()
     {
         AbilityHandler.OnAbilityMenuEnter -= EnterMenu;
+    }
+
+    /// <summary>
+    /// Tries to add abilityName to the list of selected Abilities if the button is now on. Otherwise, remove the associated Ability from
+    /// the current selected Abilities.
+    /// </summary>
+    /// <param name="abilityName">The ability button that was clicked.</param>
+    /// <param name="isOn">True if the ability is now selected.</param>
+    /// <returns>True if the Ability was successfully added to the list of selected Abilities. Otherwise, return false.</returns>
+    public bool TrySelectAbility(string abilityName, bool isOn)
+    {
+        // Try to add this Ability to _selectedAbilityNames
+        if (isOn)
+        {
+            int i = _selectedAbilityNames.FindIndex(name => name == "");
+
+            if (i == -1)
+            {
+                // We are unable to add the Ability.
+                // TODO: Change error message
+                Debug.LogError("Unable To add ability");
+                foreach (string s in _selectedAbilityNames)
+                    print(s);
+                return false;
+            }
+
+            _selectedAbilityNames[i] = abilityName;
+        }
+        // Remove this Ability from _selectedAbilityNames
+        else
+        {
+            int i = _selectedAbilityNames.FindIndex(name => name == abilityName);
+            if (i > -1)
+            {
+                _selectedAbilityNames[i] = "";
+            }
+        }
+
+        foreach (string s in _selectedAbilityNames)
+            print(s);
+
+        return true;
     }
 
     //Custom exceptions for confirm button
