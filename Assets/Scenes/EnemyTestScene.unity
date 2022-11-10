@@ -3227,6 +3227,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1757891736}
   - component: {fileID: 1757891737}
+  - component: {fileID: 1757891738}
   m_Layer: 0
   m_Name: Buildings (2)
   m_TagString: Untagged
@@ -3241,9 +3242,9 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1757891735}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -121.1, y: 48, z: 55.26}
-  m_LocalScale: {x: 6.5, y: 6.5, z: 6.5}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -12.6, y: 3.2, z: 24.4}
+  m_LocalScale: {x: 2.86, y: 2.86, z: 2.86}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 1477652826}
@@ -3301,6 +3302,25 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1818360608 &1757891738
+PositionConstraint:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1757891735}
+  m_Enabled: 1
+  m_Weight: 1
+  m_TranslationAtRest: {x: -12.6, y: 3.2, z: 24.4}
+  m_TranslationOffset: {x: 0.19999981, y: -0.07999992, z: 44.4}
+  m_AffectTranslationX: 1
+  m_AffectTranslationY: 1
+  m_AffectTranslationZ: 1
+  m_IsContraintActive: 1
+  m_IsLocked: 0
+  m_Sources:
+  - sourceTransform: {fileID: 1795726802}
+    weight: 1
 --- !u!1 &1774948838
 GameObject:
   m_ObjectHideFlags: 0
@@ -3458,6 +3478,11 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: 3756400329411451854, guid: a4d9c7f617690a446a2f9197c4a83019, type: 3}
   m_PrefabInstance: {fileID: 1795574157}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1795726802 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 866719938975004625, guid: 9a8acea2dc2bae543a290a7d65555a55, type: 3}
+  m_PrefabInstance: {fileID: 1019079895}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1801735877
 PrefabInstance:
