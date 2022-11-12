@@ -58,6 +58,12 @@ public class PauseGameObject : MonoBehaviour
         Debug.Log("Ability button pressed");
         AbilityHandler.EnterAbilityMenu();
     }
+
+    public void ControlsButton()
+    {
+        Debug.Log("Control button pressed");
+        PauseHandler.OpenControlsMenu();
+    }
 }
 
 

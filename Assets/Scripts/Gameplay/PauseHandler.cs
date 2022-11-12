@@ -11,6 +11,9 @@ public static class PauseHandler
     public static event PauseEnable OnPauseEnable;
     public delegate void PauseDisable();
     public static event PauseDisable OnPauseDisable;
+    public delegate void ControlScreen();
+    public static event ControlScreen OnControlScreenEnable;
+    public static event ControlScreen OnControlScreenDisable;
 
     public static void TogglePause()
     {
@@ -51,5 +54,15 @@ public static class PauseHandler
     public static void UnpauseIfPaused()
     {
         if (IsPaused || TimeScale == 0) UnPause(true);
+    }
+
+    public static void OpenControlsMenu()
+    {
+        OnControlScreenEnable?.Invoke();
+    }
+
+    public static void CloseControlsMenu()
+    {
+        OnControlScreenDisable?.Invoke();
     }
 }

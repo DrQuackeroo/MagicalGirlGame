@@ -15,6 +15,24 @@
                     "initialStateCheck": true
                 },
                 {
+                    "name": "Move Left",
+                    "type": "Value",
+                    "id": "fc74be13-e3a0-419b-b188-bd2c73321f10",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "Move Right",
+                    "type": "Value",
+                    "id": "ecbffcff-7eb8-4fe6-9960-d90c08623ae1",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
                     "name": "Jump",
                     "type": "Button",
                     "id": "b114c836-2603-466c-b7aa-63c6825fbec1",
@@ -33,7 +51,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "AbilityOne",
+                    "name": "Ability One",
                     "type": "Button",
                     "id": "84da96b9-0b8b-48e4-8ac2-d847cc6b96ad",
                     "expectedControlType": "Button",
@@ -42,7 +60,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "AbilityTwo",
+                    "name": "Ability Two",
                     "type": "Button",
                     "id": "74261569-8219-4358-bc43-3389a35244ec",
                     "expectedControlType": "Button",
@@ -51,7 +69,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "AbilityThree",
+                    "name": "Ability Three",
                     "type": "Button",
                     "id": "9a4fc7a6-c034-46a2-a5c5-44c60da66a8c",
                     "expectedControlType": "Button",
@@ -60,7 +78,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "PauseMenu",
+                    "name": "Pause",
                     "type": "Button",
                     "id": "0681b862-8dff-4cb4-b8a9-9d69fe3f9dc3",
                     "expectedControlType": "Button",
@@ -121,7 +139,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "AbilityOne",
+                    "action": "Ability One",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -132,7 +150,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "PauseMenu",
+                    "action": "Pause",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -154,7 +172,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "AbilityTwo",
+                    "action": "Ability Two",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -165,7 +183,29 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "AbilityThree",
+                    "action": "Ability Three",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "7fee73c9-7c91-42e0-840c-90feb5394bb2",
+                    "path": "<Keyboard>/leftArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Move Left",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "87c9fa71-5b3d-4b82-91dd-52b9d37ebf49",
+                    "path": "<Keyboard>/rightArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Move Right",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

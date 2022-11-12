@@ -105,6 +105,8 @@ public class PlayerControls : MonoBehaviour
         AbilityHandler.OnSetAbility += GetAbilities;
         PauseHandler.OnPauseEnable += DisablePlayerControls;
         PauseHandler.OnPauseDisable += EnablePlayerControls;
+        PauseHandler.OnControlScreenEnable += DisablePauseControl;
+        PauseHandler.OnControlScreenDisable += EnablePauseControl;
     }
 
     private void OnDisable()
@@ -114,6 +116,8 @@ public class PlayerControls : MonoBehaviour
         AbilityHandler.OnSetAbility -= GetAbilities;
         PauseHandler.OnPauseEnable -= DisablePlayerControls;
         PauseHandler.OnPauseDisable -= EnablePlayerControls;
+        PauseHandler.OnControlScreenEnable -= DisablePauseControl;
+        PauseHandler.OnControlScreenDisable -= EnablePauseControl;
     }
 
     public void EnablePauseControl()
@@ -216,22 +220,29 @@ public class PlayerControls : MonoBehaviour
         if (_characterController.isGrounded && velocity.y < _yVelocityResetThreshold)
             velocity.y = _yVelocityResetThreshold;
 
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        //    This isn't as clean as the events used previously but according to tutorials,                         //
+        //    interactive rebinding is easiest to use this rather than rely on the C# PlayerInputActions class.     //
+        //    Reference: https://www.youtube.com/watch?v=csqVa2Vimao                                                           //
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////////
         _xInputValue = _playerInput.actions["Movement"].ReadValue<float>();
+        Debug.Log($"Move left = {_playerInput.actions["Move Left"].WasPerformedThisFrame()}\nMove right = {_playerInput.actions["Move Right"].WasPerformedThisFrame()}");
 
-        if (!HasBasicControlsEnabled || isInputLocked) goto EndPlayerBasicControls;
-        if (_playerInput.actions["Jump"].WasPerformedThisFrame()) StartCoroutine(OnJump());
-        if (_playerInput.actions["Attack"].WasPerformedThisFrame()) StartCoroutine(OnBasicAttack());
-        if (_playerInput.actions["AbilityOne"].WasPerformedThisFrame()) StartCoroutine(OnAbilityOne());
-        if (_playerInput.actions["AbilityOne"].WasReleasedThisFrame()) StartCoroutine(EndAbilityOne());
-        if (_playerInput.actions["AbilityTwo"].WasPerformedThisFrame()) StartCoroutine(OnAbilityTwo());
-        if (_playerInput.actions["AbilityTwo"].WasReleasedThisFrame()) StartCoroutine(EndAbilityTwo());
-        if (_playerInput.actions["AbilityThree"].WasPerformedThisFrame()) StartCoroutine(OnAbilityThree());
-        if (_playerInput.actions["AbilityThree"].WasReleasedThisFrame()) StartCoroutine(EndAbilityThree());
-        EndPlayerBasicControls:
-
-        if (!HasPauseControlsEnabled) goto EndPlayerPauseControls;
-        if (_playerInput.actions["PauseMenu"].WasPerformedThisFrame()) StartCoroutine(OnPauseMenu());
-        EndPlayerPauseControls:
+        if (HasBasicControlsEnabled || !isInputLocked)
+        {
+            if (_playerInput.actions["Jump"].WasPerformedThisFrame()) StartCoroutine(OnJump());
+            if (_playerInput.actions["Attack"].WasPerformedThisFrame()) StartCoroutine(OnBasicAttack());
+            if (_playerInput.actions["Ability One"].WasPerformedThisFrame()) StartCoroutine(OnAbilityOne());
+            if (_playerInput.actions["Ability One"].WasReleasedThisFrame()) StartCoroutine(EndAbilityOne());
+            if (_playerInput.actions["Ability Two"].WasPerformedThisFrame()) StartCoroutine(OnAbilityTwo());
+            if (_playerInput.actions["Ability Two"].WasReleasedThisFrame()) StartCoroutine(EndAbilityTwo());
+            if (_playerInput.actions["Ability Three"].WasPerformedThisFrame()) StartCoroutine(OnAbilityThree());
+            if (_playerInput.actions["Ability Three"].WasReleasedThisFrame()) StartCoroutine(EndAbilityThree());
+        }
+        if (HasPauseControlsEnabled)
+        {
+            if (_playerInput.actions["Pause"].WasPerformedThisFrame()) StartCoroutine(OnPauseMenu());
+        }
 
         // Input is calculated but not applied while input is locked.
         if (!isInputLocked)
