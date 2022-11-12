@@ -52,7 +52,11 @@ public class PlayerControls : MonoBehaviour
     public GameObject laserHitBox;
     private bool _canBeam = true;
 
-    private PlayerInputActions _playerInputActions;
+    public bool HasBasicControlsEnabled { get; private set; }
+    public bool HasPauseControlsEnabled { get; private set; }
+
+    //private PlayerInputActions _playerInputActions;
+    private PlayerInput _playerInput;
     private SpriteRenderer _spriteRenderer;
     private BasicAttackCombo _basicAttackCombo;
     private CharacterController _characterController;
@@ -69,7 +73,8 @@ public class PlayerControls : MonoBehaviour
 
     private void Awake()
     {
-        _playerInputActions = new PlayerInputActions();
+        //_playerInputActions = new PlayerInputActions();
+        _playerInput = GetComponent<PlayerInput>();
         _spriteRenderer = GetComponent<SpriteRenderer>();
         _basicAttackCombo = GetComponent<BasicAttackCombo>();
         _characterController = GetComponent<CharacterController>();
@@ -113,68 +118,76 @@ public class PlayerControls : MonoBehaviour
 
     public void EnablePauseControl()
     {
-        _playerInputActions.Player.PauseMenu.Enable();
-        _playerInputActions.Player.PauseMenu.performed += OnPauseMenu;
+        //_playerInputActions.Player.PauseMenu.Enable();
+        //_playerInputActions.Player.PauseMenu.performed += OnPauseMenu;
+        
+        HasPauseControlsEnabled = true;
     }
 
     public void DisablePauseControl()
     {
-        _playerInputActions.Player.PauseMenu.Disable();
-        _playerInputActions.Player.PauseMenu.performed -= OnPauseMenu;
+        //_playerInputActions.Player.PauseMenu.Disable();
+        //_playerInputActions.Player.PauseMenu.performed -= OnPauseMenu;
+       
+        HasPauseControlsEnabled = false;
     }
 
     //Made public so other classes can enable/disable player's control
     public void EnablePlayerControls()
     {
-        _playerInputActions.Player.Movement.Enable();
-        _playerInputActions.Player.Movement.started += OnMove;
-        _playerInputActions.Player.Movement.performed += OnMove;
-        _playerInputActions.Player.Movement.canceled += OnMove;
+        //_playerInputActions.Player.Movement.Enable();
+        //_playerInputActions.Player.Movement.started += OnMove;
+        //_playerInputActions.Player.Movement.performed += OnMove;
+        //_playerInputActions.Player.Movement.canceled += OnMove;
 
-        _playerInputActions.Player.Jump.Enable();
-        _playerInputActions.Player.Jump.performed += OnJump;
+        //_playerInputActions.Player.Jump.Enable();
+        //_playerInputActions.Player.Jump.performed += OnJump;
 
-        _playerInputActions.Player.Attack.Enable();
-        _playerInputActions.Player.Attack.performed += OnBasicAttack;
+        //_playerInputActions.Player.Attack.Enable();
+        //_playerInputActions.Player.Attack.performed += OnBasicAttack;
 
-        _playerInputActions.Player.AbilityOne.Enable();
-        _playerInputActions.Player.AbilityOne.performed += OnAbilityOne;
-        _playerInputActions.Player.AbilityOne.canceled += EndAbilityOne;
+        //_playerInputActions.Player.AbilityOne.Enable();
+        //_playerInputActions.Player.AbilityOne.performed += OnAbilityOne;
+        //_playerInputActions.Player.AbilityOne.canceled += EndAbilityOne;
 
-        _playerInputActions.Player.AbilityTwo.Enable();
-        _playerInputActions.Player.AbilityTwo.performed += OnAbilityTwo;
-        _playerInputActions.Player.AbilityTwo.canceled += EndAbilityTwo;
+        //_playerInputActions.Player.AbilityTwo.Enable();
+        //_playerInputActions.Player.AbilityTwo.performed += OnAbilityTwo;
+        //_playerInputActions.Player.AbilityTwo.canceled += EndAbilityTwo;
 
-        _playerInputActions.Player.AbilityThree.Enable();
-        _playerInputActions.Player.AbilityThree.performed += OnAbilityThree;
-        _playerInputActions.Player.AbilityThree.canceled += EndAbilityThree;
+        //_playerInputActions.Player.AbilityThree.Enable();
+        //_playerInputActions.Player.AbilityThree.performed += OnAbilityThree;
+        //_playerInputActions.Player.AbilityThree.canceled += EndAbilityThree;
+        
+        HasBasicControlsEnabled = true;
     }
 
     //Made public so other classes can enable/disable player's control
     public void DisablePlayerControls()
     {
-        _playerInputActions.Player.Movement.Disable();
-        _playerInputActions.Player.Movement.started -= OnMove;
-        _playerInputActions.Player.Movement.performed -= OnMove;
-        _playerInputActions.Player.Movement.canceled -= OnMove;
+        //_playerInputActions.Player.Movement.Disable();
+        //_playerInputActions.Player.Movement.started -= OnMove;
+        //_playerInputActions.Player.Movement.performed -= OnMove;
+        //_playerInputActions.Player.Movement.canceled -= OnMove;
 
-        _playerInputActions.Player.Jump.Disable();
-        _playerInputActions.Player.Jump.performed -= OnJump;
+        //_playerInputActions.Player.Jump.Disable();
+        //_playerInputActions.Player.Jump.performed -= OnJump;
 
-        _playerInputActions.Player.Attack.Disable();
-        _playerInputActions.Player.Attack.performed -= OnBasicAttack;
+        //_playerInputActions.Player.Attack.Disable();
+        //_playerInputActions.Player.Attack.performed -= OnBasicAttack;
 
-        _playerInputActions.Player.AbilityOne.Disable();
-        _playerInputActions.Player.AbilityOne.performed -= OnAbilityOne;
-        _playerInputActions.Player.AbilityOne.canceled -= EndAbilityOne;
+        //_playerInputActions.Player.AbilityOne.Disable();
+        //_playerInputActions.Player.AbilityOne.performed -= OnAbilityOne;
+        //_playerInputActions.Player.AbilityOne.canceled -= EndAbilityOne;
 
-        _playerInputActions.Player.AbilityTwo.Disable();
-        _playerInputActions.Player.AbilityTwo.performed -= OnAbilityTwo;
-        _playerInputActions.Player.AbilityTwo.canceled -= EndAbilityTwo;
+        //_playerInputActions.Player.AbilityTwo.Disable();
+        //_playerInputActions.Player.AbilityTwo.performed -= OnAbilityTwo;
+        //_playerInputActions.Player.AbilityTwo.canceled -= EndAbilityTwo;
 
-        _playerInputActions.Player.AbilityThree.Disable();
-        _playerInputActions.Player.AbilityThree.performed -= OnAbilityThree;
-        _playerInputActions.Player.AbilityThree.canceled -= EndAbilityThree;
+        //_playerInputActions.Player.AbilityThree.Disable();
+        //_playerInputActions.Player.AbilityThree.performed -= OnAbilityThree;
+        //_playerInputActions.Player.AbilityThree.canceled -= EndAbilityThree;
+
+        HasBasicControlsEnabled = false;
     }
 
     private void Start()
@@ -202,6 +215,23 @@ public class PlayerControls : MonoBehaviour
         // ... or if Player is on the ground but y-velocity is negative.
         if (_characterController.isGrounded && velocity.y < _yVelocityResetThreshold)
             velocity.y = _yVelocityResetThreshold;
+
+        _xInputValue = _playerInput.actions["Movement"].ReadValue<float>();
+
+        if (!HasBasicControlsEnabled || isInputLocked) goto EndPlayerBasicControls;
+        if (_playerInput.actions["Jump"].WasPerformedThisFrame()) StartCoroutine(OnJump());
+        if (_playerInput.actions["Attack"].WasPerformedThisFrame()) StartCoroutine(OnBasicAttack());
+        if (_playerInput.actions["AbilityOne"].WasPerformedThisFrame()) StartCoroutine(OnAbilityOne());
+        if (_playerInput.actions["AbilityOne"].WasReleasedThisFrame()) StartCoroutine(EndAbilityOne());
+        if (_playerInput.actions["AbilityTwo"].WasPerformedThisFrame()) StartCoroutine(OnAbilityTwo());
+        if (_playerInput.actions["AbilityTwo"].WasReleasedThisFrame()) StartCoroutine(EndAbilityTwo());
+        if (_playerInput.actions["AbilityThree"].WasPerformedThisFrame()) StartCoroutine(OnAbilityThree());
+        if (_playerInput.actions["AbilityThree"].WasReleasedThisFrame()) StartCoroutine(EndAbilityThree());
+        EndPlayerBasicControls:
+
+        if (!HasPauseControlsEnabled) goto EndPlayerPauseControls;
+        if (_playerInput.actions["PauseMenu"].WasPerformedThisFrame()) StartCoroutine(OnPauseMenu());
+        EndPlayerPauseControls:
 
         // Input is calculated but not applied while input is locked.
         if (!isInputLocked)
@@ -262,12 +292,12 @@ public class PlayerControls : MonoBehaviour
 
 
     //"Space" key - jump
-    private void OnJump(InputAction.CallbackContext context)
+    public IEnumerator OnJump()
     {
         if (isInputLocked)
         {
             Debug.Log("Input Locked");
-            return;
+            yield break;
         }
         Debug.Log("Input: Jump");
 
@@ -281,109 +311,115 @@ public class PlayerControls : MonoBehaviour
             _jumpsRemaining--;
             velocity.y = _jumpMod;
         }
+        yield break;
     }
 
 
 
 
     //"Z" key - basic attack
-    private void OnBasicAttack(InputAction.CallbackContext context)
+    private IEnumerator OnBasicAttack()
     {
         if (isInputLocked)
         {
             Debug.Log("Input Locked");
-            return;
+            yield break;
         }
 
         Debug.Log("Input: Basic Attack");
         _basicAttackCombo.Activate(gameObject);
+        yield break;
     }
 
     //"X" key - ability one
-    private void OnAbilityOne(InputAction.CallbackContext context)
+    private IEnumerator OnAbilityOne()
     {
         if (isInputLocked)
         {
             Debug.Log("Input Locked");
-            return;
+            yield break;
         }
 
         //vv new ability system, WIP
         int abilityNum = 0; //num will be one less than method name
-        if (abilityNum < 0 || abilityNum >= abilities.Count) return;
-        if (abilities[abilityNum].IsOnCooldown) return;
+        if (abilityNum < 0 || abilityNum >= abilities.Count) yield break;
+        if (abilities[abilityNum].IsOnCooldown) yield break;
         StartCoroutine(abilities[abilityNum].ActivateCooldown());
         abilities[abilityNum].Activate(gameObject);
+        yield break;
         //^^ For new ability system
     }
 
-    private void EndAbilityOne(InputAction.CallbackContext context)
+    private IEnumerator EndAbilityOne()
     {
         //vv new ability system, WIP
         int abilityNum = 0; //num will be one less than method name
         if (abilityNum >= 0 && abilityNum < abilities.Count) abilities[abilityNum].Deactivate(gameObject);
+        yield break;
         //^^ For new ability system
     }
 
     //"C" key - ability two
-    private void OnAbilityTwo(InputAction.CallbackContext context)
+    private IEnumerator OnAbilityTwo()
     {
         if (isInputLocked)
         {
             Debug.Log("Input Locked");
-            return;
+            yield break;
         }
 
         //vv new ability system, WIP
         int abilityNum = 1; //num will be one less than method name
-        if (abilityNum < 0 || abilityNum >= abilities.Count) return;
-        if (abilities[abilityNum].IsOnCooldown) return;
+        if (abilityNum < 0 || abilityNum >= abilities.Count) yield break;
+        if (abilities[abilityNum].IsOnCooldown) yield break;
         StartCoroutine(abilities[abilityNum].ActivateCooldown());
         abilities[abilityNum].Activate(gameObject);
         //^^ For new ability system
     }
 
-    private void EndAbilityTwo(InputAction.CallbackContext context)
+    private IEnumerator EndAbilityTwo()
     {
         //vv new ability system, WIP
         int abilityNum = 1; //num will be one less than method name
         if (abilityNum >= 0 && abilityNum < abilities.Count) abilities[abilityNum].Deactivate(gameObject);
+        yield break;
         //^^ For new ability system
     }
 
     //"V" key - ability three
-    private void OnAbilityThree(InputAction.CallbackContext context)
+    private IEnumerator OnAbilityThree()
     {
         if (isInputLocked)
         {
             Debug.Log("Input Locked");
-            return;
+            yield break;
         }
 
         //vv new ability system, WIP
         int abilityNum = 2; //num will be one less than method name
-        if (abilityNum < 0 || abilityNum >= abilities.Count) return;
-        if (abilities[abilityNum].IsOnCooldown) return;
+        if (abilityNum < 0 || abilityNum >= abilities.Count) yield break;
+        if (abilities[abilityNum].IsOnCooldown) yield break;
         StartCoroutine(abilities[abilityNum].ActivateCooldown());
         abilities[abilityNum].Activate(gameObject);
         //^^ For new ability system
     }
 
-    private void EndAbilityThree(InputAction.CallbackContext context)
+    private IEnumerator EndAbilityThree()
     {
         //vv new ability system, WIP
         int abilityNum = 2; //num will be one less than method name
         if (abilityNum >= 0 && abilityNum < abilities.Count) abilities[abilityNum].Deactivate(gameObject);
+        yield break;
         //^^ For new ability system
     }
 
 
     //"Esc" key - escape menu
-    private void OnPauseMenu(InputAction.CallbackContext context)
+    private IEnumerator OnPauseMenu()
     {
         PauseHandler.TogglePause();
         Debug.Log("pause menu");
-
+        yield break;
     }
 
 
