@@ -6,15 +6,6 @@
             "id": "9e89d2f4-c7e2-42d0-b360-5357db0207b3",
             "actions": [
                 {
-                    "name": "Movement",
-                    "type": "Value",
-                    "id": "541f1c47-c51d-4d85-9eca-710ecad58182",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": true
-                },
-                {
                     "name": "Move Left",
                     "type": "Value",
                     "id": "fc74be13-e3a0-419b-b188-bd2c73321f10",
@@ -88,39 +79,6 @@
                 }
             ],
             "bindings": [
-                {
-                    "name": "Left/Right",
-                    "id": "b5abfc60-ebf9-40bf-8dab-caaecad29c22",
-                    "path": "1DAxis",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Movement",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "negative",
-                    "id": "fa86334d-0181-47d6-bd23-18a551a71985",
-                    "path": "<Keyboard>/leftArrow",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Movement",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "positive",
-                    "id": "04be694e-79cc-405b-ac14-2cbc2a36fa6e",
-                    "path": "<Keyboard>/rightArrow",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Movement",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
                 {
                     "name": "",
                     "id": "08fe59f2-e549-478c-9102-167d427d97d7",

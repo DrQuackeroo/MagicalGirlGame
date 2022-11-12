@@ -223,11 +223,15 @@ public class PlayerControls : MonoBehaviour
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////
         //    This isn't as clean as the events used previously but according to tutorials,                         //
         //    interactive rebinding is easiest to use this rather than rely on the C# PlayerInputActions class.     //
-        //    Reference: https://www.youtube.com/watch?v=csqVa2Vimao                                                           //
+        //    Reference: https://www.youtube.com/watch?v=csqVa2Vimao                                                //
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        _xInputValue = _playerInput.actions["Movement"].ReadValue<float>();
-        Debug.Log($"Move left = {_playerInput.actions["Move Left"].WasPerformedThisFrame()}\nMove right = {_playerInput.actions["Move Right"].WasPerformedThisFrame()}");
+        //_xInputValue = _playerInput.actions["Movement"].ReadValue<float>();
 
+        // Composites and rebinding have a lot of edge cases according to YouTube comments so now move left and move right are seperate.
+        // Therefore to calculate overall movement direction, move left and move right can either be 0 or 1, so add the two while multiplying left by -1.
+        _xInputValue = _playerInput.actions["Move Left"].ReadValue<float>() * -1 + _playerInput.actions["Move Right"].ReadValue<float>();
+
+        // Coroutines allow for each function to not be blocking, meaning overall gameplay will feel smoother
         if (HasBasicControlsEnabled || !isInputLocked)
         {
             if (_playerInput.actions["Jump"].WasPerformedThisFrame()) StartCoroutine(OnJump());

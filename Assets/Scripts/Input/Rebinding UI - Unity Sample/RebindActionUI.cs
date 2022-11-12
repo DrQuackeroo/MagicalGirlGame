@@ -203,6 +203,13 @@ namespace UnityEngine.InputSystem.Samples.RebindUI
                 var bindingIndex = action.bindings.IndexOf(x => x.id.ToString() == m_BindingId);
                 if (bindingIndex != -1)
                     displayString = action.GetBindingDisplayString(bindingIndex, out deviceLayoutName, out controlPath, displayStringOptions);
+                
+                // Unity displays arrow key as numpad equivalent -> brute force? testing for now...
+                // Update: it works! hopefully no one tries to bind to numpad...
+                if (displayString.Equals("Num 4")) displayString = "Left";
+                if (displayString.Equals("Num 8")) displayString = "Up";
+                if (displayString.Equals("Num 6")) displayString = "Right";
+                if (displayString.Equals("Num 2")) displayString = "Down";
             }
 
             // Set on label (if any).
