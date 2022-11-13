@@ -246,12 +246,12 @@ public class BasicAttackCombo : Ability
         for (int i = 0; i < attackColliders._origins.Count; i++)
         {
             Vector3 origin = attackColliders._origins[i];
-            float radius = attackColliders._radiuses[i];
+            float radius = attackColliders._radiuses[i] / transform.localScale.x;
 
             for (int j = 0; j < 361; j++)
             {
                 var rad = Mathf.Deg2Rad * (j * 360f / 361);
-                points[pointCount] = new Vector3(Mathf.Sin(rad) * radius, Mathf.Cos(rad) * radius, 0) + new Vector3(origin.x * (_spriteRenderer.flipX ? -1 : 1), origin.y, origin.z);
+                points[pointCount] = new Vector3(Mathf.Sin(rad) * radius, Mathf.Cos(rad) * radius, 0) + new Vector3(origin.x * (_spriteRenderer.flipX ? -1 : 1) / transform.localScale.x, origin.y / transform.localScale.y, origin.z);
 
                 pointCount++;
             }

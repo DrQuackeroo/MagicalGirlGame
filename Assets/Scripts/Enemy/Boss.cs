@@ -4,36 +4,22 @@ using UnityEngine;
 
 /// <summary>
 /// Special subclass for the Boss. Assumed to be unmoving/doesn't use a NavMeshAgent component to move.
-/// 
-/// === Ideas for attack architecture:
-/// Each boss attack will be its own Script, maybe variations of BasicAttackCombo.
-/// Enemy.Attack() will be overridden to launch an attack based on parameters. Or could be randomly chosen.
-/// Because Attacks are MonoBehaviors, will need to be attached to an object.
-///     Could have an ability holder child of the Boss.
-///         Would be easier this way to find and get only the attacks, just get all children of the BossAbilityHolder.
-///         Boss parent GameObject does not hold Attack scripts itself.
-///         Attacking works similar to Player's abilities, except Ability scripts are a direct child of the Boss instead of another GameObject.
-/// States - each Attack needs an associated state for animations/effects.
-///     How to associate States in the Animator with components in the BossAbilityHolder?
-///         States will need to be created separately from the abilities added to the Holder.
-///         How does it know which attack state to transition to?
-///             Each attack has associated int value = child number. Animator transitions will be activated depending on the value of an int flag.
-///             Change Animator int property when corresponding attack is used.
+/// Boss has multiple Ability components, one for each attack.
+/// Different from the base Enemy class, the Animator state machine handles almost all of the state transitions for the Boss.
 /// </summary>
 public class Boss : Enemy
 {
-    // GameObject that has components for each attack this Boss can perform.
-    protected GameObject _bossAbilityHolder;
-    protected Ability[] _abilitiesList;
+    protected BasicAttackCombo[] _attacksList;
     protected Dictionary<string, Ability> _abilitiesDict = new Dictionary<string, Ability>();
+
+    protected readonly int _hashAttackStateIndex = Animator.StringToHash("AttackStateIndex");
 
     protected override void Start()
     {
         base.Start();
 
-        _bossAbilityHolder = transform.Find("BossAbilityHolder").gameObject;
-        _abilitiesList = _bossAbilityHolder.GetComponents<Ability>();
-        foreach (Ability a in _abilitiesList)
+        _attacksList = GetComponents<BasicAttackCombo>();
+        foreach (Ability a in _attacksList)
         {
             _abilitiesDict.Add(a.GetName(), a);
         }
@@ -47,7 +33,8 @@ public class Boss : Enemy
     }
 
     /// <summary>
-    /// Special update function. Launches attacks while remaining stationary.
+    /// Special update function. Does nothing to override default Enemy Update() function. Boss state machine transitions are handled by 
+    /// the "Active" state in the Animator.
     /// </summary>
     protected override void Update()
     {
@@ -63,14 +50,16 @@ public class Boss : Enemy
     }
 
     /// <summary>
-    /// Causes Boss to attack using a chosen Ability.
+    /// Causes Boss to attack using a chosen Ability. Sets relevant values on Animator.
     /// </summary>
     /// <returns>The total duration of the executed attack.</returns>
     public override float Attack()
     {
-        // TODO: Change to random value or something. Add checks that are performed before certain attacks can be used.
-        _abilitiesList[0].Activate(gameObject);
-        //return _abilitiesList[0].GetCurrentAttackDuration();
-        return 0.0f;
+        int attackIndexToPerform = Random.Range(0, _attacksList.Length);
+
+        _attacksList[attackIndexToPerform].Activate(gameObject);
+        _animator.SetInteger(_hashAttackStateIndex, attackIndexToPerform);
+
+        return _attacksList[attackIndexToPerform].GetCurrentAttackDuration();
     }
 }

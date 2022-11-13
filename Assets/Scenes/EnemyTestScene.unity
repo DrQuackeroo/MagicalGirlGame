@@ -2969,72 +2969,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3756400329411451854, guid: a4d9c7f617690a446a2f9197c4a83019, type: 3}
   m_PrefabInstance: {fileID: 1568444169}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1621553811
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1621553812}
-  - component: {fileID: 1621553813}
-  m_Layer: 6
-  m_Name: BossAbilityHolder
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1621553812
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1621553811}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 9159904721131946853}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1621553813
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1621553811}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4613bdf5612003649ad986e8b0870dbb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _displayName: Basic Boss attack
-  _imageIcon: {fileID: 0}
-  _description: 
-  _cooldown: 0
-  _enemyLayers:
-    serializedVersion: 2
-    m_Bits: 128
-  _showColliders: 1
-  _comboList:
-  - _name: Slash
-    _damage: 3
-    _attackColliders:
-      _origins:
-      - {x: 1.25, y: 1, z: 0}
-      - {x: 1.35, y: 0, z: 0}
-      _radiuses:
-      - 0.75
-      - 1
-    _windUp: 0.5
-    _windDown: 0.25
-    _knockbackImpulse: {x: 0, y: 0}
-  _comboResetTimer: 0.5
 --- !u!1001 &1678072470
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3309,7 +3243,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1757891735}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 90.8, y: 3.2, z: 24.400002}
+  m_LocalPosition: {x: 90.8, y: 2.7, z: 24.400002}
   m_LocalScale: {x: 2.86, y: 2.86, z: 2.86}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -4126,6 +4060,8 @@ GameObject:
   - component: {fileID: 9159904721131946854}
   - component: {fileID: 9159904721131946859}
   - component: {fileID: 9176312183890456851}
+  - component: {fileID: 9176312183890456853}
+  - component: {fileID: 9176312183890456854}
   m_Layer: 6
   m_Name: Boss
   m_TagString: Untagged
@@ -4144,8 +4080,7 @@ Transform:
   m_LocalPosition: {x: 102.8, y: 5.4, z: 0}
   m_LocalScale: {x: 6.5, y: 6.5, z: 64.15499}
   m_ConstrainProportionsScale: 1
-  m_Children:
-  - {fileID: 1621553812}
+  m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -4348,3 +4283,67 @@ MonoBehaviour:
   _playerDetectionRange: 20
   _attackRange: 5
   _patrolWaypoints: []
+--- !u!114 &9176312183890456853
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9159904721131946850}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4613bdf5612003649ad986e8b0870dbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _displayName: Basic Boss attack
+  _imageIcon: {fileID: 0}
+  _description: 
+  _cooldown: 0
+  _enemyLayers:
+    serializedVersion: 2
+    m_Bits: 128
+  _showColliders: 1
+  _comboList:
+  - _name: Slash
+    _damage: 3
+    _attackColliders:
+      _origins:
+      - {x: 10, y: -2.5, z: 0}
+      _radiuses:
+      - 6
+    _windUp: 1
+    _windDown: 2
+    _knockbackImpulse: {x: 0, y: 0}
+  _comboResetTimer: 0.5
+--- !u!114 &9176312183890456854
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9159904721131946850}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4613bdf5612003649ad986e8b0870dbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _displayName: ' Attack 2'
+  _imageIcon: {fileID: 0}
+  _description: 
+  _cooldown: 0
+  _enemyLayers:
+    serializedVersion: 2
+    m_Bits: 128
+  _showColliders: 1
+  _comboList:
+  - _name: Slash 2
+    _damage: 5
+    _attackColliders:
+      _origins:
+      - {x: 10, y: 2.5, z: 0}
+      _radiuses:
+      - 6
+    _windUp: 1
+    _windDown: 2
+    _knockbackImpulse: {x: 0, y: 0}
+  _comboResetTimer: 0.5

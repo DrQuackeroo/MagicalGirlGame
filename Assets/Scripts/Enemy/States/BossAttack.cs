@@ -2,48 +2,41 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-/// <summary>
-/// Main logic state for the Boss. Determines which attack to use by setting an Animator variable.
-/// </summary>
-public class BossActive : StateMachineBehaviour
+public class BossAttack : StateMachineBehaviour
 {
-    protected GameObject _player;
-    protected GameObject _bossGameObject;
+    // The time until the attack ends. Counts down and exits state when it reaches 0.
+    protected float _attackTimer;
     protected Boss _boss;
 
+    // Trigger to exit state
+    protected readonly int _hashAttackEnded = Animator.StringToHash("AttackEnded");
     protected readonly int _hashAttackStateIndex = Animator.StringToHash("AttackStateIndex");
     protected readonly int _hashCurrentAttackDuration = Animator.StringToHash("CurrentAttackDuration");
-
-    private void Awake()
-    {
-        _player = GameObject.FindWithTag("Player");
-    }
 
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        if (_bossGameObject == null)
-        {
-            _bossGameObject = animator.gameObject;
+        if (_boss == null)
             _boss = animator.GetComponent<Boss>();
-        }
 
-        // Perform a random attack and transition into that attack state.
-        float currentAttackDuration = _boss.Attack();
-        animator.SetFloat(_hashCurrentAttackDuration, currentAttackDuration);
+        // Timer to transition out is an Animator variable set in BossActive and read here.
+        animator.SetInteger(_hashAttackStateIndex, -1);
+        _attackTimer = animator.GetFloat(_hashCurrentAttackDuration);
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
-    //override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    //{
-        
-    //}
+    override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    {
+        _attackTimer -= Time.deltaTime;
+        if (_attackTimer <= 0.0f)
+            animator.SetTrigger(_hashAttackEnded);
+    }
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
-    //override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    //{
-    //    
-    //}
+    override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    {
+        
+    }
 
     // OnStateMove is called right after Animator.OnAnimatorMove()
     //override public void OnStateMove(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
