@@ -5246,21 +5246,13 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 4892831047251896636, guid: e99644d68c1d09849ba60e4b07e90166, type: 3}
+    - target: {fileID: 4892831048534053095, guid: e99644d68c1d09849ba60e4b07e90166, type: 3}
       propertyPath: _player
       value: 
       objectReference: {fileID: 1615406872}
-    - target: {fileID: 4892831047451725830, guid: e99644d68c1d09849ba60e4b07e90166, type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4892831047451725830, guid: e99644d68c1d09849ba60e4b07e90166, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 4892831048867551258, guid: e99644d68c1d09849ba60e4b07e90166, type: 3}
       propertyPath: m_Name
-      value: Health UI
+      value: HealthUI
       objectReference: {fileID: 0}
     - target: {fileID: 4892831048867551718, guid: e99644d68c1d09849ba60e4b07e90166, type: 3}
       propertyPath: m_Pivot.x
@@ -5344,6 +5336,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4892831048867551718, guid: e99644d68c1d09849ba60e4b07e90166, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8848864991318395694, guid: e99644d68c1d09849ba60e4b07e90166, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8848864991318395694, guid: e99644d68c1d09849ba60e4b07e90166, type: 3}
+      propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
