@@ -35,8 +35,8 @@ Transform:
   m_GameObject: {fileID: 19786261565302452}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -33.43, y: -1.27, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 9.87}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: -1, y: 1, z: 9.87}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -82,7 +82,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: ea3ababbf963ba74d857824be9c13cde, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 0e40e562488804e42b6b7bb27c3acde5, type: 3}
   m_Color: {r: 1, g: 0, b: 0.1545434, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -106,7 +106,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _playerDetectionRange: 20
-  _attackRange: 3.25
+  _attackRange: 4
   _patrolWaypoints: []
 --- !u!114 &5465466713511005537
 MonoBehaviour:
@@ -172,13 +172,14 @@ MonoBehaviour:
     _damage: 3
     _attackColliders:
       _origins:
-      - {x: 1.25, y: 1, z: 0}
-      - {x: 1.35, y: 0, z: 0}
+      - {x: 1.35, y: -1, z: 0}
+      - {x: 1.35, y: 0.5, z: 0}
       _radiuses:
+      - 1.5
       - 0.75
-      - 1
     _windUp: 0.5
     _windDown: 0.25
+    _knockbackImpulse: {x: 0, y: 0}
   _comboResetTimer: 0.5
 --- !u!65 &19786261565302448
 BoxCollider:
@@ -191,8 +192,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 2.56, y: 2.56, z: 0.2}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 4.049242, y: 4.5895863, z: 0.2}
+  m_Center: {x: -0.4942174, y: -0.07907486, z: 0}
 --- !u!54 &19786261565302450
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -218,7 +219,7 @@ NavMeshAgent:
   m_GameObject: {fileID: 19786261565302452}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.13
+  m_Radius: 0.06
   m_Speed: 3.5
   m_Acceleration: 16
   avoidancePriority: 50
@@ -227,8 +228,8 @@ NavMeshAgent:
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
-  m_Height: 2.56
-  m_BaseOffset: 1.28
+  m_Height: 4.18
+  m_BaseOffset: 2.37
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 0
 --- !u!95 &19786261565302461
