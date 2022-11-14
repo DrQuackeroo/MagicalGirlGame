@@ -65,14 +65,14 @@ public class UIPlayerDeath : MonoBehaviour
     }
 
     public void OnClickReturnToTitle()
-    {/*
+    {
         if (!_clickedButton)
         {
             _clickedButton = true;
 
-            // returns the player to the title screen; will update when title screen scene is added
+            // returns the player to the title screen
+            SceneManager.LoadScene("MainMenu");
         }
-        */
     }
 
     private Health FindPlayer()
