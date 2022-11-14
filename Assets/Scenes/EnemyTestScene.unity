@@ -1942,6 +1942,10 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4892831048534053095, guid: e99644d68c1d09849ba60e4b07e90166, type: 3}
+      propertyPath: _player
+      value: 
+      objectReference: {fileID: 1872277367}
     - target: {fileID: 4892831048867551258, guid: e99644d68c1d09849ba60e4b07e90166, type: 3}
       propertyPath: m_Name
       value: Health UI
@@ -2028,6 +2032,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4892831048867551718, guid: e99644d68c1d09849ba60e4b07e90166, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8848864991318395694, guid: e99644d68c1d09849ba60e4b07e90166, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8848864991318395694, guid: e99644d68c1d09849ba60e4b07e90166, type: 3}
+      propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -2477,7 +2489,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 297356538034560261, guid: 4aff524eaf3f82f4bb2ce0ba58ae820c, type: 3}
       propertyPath: m_RootOrder
-      value: 11
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 297356538034560261, guid: 4aff524eaf3f82f4bb2ce0ba58ae820c, type: 3}
       propertyPath: m_LocalPosition.x
@@ -4205,7 +4217,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4283510565148395022, guid: 9accef863bc47b04fb062ebee255d904, type: 3}
       propertyPath: m_RootOrder
-      value: 12
+      value: 13
       objectReference: {fileID: 0}
     - target: {fileID: 4283510565148395022, guid: 9accef863bc47b04fb062ebee255d904, type: 3}
       propertyPath: m_LocalPosition.x
