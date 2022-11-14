@@ -93,7 +93,7 @@ GameObject:
   - component: {fileID: 3782737201752334396}
   - component: {fileID: 3921262874685871041}
   m_Layer: 5
-  m_Name: AbilityIconsUICanvas
+  m_Name: AbilityIconsUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

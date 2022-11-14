@@ -231,7 +231,7 @@ LineRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 866719938791137809}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -395,10 +395,6 @@ MonoBehaviour:
   m_ActionEvents:
   - m_PersistentCalls:
       m_Calls: []
-    m_ActionId: 541f1c47-c51d-4d85-9eca-710ecad58182
-    m_ActionName: Player/Movement[/Keyboard/leftArrow,/Keyboard/rightArrow]
-  - m_PersistentCalls:
-      m_Calls: []
     m_ActionId: b114c836-2603-466c-b7aa-63c6825fbec1
     m_ActionName: Player/Jump[/Keyboard/space]
   - m_PersistentCalls:
@@ -421,6 +417,14 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 0681b862-8dff-4cb4-b8a9-9d69fe3f9dc3
     m_ActionName: Player/PauseMenu[/Keyboard/escape]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: fc74be13-e3a0-419b-b188-bd2c73321f10
+    m_ActionName: Player/Move Left[/Keyboard/leftArrow]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: ecbffcff-7eb8-4fe6-9960-d90c08623ae1
+    m_ActionName: Player/Move Right[/Keyboard/rightArrow]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
