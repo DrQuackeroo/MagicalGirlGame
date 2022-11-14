@@ -26,4 +26,9 @@ public class CameraController : MonoBehaviour
     {
         transform.Translate(0.0f, _worldSpaceYPosition - transform.position.y, 0.0f);
     }
+
+    public void UnlinkCamera()
+    {
+        transform.SetParent(null);
+    }
 }

@@ -82,6 +82,7 @@ public class PlayerControls : MonoBehaviour
         _health = GetComponent<Health>();
         _health.eventAttackBlocked.AddListener(AttackBlocked);
         _health.eventTookDamage.AddListener(TookDamage);
+        _health.eventHasDied.AddListener(OnPlayerDeath);
         _animator = GetComponent<Animator>();
 
 
@@ -495,4 +496,10 @@ public class PlayerControls : MonoBehaviour
         _isTimeSlowed = false;
     }
 
+    public void OnPlayerDeath()
+    {
+        gameObject.SetActive(false); // can be changed later for some special effect
+
+        _cameraController.UnlinkCamera();
+    }
 }
