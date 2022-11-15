@@ -3138,6 +3138,7 @@ GameObject:
   - component: {fileID: 1312990970}
   - component: {fileID: 1312990977}
   - component: {fileID: 601606821}
+  - component: {fileID: 7721730160266245761}
   m_Layer: 0
   m_Name: AbilityHolder
   m_TagString: Untagged
@@ -3340,6 +3341,24 @@ MonoBehaviour:
   _damage: 15
   _duration: 0.25
   _stopMidairWhileExecuting: 0
+--- !u!114 &7721730160266245761
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2428446723640177120}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1974bca22eb23cc4e9dedf179baf6196, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _displayName: Channeled Heal
+  _imageIcon: {fileID: 21300000, guid: 4a3cedf5f3755a0458565509e92da3f4, type: 3}
+  _description: Channel magic through one's body to heal injuries
+  _cooldown: 10
+  _healPerTick: 10
+  _tickDelay: 1
 --- !u!1 &2785752141849177927
 GameObject:
   m_ObjectHideFlags: 0
