@@ -148,7 +148,7 @@ GameObject:
   - component: {fileID: 2554519535517228008}
   - component: {fileID: 1634981076554016138}
   m_Layer: 5
-  m_Name: ReturnToTitleButton
+  m_Name: ReturnToMainMenuButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -173,7 +173,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: -165}
-  m_SizeDelta: {x: 200, y: 45}
+  m_SizeDelta: {x: 250, y: 45}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1811639011400053157
 CanvasRenderer:
@@ -259,7 +259,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 6441269166010572593}
         m_TargetAssemblyTypeName: UIPlayerDeath, Assembly-CSharp
-        m_MethodName: OnClickReturnToTitle
+        m_MethodName: OnClickReturnToMainMenu
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -335,7 +335,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Return to Title
+  m_text: Return to Main Menu
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 3b7d5364a3a4175499f93b6821edf6e2, type: 2}
   m_sharedMaterial: {fileID: -5113255733654815474, guid: 3b7d5364a3a4175499f93b6821edf6e2, type: 2}

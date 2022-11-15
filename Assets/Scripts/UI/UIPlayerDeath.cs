@@ -7,6 +7,8 @@ using TMPro;
 
 public class UIPlayerDeath : MonoBehaviour
 {
+    [SerializeField] private string _mainMenuScenePath = "MainMenu";
+
     [SerializeField] LayerMask _playerLayer;
 
     [SerializeField] private GameObject _gameOverScreenUI;
@@ -60,18 +62,18 @@ public class UIPlayerDeath : MonoBehaviour
         if (!_clickedButton)
         {
             _clickedButton = true;
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name, LoadSceneMode.Single);
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
     }
 
-    public void OnClickReturnToTitle()
+    public void OnClickReturnToMainMenu()
     {
         if (!_clickedButton)
         {
             _clickedButton = true;
 
             // returns the player to the title screen
-            SceneManager.LoadScene("MainMenu");
+            SceneManager.LoadScene(_mainMenuScenePath);
         }
     }
 
