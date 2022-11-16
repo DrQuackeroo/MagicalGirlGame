@@ -12,10 +12,19 @@ public class CameraController : MonoBehaviour
 {
     // The y-coordinate the camera moves along. Set during Start, equal to the Camera's initial y-position. 
     [HideInInspector] public float _worldSpaceYPosition;
+    // At most how far the camera can move to the left.
+    [HideInInspector] public float minXPosition;
+    // At most how far the camera can move to the right.
+    [HideInInspector] public float maxXPosition = Mathf.Infinity;
+
+    private Transform _player;
 
     private void Start()
     {
         _worldSpaceYPosition = transform.position.y;
+        minXPosition = transform.position.x;
+        _player = transform.parent;
+        print(_player.gameObject.name);
     }
 
     /// <summary>
@@ -24,7 +33,8 @@ public class CameraController : MonoBehaviour
     /// </summary>
     public void UpdatePosition()
     {
-        transform.Translate(0.0f, _worldSpaceYPosition - transform.position.y, 0.0f);
+        float xPosition = Mathf.Clamp(_player.position.x, minXPosition, maxXPosition);
+        transform.Translate(xPosition - transform.position.x, _worldSpaceYPosition - transform.position.y, 0.0f);
     }
 
     public void UnlinkCamera()
