@@ -3359,6 +3359,7 @@ MonoBehaviour:
   _cooldown: 10
   _healPerTick: 10
   _tickDelay: 1
+  _numberOfTicks: 5
 --- !u!1 &2785752141849177927
 GameObject:
   m_ObjectHideFlags: 0

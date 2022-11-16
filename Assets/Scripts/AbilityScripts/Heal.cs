@@ -8,6 +8,8 @@ public class Heal : Ability
 
     [SerializeField] private float _tickDelay = 0;
 
+    [SerializeField] private int _numberOfTicks = 1;
+
     private IEnumerator _healingCoroutine = null;
 
     public override void Activate(GameObject player)
@@ -18,15 +20,7 @@ public class Heal : Ability
 
     public override void Deactivate(GameObject player)
     {
-        PlayerControls controls = player.GetComponent<PlayerControls>();
-
-        if (controls != null)
-            controls.isInputLocked = false;
-
-        StopCoroutine(_healingCoroutine);
-        _healingCoroutine = null;
-
-        ActivateCooldown();
+        CancelHeal(player);
     }
 
     private IEnumerator ActivateHeal(GameObject player)
@@ -35,22 +29,36 @@ public class Heal : Ability
         Health health = player.GetComponent<Health>();
 
         if (controls != null)
+        {
             controls.isInputLocked = true;
+            controls.velocity.x = 0.0f;
+        }
 
         float timeSinceHealed = 0;
         
-        while(true)
+        for(int i = 0; i < _numberOfTicks; i++)
         {
-            timeSinceHealed += Time.deltaTime;
+            yield return new WaitForSeconds(_tickDelay);
 
-            if (timeSinceHealed >= _tickDelay)
-            {
-                timeSinceHealed = 0;
-
-                health?.HealHealth(_healPerTick);
-            }
-
-            yield return null;
+            health?.HealHealth(_healPerTick);
         }
+
+        CancelHeal(player);
+    }
+
+    private void CancelHeal(GameObject player)
+    {
+        if (_healingCoroutine == null)
+            return;
+
+        PlayerControls controls = player.GetComponent<PlayerControls>();
+
+        if (controls != null)
+            controls.isInputLocked = false;
+
+        StopCoroutine(_healingCoroutine);
+        _healingCoroutine = null;
+
+        StartCoroutine(ActivateCooldown());
     }
 }

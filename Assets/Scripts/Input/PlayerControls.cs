@@ -360,7 +360,6 @@ public class PlayerControls : MonoBehaviour
         int abilityNum = 0; //num will be one less than method name
         if (abilityNum < 0 || abilityNum >= abilities.Count) yield break;
         if (abilities[abilityNum].IsOnCooldown) yield break;
-        StartCoroutine(abilities[abilityNum].ActivateCooldown());
         abilities[abilityNum].Activate(gameObject);
         yield break;
         //^^ For new ability system
@@ -388,7 +387,6 @@ public class PlayerControls : MonoBehaviour
         int abilityNum = 1; //num will be one less than method name
         if (abilityNum < 0 || abilityNum >= abilities.Count) yield break;
         if (abilities[abilityNum].IsOnCooldown) yield break;
-        StartCoroutine(abilities[abilityNum].ActivateCooldown());
         abilities[abilityNum].Activate(gameObject);
         //^^ For new ability system
     }
@@ -415,7 +413,6 @@ public class PlayerControls : MonoBehaviour
         int abilityNum = 2; //num will be one less than method name
         if (abilityNum < 0 || abilityNum >= abilities.Count) yield break;
         if (abilities[abilityNum].IsOnCooldown) yield break;
-        StartCoroutine(abilities[abilityNum].ActivateCooldown());
         abilities[abilityNum].Activate(gameObject);
         //^^ For new ability system
     }

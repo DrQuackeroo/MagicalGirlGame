@@ -98,7 +98,7 @@ public class OverheadSwing : BasicAttackCombo
             _midAttackCoroutine = null;
             _playerControls.isInputLocked = false;
             _playerControls.applyGravity = true;
-            UIAbilityIconsManager.ShowCooldown(this);
+            StartCoroutine(ActivateCooldown());
         }
     }
 }
