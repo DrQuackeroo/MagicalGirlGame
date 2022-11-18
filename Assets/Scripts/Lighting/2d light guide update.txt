@@ -1,0 +1,28 @@
+---- LIST OF 2D LIGHT TYPES ----
+
+Create -> Lights -> Spot Light 2D (shines light in circle, can modify angles and radius to make it a standard spotlight)
+
+Create -> Lights -> Global Light 2D (shines light on everything)
+
+Create -> Lights -> Sprite Light 2D (makes a sprite a light source sort of, hard to explain, I wouldn't use it tbh)
+
+Create -> Lights -> Freeform Light 2D (polygon shape light - make a light based on a shape, then click edit shape button in "Light 2D" component to add or remove vertices and move where the vertices are to stretch or shrink the polygon)
+
+---- IMPORTANT ----
+
+There's a "Default Global Light" that emulates how the light acted previously (intensity 1 white light on everything). 
+If you ADD A NEW GLOBAL LIGHT -> DISABLE THE DEFAULT GLOBAL LIGHT or Unity will not be happy (once default is disabled, make sure to retoggle on the new global light and it should update).
+
+---- 2D LIGHT INFO ----
+
+Each light will have (4): 
+	*Light Type (you can change whenever or choose from create menu)
+	*Color (self-explanatory)
+	*Intensity (how strong the color is, bigger number = stronger)
+	*Target Sorting Layers (what layers receive the light from this object, make sure this is set to default/all or a specific layer to get desired lighting result)
+
+Different types of light types will have more settings, best to experiment with them.
+
+I put some examples in under the -----LIGHTS----- object in the DebugScene for everyone to see how the light types work.
+
+
