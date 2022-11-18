@@ -3,9 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
+/// How to use: scale BoxCollider component so that it covers all the Enemies in this Room at runtime.
+/// 
 /// A Room contains Enemies for the Player to defeat before they can pass through. After the Player enters through the left, the Room's doors
 /// will "close", preventing them from leaving. The camera is locked to only move between set left and right coordinates. After Enemies are defeated,
 /// only the right door will open, preventing the Player from going back the way they came. 
+/// 
 /// Enemies are assumed to be placed within this Room before runtime. They are activated once the Player enters the Room collider.
 /// The main Room trigger collider shouldn't be touching the door colliders, so the Player doesn't clip through the doors.
 /// 
@@ -17,14 +20,13 @@ public class Room : MonoBehaviour
     private const string _playerTag = "Player";
     private const string _enemyLayerName = "Enemy";
 
-    [Tooltip("An object with a collider that will become active when the Player enters the Room. This door does not open when Enemies are defeated.")]
-    [SerializeField] private GameObject _leftDoor;
-    [Tooltip("This door opens when all Enemies are defeated.")]
-    [SerializeField] private GameObject _rightDoor;
-    [Tooltip("How far left (in world space coordinates) the Player's camera can move while in this room.")]
-    [SerializeField] private float _minCameraPosition = Mathf.NegativeInfinity;
-    [Tooltip("How far right (in world space coordinates) the Player's camera can move while in this room.")]
-    [SerializeField] private float _maxCameraPosition = Mathf.Infinity;
+    [Tooltip("Object that prevents the Player from leaving the room. Need only be set once with the Room prefab.")]
+    [SerializeField] private GameObject _doorPrefab;
+
+    private GameObject _leftDoor;
+    private GameObject _rightDoor;
+    private float _minCameraPosition = Mathf.NegativeInfinity;
+    private float _maxCameraPosition = Mathf.Infinity;
 
     private bool _roomHasBeenCleared = false;
     private bool _roomIsActive = false;
@@ -37,20 +39,37 @@ public class Room : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        _leftDoor.SetActive(false);
-        _rightDoor.SetActive(false);
-
         _enemyLayerNumber = LayerMask.NameToLayer(_enemyLayerName);
         _player = GameObject.FindGameObjectWithTag(_playerTag).GetComponent<CharacterController>();
         _cameraController = GameObject.FindGameObjectWithTag(_playerTag).GetComponentInChildren<CameraController>();
 
-        // TODO: Testing automatic endpoint setting
-        BoxCollider box = GetComponent<BoxCollider>();
-        _minCameraPosition = transform.position.x - (box.size.x / 2) + box.center.x - _player.radius;
-        float distanceFromRightSide = Mathf.Abs(Camera.main.transform.position.z) * Mathf.Tan(Mathf.Deg2Rad * Camera.main.fieldOfView / 2.0f);
-        print(distanceFromRightSide);
-        // Expected: ~18.6 Actual: 11.55
-        _maxCameraPosition = transform.position.x + (box.size.x / 2) + box.center.x - distanceFromRightSide - _player.radius;
+
+        // Set the camera bounds.
+        BoxCollider roomBox = GetComponent<BoxCollider>();
+        float fovHorizontal = Camera.VerticalToHorizontalFieldOfView(Camera.main.fieldOfView, Camera.main.aspect);
+        // The distance between the camera's world x-position and the farthest x-position in the game field that the camera can see.
+        float cameraDistanceFromVisibleEdge = Mathf.Abs(Camera.main.transform.position.z) * Mathf.Tan(Mathf.Deg2Rad *fovHorizontal / 2.0f);
+
+        _minCameraPosition = transform.position.x - (roomBox.size.x / 2) + roomBox.center.x - _player.radius;
+        _maxCameraPosition = transform.position.x + (roomBox.size.x / 2) + roomBox.center.x - cameraDistanceFromVisibleEdge;
+
+
+        // Instantiates Doors: colliders that become active once the Player enters the room, then deactive when Enemies are defeated.
+        Vector3 doorBoxSize = _doorPrefab.GetComponent<BoxCollider>().size;
+        // How large the actual box collider is along the X and Y axes, accounting for GameObject scale and BoxCollider.size
+        float scaledDoorWidth = doorBoxSize.x * _doorPrefab.transform.localScale.x;
+        float scaledDoorHeight = doorBoxSize.y * _doorPrefab.transform.localScale.y;
+        // Doors are placed such that the bottom of their collider is the same height as the bottom of the Room collider.
+        float doorYPosition = transform.position.y + roomBox.center.y - (roomBox.size.y / 2) + (scaledDoorHeight) / 2;
+
+        // Doors will be on the edge of the camera for both left and right camera endpoints. The Player will always remain within the bounds of the camera.
+        Vector3 leftDoorPosition = new Vector3(_minCameraPosition - cameraDistanceFromVisibleEdge - (scaledDoorWidth) / 2, doorYPosition, 0.0f);
+        Vector3 rightDoorPosition = new Vector3(_maxCameraPosition + cameraDistanceFromVisibleEdge + (scaledDoorWidth) / 2, doorYPosition, 0.0f);
+
+        _leftDoor = Instantiate(_doorPrefab, leftDoorPosition, Quaternion.identity, transform);
+        _rightDoor = Instantiate(_doorPrefab, rightDoorPosition, Quaternion.identity, transform);
+        _leftDoor.SetActive(false);
+        _rightDoor.SetActive(false);
     }
 
     private void OnTriggerEnter(Collider other)
