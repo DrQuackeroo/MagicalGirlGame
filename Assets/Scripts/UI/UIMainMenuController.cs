@@ -94,9 +94,9 @@ public class UIMainMenuController : MonoBehaviour
 
         while (currentFadeTime <= _fadeTime)
         {
+            currentFadeTime += Time.deltaTime;
             screen.alpha = Mathf.Lerp(start, end, currentFadeTime / _fadeTime);
             yield return null;
-            currentFadeTime += Time.deltaTime;
         }
 
         yield break;
