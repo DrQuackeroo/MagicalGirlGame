@@ -9,6 +9,8 @@ public abstract class Ability : MonoBehaviour
     [SerializeField] protected Sprite _imageIcon = null;
     [TextArea(3, 10), SerializeField] protected string _description = "";
     [SerializeField] protected float _cooldown = 0;
+    [Tooltip("SFX is played when this Ability is used.")]
+    [SerializeField] protected AudioClip _soundEffect;
 
     public bool IsOnCooldown { get; private set; }
 

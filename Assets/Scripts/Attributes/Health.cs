@@ -66,11 +66,14 @@ public class Health : MonoBehaviour
     [SerializeField] private bool _printToConsole = true;
     [Tooltip("Angle between an attacker and this character for which an attack is considered 'in front' and can be blocked.")]
     [SerializeField] private float _blockAngle = 45.0f;
+    [Tooltip("Played when this object takes damage.")]
+    [SerializeField] private AudioClip _hitSoundEffect;
     private int _currentHealth;
     private bool _isAlive;
     private bool _facingRight = true;
     // Current amount of knockback impulse that will be applied to this Enemy once they transition into the Stunned state.
     private Vector3 _knockbackToApply = Vector3.zero;
+    private AudioSource _audioSource;
 
     public void SetFacingRight(bool value) { _facingRight = value; }
     public Vector3 GetKnockbackToApply() { return _knockbackToApply; }
@@ -80,6 +83,7 @@ public class Health : MonoBehaviour
     {
         _currentHealth = _maxHealth;
         _isAlive = true;
+        _audioSource = GetComponent<AudioSource>();
     }
 
     public void ResetHealth()
@@ -131,6 +135,14 @@ public class Health : MonoBehaviour
             // TODO: Testing hit effects
             // Assumes that only Enemies have damage indicators
             //GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerControls>().SlowdownTime();
+        }
+
+        print(_audioSource != null);
+        print(_hitSoundEffect != null);
+        if (_audioSource != null && _hitSoundEffect != null)
+        {
+            print("Play that sound");
+            _audioSource.PlayOneShot(_hitSoundEffect, 1.0f);
         }
         
 

@@ -146,6 +146,7 @@ public class BasicAttackCombo : Ability
     protected BasicAttack _currentAttackState = null;
     protected IEnumerator _midAttackCoroutine = null;
     protected BasicAttack _comboStart;
+    protected AudioSource _audioSource;
 
     // used to determine where player is facing
     protected SpriteRenderer _spriteRenderer;
@@ -164,6 +165,7 @@ public class BasicAttackCombo : Ability
         _comboStart = _comboList[0];
 
         _spriteRenderer = GetComponent<SpriteRenderer>();
+        _audioSource = GetComponent<AudioSource>();
 
         // used to show colliders of attacks
         _line = GetComponent<LineRenderer>();
@@ -188,6 +190,12 @@ public class BasicAttackCombo : Ability
         // prevents player from spamming basic attack while already mid-animation in an attack
         if (_midAttackCoroutine != null)
             return;
+
+        // Play SFX
+        if (_audioSource != null && _soundEffect != null)
+        {
+            _audioSource.PlayOneShot(_soundEffect, 1.0f);
+        }
 
         // decides whether to begin or continue the combo
         if (_currentAttackState == null)
