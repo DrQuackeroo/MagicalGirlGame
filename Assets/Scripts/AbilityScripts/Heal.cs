@@ -33,8 +33,6 @@ public class Heal : Ability
             controls.isInputLocked = true;
             controls.velocity.x = 0.0f;
         }
-
-        float timeSinceHealed = 0;
         
         for(int i = 0; i < _numberOfTicks; i++)
         {

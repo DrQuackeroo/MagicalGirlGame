@@ -46,5 +46,7 @@ public class Dash : Ability
         _playerControls.applyGravity = true;
         _playerControls.velocity = Vector3.zero;
         //Physics.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Enemy"), false);
+
+        StartCoroutine(ActivateCooldown());
     }
 }
