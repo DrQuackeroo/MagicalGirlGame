@@ -60,6 +60,12 @@ public class OverheadSwing : BasicAttackCombo
             hasBeenInitialized = true;
         }
 
+        // Play SFX
+        if (_audioSource != null && _soundEffect != null)
+        {
+            _audioSource.PlayOneShot(_soundEffect, 1.0f);
+        }
+
         // Halt player movement. Might be a better way to do this in general, if you want to improve it.
         _playerControls.isInputLocked = true;
         _playerControls.velocity.x = 0.0f;

@@ -10,6 +10,7 @@ public class Dash : Ability
     [SerializeField] protected float _dashingTime = 0.25f;
 
     protected PlayerControls _playerControls;
+    protected AudioSource _audioSource;
 
     public override void Activate(GameObject player)
     {
@@ -17,6 +18,13 @@ public class Dash : Ability
         if (_playerControls == null)
         {
             _playerControls = player.GetComponent<PlayerControls>();
+            _audioSource = GetComponent<AudioSource>();
+        }
+
+        // Play SFX
+        if (_audioSource != null && _soundEffect != null)
+        {
+            _audioSource.PlayOneShot(_soundEffect, 1.0f);
         }
 
         StartCoroutine(DashCoroutine());
