@@ -111,4 +111,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df651cde0d575ad409864e087c0742f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _umbrellaOpen: {fileID: 21300000, guid: 07a5f2c6fb2aee64c84cebb953599387, type: 3}
   damage: 0

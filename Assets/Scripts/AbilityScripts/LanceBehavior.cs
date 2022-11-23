@@ -10,6 +10,7 @@ using UnityEngine;
 public class LanceBehavior : MonoBehaviour
 {
     private List<int> collidedEnemies = new List<int>();
+    [SerializeField] private Sprite _umbrellaOpen;
     [HideInInspector] public int damage;
 
     void OnTriggerEnter(Collider other)
@@ -32,5 +33,11 @@ public class LanceBehavior : MonoBehaviour
         {
             other.GetComponent<Enemy>().WasHit();
         }
+    }
+
+    // Swaps the umbrella sprite to have the umbrella open
+    public void OpenUmbrellaSprite()
+    {
+        gameObject.GetComponent<SpriteRenderer>().sprite = _umbrellaOpen;
     }
 }

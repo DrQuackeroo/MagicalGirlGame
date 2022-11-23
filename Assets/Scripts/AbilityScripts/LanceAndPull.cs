@@ -70,6 +70,7 @@ public class LanceAndPull : Ability
             moveForward = false;
 
             // Move the now expanded umbrella back towards the player
+            _umbrella.GetComponent<LanceBehavior>().OpenUmbrellaSprite();
             while (_umbrella.transform.position.x - SE > playerCenter.transform.position.x && !moveForward)
             {
                 _umbrella.transform.position = Vector3.Lerp(_umbrella.transform.position, playerCenter.transform.position , Time.deltaTime * _speed);
@@ -98,6 +99,7 @@ public class LanceAndPull : Ability
             moveForward = false;
 
             // Move the now expanded umbrella back towards the player
+            _umbrella.GetComponent<LanceBehavior>().OpenUmbrellaSprite();
             while (_umbrella.transform.position.x + SE < playerCenter.transform.position.x + offset.x && !moveForward)
             {
                 _umbrella.transform.position = Vector3.Lerp(_umbrella.transform.position, playerCenter.transform.position + offset, Time.deltaTime * _speed);
