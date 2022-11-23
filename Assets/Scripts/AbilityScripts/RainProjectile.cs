@@ -48,7 +48,11 @@ public class RainProjectile : MonoBehaviour
                 _damage,
                 gameObject,
                 new Vector2(_direction.x != 0 ? _knockbackMultiplier : 0, _direction.y != 0 ? _knockbackMultiplier : 0)));
+
+            Debug.LogFormat("RainProjectile: {0}, {1}", _direction.x != 0 ? _knockbackMultiplier : 0, _direction.y != 0 ? _knockbackMultiplier : 0);
         }
+
+        gameObject.SetActive(false);
     }
 
     private IEnumerator AirTimeCountdown(float airTime)

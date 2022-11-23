@@ -14,6 +14,9 @@ public class BossRainProjectiles : Ability
     private float _spawnPositionSpread = 3.5f;
 
     [SerializeField]
+    private float _spawnPositionSpreadVariance = 1f;
+
+    [SerializeField]
     private int _projectileCount = 10;
 
     private List<RainProjectile> _spawnedProjectiles = new List<RainProjectile>();
@@ -26,25 +29,25 @@ public class BossRainProjectiles : Ability
             RPs.Add(GetProjectile());
         }
 
-        Rain(RPs, GetRandomBool());
+        Rain(RPs, GetRandomBool(), GetRandomBool());
     }
 
     public override void Deactivate(GameObject player)
     {
-
+        // StartCoroutine(ActivateCooldown());
     }
     
-    private void Rain(List<RainProjectile> RPs, bool isDown)
+    private void Rain(List<RainProjectile> RPs, bool isDown, bool isRight)
     {
-        for(int i = 0; i < RPs.Count; i++)
+        for (int i = 0; i < RPs.Count; i++)
         {
             Vector3 origin = transform.position;
             
             if (isDown)
             {
                 RPs[i].transform.position = new Vector3(
-                    origin.x + ((i % 2 == 0 ? -1 : 1) * _spawnPositionSpread * i),
-                    origin.y + _spawnPositionOffset,
+                    origin.x + ((i % 2 == 0 ? -1 : 1) * _spawnPositionSpread * i) + GetVariance(_spawnPositionSpreadVariance),
+                    origin.y + _spawnPositionOffset + GetVariance(_spawnPositionSpreadVariance),
                     origin.z);
 
                 RPs[i].SetDirection(new Vector3(0, -1, 0));
@@ -52,13 +55,15 @@ public class BossRainProjectiles : Ability
             else
             {
                 RPs[i].transform.position = new Vector3(
-                    origin.x + _spawnPositionOffset,
-                    origin.y + ((i % 2 == 0 ? -1 : 1) * _spawnPositionSpread * i),
+                    origin.x + 2 * _spawnPositionOffset * (isRight ? 1 : -1) + GetVariance(_spawnPositionSpreadVariance),
+                    origin.y + ((i % 2 == 0 ? -1 : 1) * _spawnPositionSpread * i) + GetVariance(_spawnPositionSpreadVariance),
                     origin.z);
 
-                RPs[i].SetDirection(new Vector3(-1, 0, 0));
+                RPs[i].SetDirection(new Vector3(-1 * (isRight ? 1 : -1), 0, 0));
             }
         }
+
+        Deactivate(gameObject);
     }
 
     private RainProjectile GetProjectile()
@@ -82,5 +87,10 @@ public class BossRainProjectiles : Ability
     private bool GetRandomBool()
     {
         return Random.Range(0, 2) == 1;
+    }
+
+    private float GetVariance(float variance)
+    {
+        return Random.Range(-variance, variance);
     }
 }
