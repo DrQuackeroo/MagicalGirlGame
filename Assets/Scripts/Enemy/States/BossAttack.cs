@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Behavior for when the Boss performs an attack. Exits state based off a timer.
+/// </summary>
 public class BossAttack : StateMachineBehaviour
 {
     // The time until the attack ends. Counts down and exits state when it reaches 0.
