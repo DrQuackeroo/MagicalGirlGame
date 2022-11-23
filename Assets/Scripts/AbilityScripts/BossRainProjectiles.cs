@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BossRainProjectiles : Ability
+public class BossRainProjectiles : BasicAttackCombo
 {
     [SerializeField]
     private GameObject _projectilePrefab;

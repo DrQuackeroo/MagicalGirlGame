@@ -98,7 +98,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b58b6b8085219f9428dd8fd22b7764b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _speed: 15
+  _speed: 10
   _damage: 15
   _knockbackMultiplier: 5
   _collisionLayers:

@@ -4742,6 +4742,7 @@ GameObject:
   - component: {fileID: 9176312183890456853}
   - component: {fileID: 9176312183890456854}
   - component: {fileID: 9176312183890456855}
+  - component: {fileID: 9176312183890456856}
   m_Layer: 6
   m_Name: Boss
   m_TagString: Untagged
@@ -5130,3 +5131,39 @@ MonoBehaviour:
   - {fileID: 20827653}
   - {fileID: 53053241}
   - {fileID: 395703096}
+--- !u!114 &9176312183890456856
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9159904721131946850}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b891da4bc0853a45a2e7a6196a932ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _displayName: 
+  _imageIcon: {fileID: 0}
+  _description: 
+  _cooldown: 0
+  _soundEffect: {fileID: 0}
+  _enemyLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  _showColliders: 0
+  _comboList:
+  - _name: 
+    _damage: 0
+    _attackColliders:
+      _origins: []
+      _radiuses: []
+    _windUp: 0.25
+    _windDown: 2.5
+    _knockbackImpulse: {x: 0, y: 0}
+  _comboResetTimer: 0.5
+  _projectilePrefab: {fileID: 8753636861444504917, guid: a122b2a8813398a488ede5e79591a170, type: 3}
+  _spawnPositionOffset: 25
+  _spawnPositionSpread: 3.5
+  _spawnPositionSpreadVariance: 1
+  _projectileCount: 10
