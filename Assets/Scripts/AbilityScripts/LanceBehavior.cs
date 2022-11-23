@@ -15,6 +15,17 @@ public class LanceBehavior : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
+        /*
+        // The lance should not push or pull the boss, it should only damage it
+        if (other.gameObject.tag == "Boss" && !collidedEnemies.Contains( other.gameObject.GetInstanceID() ))
+        {
+            other.GetComponent<Health>().TakeDamage(new DamageParameters(damage, other.gameObject));
+            other.GetComponent<Enemy>().WasHit();
+            collidedEnemies.Add(other.gameObject.GetInstanceID());
+            return;
+        }
+        */
+
         // OnTriggerEnter triggers more than once because it moves so track the enemy InstanceID's and only
         // trigger if the object is an enemy and has not been collided with yet. (layer 6 is the enemy layer)
         if (other.gameObject.layer == 6 && !collidedEnemies.Contains( other.gameObject.GetInstanceID() ))

@@ -9,6 +9,10 @@ using UnityEngine;
 ///
 /// The ability instantiates the "Lance" prefab upon use which has its own "LanceBehavior" script to manage
 /// its collisions. 
+///
+/// TO DO: Probably going to have to make it interact with the boss differently so the boss doesn't get pushed
+/// TO DO: Once there is a player sprite with the weapon, delete the weapon from the players hand while the lance
+///        is out and then delete the lance and give the player sprite their weapon back
 /// </summary>
 public class LanceAndPull : Ability
 {
@@ -23,9 +27,6 @@ public class LanceAndPull : Ability
     [SerializeField] protected float _acceleration;
     [SerializeField] protected float _deceleration;
 
-    
-    // Going to have to temporarily delete the player's weapon once we have a working sprite and weapon
-    // while the lance is being thrown
     
     public override void Activate(GameObject player)
     {
@@ -111,6 +112,5 @@ public class LanceAndPull : Ability
         _umbrella.transform.DetachChildren();
         Destroy(_umbrella);  // Destroy the umbrella once it has returned so the player can hold the weapon again 
         StartCoroutine(ActivateCooldown());  // Start cooldown after the umbrella has come back to the player
-        
     }
 }
