@@ -2774,10 +2774,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: AbilityUI
       objectReference: {fileID: 0}
-    - target: {fileID: 1426806926195045966, guid: 0fb6dbd8d1e44404facd33b230981783, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0fb6dbd8d1e44404facd33b230981783, type: 3}
 --- !u!4 &716600046 stripped
@@ -5782,6 +5778,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 866719184}
     m_Modifications:
+    - target: {fileID: 19786261565302450, guid: b3f58047847c9c74d953ce94ae1baee3, type: 3}
+      propertyPath: m_IsKinematic
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 19786261565302451, guid: b3f58047847c9c74d953ce94ae1baee3, type: 3}
       propertyPath: m_RootOrder
       value: 2
@@ -6053,7 +6053,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 866719938791137813, guid: 9a8acea2dc2bae543a290a7d65555a55, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -5.2
+      value: -5.7
       objectReference: {fileID: 0}
     - target: {fileID: 866719938791137813, guid: 9a8acea2dc2bae543a290a7d65555a55, type: 3}
       propertyPath: m_LocalPosition.y
