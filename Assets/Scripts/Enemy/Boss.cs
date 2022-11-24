@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 /// <summary>
 /// Special subclass for the Boss. Assumed to be unmoving/doesn't use a NavMeshAgent component to move.
@@ -9,6 +10,9 @@ using UnityEngine;
 /// </summary>
 public class Boss : Enemy
 {
+    [Tooltip("The UI slider for the Boss HP bar")]
+    [SerializeField] protected Slider _hpBar;
+
     protected BasicAttackCombo[] _attacksList;
     protected Dictionary<string, Ability> _abilitiesDict = new Dictionary<string, Ability>();
 
@@ -27,6 +31,9 @@ public class Boss : Enemy
         // Hack. Manually flip the Boss to face left because sprites face right by default. Might change later once sprite is drawn.
         _isFacingRight = false;
         _spriteRenderer.flipX = !_isFacingRight;
+
+        _health = GetComponent<Health>();
+        _health.eventTookDamage.AddListener(UpdateHPBar);
 
         // TODO: Boss fight starts automatically for testing.
         Activate();
@@ -61,5 +68,10 @@ public class Boss : Enemy
         _animator.SetInteger(_hashAttackStateIndex, attackIndexToPerform);
 
         return _attacksList[attackIndexToPerform].GetCurrentAttackDuration();
+    }
+
+    private void UpdateHPBar()
+    {
+        _hpBar.value = ((float)_health.GetHealth() / (float)_health.GetMaxHealth()) * 100;
     }
 }

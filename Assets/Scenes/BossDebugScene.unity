@@ -5984,6 +5984,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Boss
       objectReference: {fileID: 0}
+    - target: {fileID: 2014715109019861547, guid: b4855cf835e6b4649895c03ea909bf9e, type: 3}
+      propertyPath: _hpBar
+      value: 
+      objectReference: {fileID: 4189443421630053780}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b4855cf835e6b4649895c03ea909bf9e, type: 3}
 --- !u!4 &1531351881 stripped
