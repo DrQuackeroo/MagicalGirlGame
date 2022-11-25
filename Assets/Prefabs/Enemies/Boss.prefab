@@ -67,7 +67,7 @@ Transform:
   m_GameObject: {fileID: 1996219674750267485}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 102.8, y: 5.4, z: 0}
-  m_LocalScale: {x: -3.7, y: 3.7, z: 36.518997}
+  m_LocalScale: {x: -3.24, y: 3.24, z: 31.978798}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 7254590809941556538}
@@ -144,6 +144,7 @@ MonoBehaviour:
   _playerDetectionRange: 20
   _attackRange: 5
   _patrolWaypoints: []
+  _hpBar: {fileID: 0}
 --- !u!114 &5777143826009381768
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -5946,7 +5946,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1996219674750267482, guid: b4855cf835e6b4649895c03ea909bf9e, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.6
+      value: -2.9
       objectReference: {fileID: 0}
     - target: {fileID: 1996219674750267482, guid: b4855cf835e6b4649895c03ea909bf9e, type: 3}
       propertyPath: m_LocalPosition.z
@@ -6411,7 +6411,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 866719938791137813, guid: 9a8acea2dc2bae543a290a7d65555a55, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 532.06
+      value: 546.08
       objectReference: {fileID: 0}
     - target: {fileID: 866719938791137813, guid: 9a8acea2dc2bae543a290a7d65555a55, type: 3}
       propertyPath: m_LocalPosition.y
@@ -6448,6 +6448,14 @@ PrefabInstance:
     - target: {fileID: 866719938791137813, guid: 9a8acea2dc2bae543a290a7d65555a55, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 866719938975004625, guid: 9a8acea2dc2bae543a290a7d65555a55, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 866719938975004625, guid: 9a8acea2dc2bae543a290a7d65555a55, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9a8acea2dc2bae543a290a7d65555a55, type: 3}
@@ -9422,14 +9430,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1100050921383427932, guid: e99644d68c1d09849ba60e4b07e90166, type: 3}
-      propertyPath: m_Value
-      value: 100
-      objectReference: {fileID: 0}
-    - target: {fileID: 3475861145203365044, guid: e99644d68c1d09849ba60e4b07e90166, type: 3}
-      propertyPath: m_ConstrainProportionsScale
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 4892831048534053095, guid: e99644d68c1d09849ba60e4b07e90166, type: 3}
       propertyPath: _player
       value: 
@@ -9862,6 +9862,7 @@ GameObject:
   - component: {fileID: 8539138314957871919}
   - component: {fileID: 8539138314957871916}
   - component: {fileID: 8539138314957871917}
+  - component: {fileID: 8539138314957871920}
   m_Layer: 5
   m_Name: BossUI
   m_TagString: Untagged
@@ -9951,6 +9952,18 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
+--- !u!225 &8539138314957871920
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8539138314957871826}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
+  m_IgnoreParentGroups: 0
 --- !u!65 &8683966982780313704
 BoxCollider:
   m_ObjectHideFlags: 0

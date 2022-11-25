@@ -15,19 +15,16 @@ public class BossTrigger : MonoBehaviour
     // True when the Player touches the trigger for the first time.
     private bool _activated = false;
     private GameObject _leftDoor;
-    private GameObject _bossUI;
 
     private void Start()
     {
         _leftDoor = transform.Find("LeftDoor").gameObject;
-        _bossUI = GameObject.Find("BossUI").gameObject;
 
         if (_bossObject == null)
         {
             _bossObject = transform.parent.Find("Enemies").Find("Boss").gameObject;
         }
         _bossObject.SetActive(false);
-        _bossUI.SetActive(false);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -40,9 +37,8 @@ public class BossTrigger : MonoBehaviour
             _cameraController.minXPosition = other.transform.position.x;
             _cameraController.maxXPosition = other.transform.position.x;
             _leftDoor.SetActive(true);
-            _bossUI.SetActive(true);
 
-            _bossObject.SetActive(true);
+            _bossObject.GetComponent<Boss>().Activate();
         }
     }
 }

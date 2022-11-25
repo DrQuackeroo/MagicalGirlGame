@@ -24,7 +24,6 @@ public class CameraController : MonoBehaviour
         _worldSpaceYPosition = transform.position.y;
         minXPosition = transform.position.x;
         _player = transform.parent;
-        print(_player.gameObject.name);
     }
 
     /// <summary>

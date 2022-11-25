@@ -36,7 +36,7 @@ public class Boss : Enemy
         _health.eventTookDamage.AddListener(UpdateHPBar);
 
         // TODO: Boss fight starts automatically for testing.
-        Activate();
+        //Activate();
     }
 
     /// <summary>
@@ -53,6 +53,7 @@ public class Boss : Enemy
     /// </summary>
     public void Activate()
     {
+        gameObject.SetActive(true);
         _animator.SetBool(_hashPlayerHasBeenSighted, true);
     }
 
