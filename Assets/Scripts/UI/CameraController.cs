@@ -18,12 +18,14 @@ public class CameraController : MonoBehaviour
     [HideInInspector] public float maxXPosition = Mathf.Infinity;
 
     private Transform _player;
+    private Transform _holder;
 
     private void Start()
     {
-        _worldSpaceYPosition = transform.position.y;
-        minXPosition = transform.position.x;
-        _player = transform.parent;
+        _holder = transform.parent;
+        _worldSpaceYPosition = _holder.position.y;
+        minXPosition = _holder.position.x;
+        _player = transform.parent.parent;
     }
 
     /// <summary>
@@ -33,11 +35,11 @@ public class CameraController : MonoBehaviour
     public void UpdatePosition()
     {
         float xPosition = Mathf.Clamp(_player.position.x, minXPosition, maxXPosition);
-        transform.Translate(xPosition - transform.position.x, _worldSpaceYPosition - transform.position.y, 0.0f);
+        _holder.Translate(xPosition - _holder.position.x, _worldSpaceYPosition - _holder.position.y, 0.0f);
     }
 
     public void UnlinkCamera()
     {
-        transform.SetParent(null);
+        _holder.SetParent(null);
     }
 }

@@ -24,12 +24,43 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 998370080}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 6.6709995, y: -1.6700001, z: 0}
+  m_LocalPosition: {x: 6.6709995, y: -0.65999985, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1996219674750267482}
   m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1785591723
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1785591724}
+  m_Layer: 6
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1785591724
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1785591723}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 12.12, y: -0.93, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1996219674750267482}
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1996219674750267485
 GameObject:
@@ -74,6 +105,7 @@ Transform:
   - {fileID: 7254590809976435718}
   - {fileID: 7254590809780584455}
   - {fileID: 998370081}
+  - {fileID: 1785591724}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -329,9 +361,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4613bdf5612003649ad986e8b0870dbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _displayName: Basic Boss attack
+  _displayName: Low attack
   _imageIcon: {fileID: 0}
-  _description: 
+  _description: Beam along the ground. Player jumps to dodge.
   _cooldown: 0
   _soundEffect: {fileID: 0}
   _enemyLayers:
@@ -343,10 +375,50 @@ MonoBehaviour:
     _damage: 3
     _attackColliders:
       _origins:
-      - {x: 10, y: -2.5, z: 0}
+      - {x: 12.705, y: -2.145, z: 0}
       _radiuses:
-      - 6
+      - 2
     _windUp: 1
+    _windDown: 0
+    _knockbackImpulse: {x: 0, y: 0}
+  - _name: Slash
+    _damage: 3
+    _attackColliders:
+      _origins:
+      - {x: 19.305, y: -2.145, z: 0}
+      _radiuses:
+      - 2
+    _windUp: 0
+    _windDown: 0
+    _knockbackImpulse: {x: 0, y: 0}
+  - _name: Slash
+    _damage: 3
+    _attackColliders:
+      _origins:
+      - {x: 25.905, y: -2.145, z: 0}
+      _radiuses:
+      - 2
+    _windUp: 0
+    _windDown: 0
+    _knockbackImpulse: {x: 0, y: 0}
+  - _name: Slash
+    _damage: 3
+    _attackColliders:
+      _origins:
+      - {x: 32.505, y: -2.145, z: 0}
+      _radiuses:
+      - 2
+    _windUp: 0
+    _windDown: 0
+    _knockbackImpulse: {x: 0, y: 0}
+  - _name: Slash
+    _damage: 3
+    _attackColliders:
+      _origins:
+      - {x: 39.105, y: -2.145, z: 0}
+      _radiuses:
+      - 2
+    _windUp: 0
     _windDown: 2
     _knockbackImpulse: {x: 0, y: 0}
   _comboResetTimer: 0.5
@@ -419,7 +491,7 @@ MonoBehaviour:
   _enemiesToSpawn:
   - {fileID: 19786261565302452, guid: b3f58047847c9c74d953ce94ae1baee3, type: 3}
   - {fileID: 2909450898933944764, guid: 5c21f1c4759b8a8458048959f3891850, type: 3}
-  _numberOfEnemiesSpawned: 2
+  _numberOfEnemiesSpawned: 1
   _spawnPositions:
   - {fileID: 7254590809941556538}
   - {fileID: 7254590809976435718}
@@ -485,7 +557,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7254590809780584456}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5.960999, y: -1.6700001, z: 0}
+  m_LocalPosition: {x: 5.960999, y: -0.65999985, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -516,7 +588,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7254590809941556539}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.93, y: -1.67, z: 0}
+  m_LocalPosition: {x: 3.93, y: -0.66, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -547,7 +619,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7254590809976435719}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4.7109995, y: -1.6700001, z: 0}
+  m_LocalPosition: {x: 4.7109995, y: -0.65999985, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

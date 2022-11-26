@@ -13,7 +13,7 @@ public class Boss : Enemy
     [Tooltip("The UI slider for the Boss HP bar")]
     [SerializeField] protected Slider _hpBar;
 
-    protected BasicAttackCombo[] _attacksList;
+    protected List<BasicAttackCombo> _attacksList = new List<BasicAttackCombo>();
     protected Dictionary<string, Ability> _abilitiesDict = new Dictionary<string, Ability>();
 
     protected readonly int _hashAttackStateIndex = Animator.StringToHash("AttackStateIndex");
@@ -22,10 +22,18 @@ public class Boss : Enemy
     {
         base.Start();
 
-        _attacksList = GetComponents<BasicAttackCombo>();
-        foreach (Ability a in _attacksList)
+        _attacksList = new List<BasicAttackCombo>(GetComponents<BasicAttackCombo>());
+        for (int i = 0; i < _attacksList.Count; i++)
         {
-            _abilitiesDict.Add(a.GetName(), a);
+            if (_attacksList[i].isActiveAndEnabled)
+            {
+                _abilitiesDict.Add(_attacksList[i].GetName(), _attacksList[i]);
+            }
+            else
+            {
+                _attacksList.Remove(_attacksList[i]);
+                i--;
+            }
         }
 
         // Hack. Manually flip the Boss to face left because sprites face right by default. Might change later once sprite is drawn.
@@ -63,7 +71,7 @@ public class Boss : Enemy
     /// <returns>The total duration of the executed attack.</returns>
     public override float Attack()
     {
-        int attackIndexToPerform = Random.Range(0, _attacksList.Length);
+        int attackIndexToPerform = Random.Range(0, _attacksList.Count);
 
         _attacksList[attackIndexToPerform].Activate(gameObject);
         _animator.SetInteger(_hashAttackStateIndex, attackIndexToPerform);

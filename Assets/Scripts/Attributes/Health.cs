@@ -137,11 +137,8 @@ public class Health : MonoBehaviour
             //GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerControls>().SlowdownTime();
         }
 
-        print(_audioSource != null);
-        print(_hitSoundEffect != null);
         if (_audioSource != null && _hitSoundEffect != null)
         {
-            print("Play that sound");
             _audioSource.PlayOneShot(_hitSoundEffect, 1.0f);
         }
         
