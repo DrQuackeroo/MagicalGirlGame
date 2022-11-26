@@ -76,7 +76,7 @@ public class Boss : Enemy
         _attacksList[attackIndexToPerform].Activate(gameObject);
         _animator.SetInteger(_hashAttackStateIndex, attackIndexToPerform);
 
-        return _attacksList[attackIndexToPerform].GetCurrentAttackDuration();
+        return _attacksList[attackIndexToPerform].GetTotalAttackDuration();
     }
 
     private void UpdateHPBar()

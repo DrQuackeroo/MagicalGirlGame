@@ -5984,6 +5984,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Boss
       objectReference: {fileID: 0}
+    - target: {fileID: 2014715109019861543, guid: b4855cf835e6b4649895c03ea909bf9e, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2014715109019861544, guid: b4855cf835e6b4649895c03ea909bf9e, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2014715109019861547, guid: b4855cf835e6b4649895c03ea909bf9e, type: 3}
       propertyPath: _hpBar
       value: 

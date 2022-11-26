@@ -24,7 +24,9 @@ public class BossAttack : StateMachineBehaviour
 
         // Timer to transition out is an Animator variable set in BossActive and read here.
         animator.SetInteger(_hashAttackStateIndex, -1);
-        _attackTimer = animator.GetFloat(_hashCurrentAttackDuration);
+
+        // Hack: To prevent next attack from being started the same frame the previous attack ends, add some extra time to the timer.
+        _attackTimer = animator.GetFloat(_hashCurrentAttackDuration) + 0.1f;
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks

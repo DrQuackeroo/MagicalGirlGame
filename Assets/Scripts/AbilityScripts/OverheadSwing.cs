@@ -67,12 +67,15 @@ public class OverheadSwing : BasicAttackCombo
         }
 
         // Halt player movement. Might be a better way to do this in general, if you want to improve it.
-        _playerControls.isInputLocked = true;
-        _playerControls.velocity.x = 0.0f;
-        if (_stopMidairWhileExecuting)
+        if (_playerControls != null)
         {
-            _playerControls.applyGravity = false;
-            _playerControls.velocity.y = 0.0f;
+            _playerControls.isInputLocked = true;
+            _playerControls.velocity.x = 0.0f;
+            if (_stopMidairWhileExecuting)
+            {
+                _playerControls.applyGravity = false;
+                _playerControls.velocity.y = 0.0f;
+            }
         }
 
         // prevents player from spamming basic attack while already mid-animation in an attack
@@ -101,9 +104,12 @@ public class OverheadSwing : BasicAttackCombo
         }
         else
         {
+            if (_playerControls != null)
+            {
+                _playerControls.isInputLocked = false;
+                _playerControls.applyGravity = true;
+            }
             _midAttackCoroutine = null;
-            _playerControls.isInputLocked = false;
-            _playerControls.applyGravity = true;
             StartCoroutine(ActivateCooldown());
         }
     }

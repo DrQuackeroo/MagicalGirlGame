@@ -281,4 +281,17 @@ public class BasicAttackCombo : Ability
 
         return _currentAttackState.GetDuration();
     }
+
+    /// <returns>Sum of all individual attack durations.</returns>
+    public float GetTotalAttackDuration()
+    {
+        float total = 0.0f;
+
+        foreach (BasicAttack attack in _comboList)
+        {
+            total += attack.GetDuration();
+        }
+
+        return total;
+    }
 }
