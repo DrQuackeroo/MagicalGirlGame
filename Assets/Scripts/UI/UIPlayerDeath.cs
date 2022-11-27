@@ -20,9 +20,12 @@ public class UIPlayerDeath : MonoBehaviour
     [SerializeField] private float _transitionTime;
 
     private bool _clickedButton = false;
+    private Health _playerHealth;
 
     private void Awake()
     {
+        _playerHealth = GameObject.FindGameObjectWithTag("Player").GetComponent<Health>();
+
         Add();
 
         SetUpUIElements();
@@ -40,12 +43,12 @@ public class UIPlayerDeath : MonoBehaviour
 
     private void Add()
     {
-        FindPlayer()?.eventHasDied.AddListener(OnPlayerDeath);
+        _playerHealth?.eventHasDied.AddListener(OnPlayerDeath);
     }
 
     private void Remove()
     {
-        FindPlayer()?.eventHasDied.RemoveListener(OnPlayerDeath);
+        _playerHealth?.eventHasDied.RemoveListener(OnPlayerDeath);
     }
 
     public void OnPlayerDeath()
@@ -77,20 +80,6 @@ public class UIPlayerDeath : MonoBehaviour
         }
     }
 
-    private Health FindPlayer()
-    {
-        GameObject[] goArray = FindObjectsOfType(typeof(GameObject)) as GameObject[];
-        for (int i = 0; i < goArray.Length; i++)
-        {
-            if (_playerLayer == (_playerLayer | (1 << goArray[i].layer)))
-            {
-                return goArray[i].GetComponent<Health>();
-            }
-        }
-
-        return null;
-    }
-
     private void SetUpUIElements()
     {
         for (int i = 0; i < _UIImageElements.Count; i++)
@@ -118,8 +107,6 @@ public class UIPlayerDeath : MonoBehaviour
 
             for (int j = 0; j < _UITextElements.Count; j++)
                 TransitionUIText(_UITextElements[j], transition / _transitionTime);
-
-            print(255 * transition / _transitionTime);
 
             yield return null;
         }
