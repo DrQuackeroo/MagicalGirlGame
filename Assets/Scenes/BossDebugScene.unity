@@ -1010,6 +1010,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2949314284490008827, guid: 98e7f9f0af90f0745899ac86be7f7c91, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2949314284711111304, guid: 98e7f9f0af90f0745899ac86be7f7c91, type: 3}
       propertyPath: m_Name
       value: PauseUI
@@ -1154,6 +1158,10 @@ PrefabInstance:
     - target: {fileID: 8661036439186060358, guid: 7e1beb3d6c980454689089687bb08e66, type: 3}
       propertyPath: m_Name
       value: GameOverUI
+      objectReference: {fileID: 0}
+    - target: {fileID: 8668589750829257009, guid: 7e1beb3d6c980454689089687bb08e66, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7e1beb3d6c980454689089687bb08e66, type: 3}
@@ -5936,6 +5944,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1261540949}
     m_Modifications:
+    - target: {fileID: 1531351893, guid: b4855cf835e6b4649895c03ea909bf9e, type: 3}
+      propertyPath: _displayName
+      value: Ground Beam
+      objectReference: {fileID: 0}
     - target: {fileID: 1996219674750267482, guid: b4855cf835e6b4649895c03ea909bf9e, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -5986,7 +5998,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2014715109019861543, guid: b4855cf835e6b4649895c03ea909bf9e, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2014715109019861543, guid: b4855cf835e6b4649895c03ea909bf9e, type: 3}
+      propertyPath: _displayName
+      value: Rain Projectiles
       objectReference: {fileID: 0}
     - target: {fileID: 2014715109019861544, guid: b4855cf835e6b4649895c03ea909bf9e, type: 3}
       propertyPath: m_Enabled
