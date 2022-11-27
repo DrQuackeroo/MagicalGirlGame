@@ -11,6 +11,8 @@ public abstract class Ability : MonoBehaviour
     [SerializeField] protected float _cooldown = 0;
     [Tooltip("SFX is played when this Ability is used.")]
     [SerializeField] protected AudioClip _soundEffect;
+    [Tooltip("Effect object created when Ability is used. Can be left empty for no effect.")]
+    [SerializeField] protected GameObject _effectObject;
 
     public bool IsOnCooldown { get; private set; }
 

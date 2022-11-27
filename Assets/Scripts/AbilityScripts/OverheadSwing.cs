@@ -66,6 +66,12 @@ public class OverheadSwing : BasicAttackCombo
             _audioSource.PlayOneShot(_soundEffect, 1.0f);
         }
 
+        // Create VFX
+        if (_effectObject != null)
+        {
+            Instantiate(_effectObject, player.transform.position, Quaternion.identity, player.transform);
+        }
+
         // Halt player movement. Might be a better way to do this in general, if you want to improve it.
         if (_playerControls != null)
         {

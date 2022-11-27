@@ -3180,6 +3180,7 @@ MonoBehaviour:
   _description: Block attacks from the front.
   _cooldown: 0
   _soundEffect: {fileID: 0}
+  _effectObject: {fileID: 0}
   _shieldPrefab: {fileID: 1336845220168289153, guid: 460da323713ec0a4b9454a02e089f2e7, type: 3}
 --- !u!114 &1979083295
 MonoBehaviour:
@@ -3198,6 +3199,7 @@ MonoBehaviour:
   _description: 'Big overhead swing that hits enemies above and to the side. '
   _cooldown: 4
   _soundEffect: {fileID: 8300000, guid: fa286f5f98639f44181504dcb2bf6a11, type: 3}
+  _effectObject: {fileID: 0}
   _enemyLayers:
     serializedVersion: 2
     m_Bits: 64
@@ -3274,6 +3276,7 @@ MonoBehaviour:
   _description: Dash really fast!
   _cooldown: 1
   _soundEffect: {fileID: 8300000, guid: fa286f5f98639f44181504dcb2bf6a11, type: 3}
+  _effectObject: {fileID: 0}
   _dashSpeed: 48
   _dashingTime: 0.25
 --- !u!114 &1312990977
@@ -3293,6 +3296,7 @@ MonoBehaviour:
   _description: Omega huge AoE around the player.
   _cooldown: 10
   _soundEffect: {fileID: 8300000, guid: fa286f5f98639f44181504dcb2bf6a11, type: 3}
+  _effectObject: {fileID: 4301289911580402217, guid: 9a4fc771255198d448c8217dcb147f31, type: 3}
   _enemyLayers:
     serializedVersion: 2
     m_Bits: 64
@@ -3329,6 +3333,7 @@ MonoBehaviour:
   _description: Push back all the enemies around the player.
   _cooldown: 1
   _soundEffect: {fileID: 8300000, guid: fa286f5f98639f44181504dcb2bf6a11, type: 3}
+  _effectObject: {fileID: 0}
   _enemyLayers:
     serializedVersion: 2
     m_Bits: 64
@@ -3365,6 +3370,7 @@ MonoBehaviour:
   _description: Channel magic through one's body to heal injuries
   _cooldown: 10
   _soundEffect: {fileID: 0}
+  _effectObject: {fileID: 0}
   _healPerTick: 10
   _tickDelay: 1
   _numberOfTicks: 5
@@ -3387,6 +3393,7 @@ MonoBehaviour:
     opens up and pulls all of the enemies back towards the player
   _cooldown: 0
   _soundEffect: {fileID: 0}
+  _effectObject: {fileID: 0}
   _weapon: {fileID: 7236364448127839005, guid: 20de821f6cde15448b700e3ebbdf5060, type: 3}
   _distance: 16
   _speed: 7.5
