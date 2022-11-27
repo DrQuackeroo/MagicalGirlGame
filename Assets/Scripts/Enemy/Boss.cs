@@ -36,15 +36,13 @@ public class Boss : Enemy
             }
         }
 
-        // Hack. Manually flip the Boss to face left because sprites face right by default. Might change later once sprite is drawn.
-        _isFacingRight = false;
-        _spriteRenderer.flipX = !_isFacingRight;
-
         _health = GetComponent<Health>();
         _health.eventTookDamage.AddListener(UpdateHPBar);
 
-        // TODO: Boss fight starts automatically for testing.
-        //Activate();
+        // Hack. Manually flip the Boss to face left because sprites face right by default. Might change later once sprite is drawn.
+        _isFacingRight = false;
+        _spriteRenderer.flipX = !_isFacingRight;
+        _health.SetFacingRight(false);
     }
 
     /// <summary>

@@ -20,11 +20,11 @@ public class BossRise : StateMachineBehaviour
         }
     }
 
-    // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
+    // Set Boss entrance effect variables.
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-
         Camera.main.GetComponent<Animator>().SetBool(_hashIsCameraShaking, true);
+        animator.GetComponent<Health>().isBlocking = true;
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
@@ -33,11 +33,12 @@ public class BossRise : StateMachineBehaviour
     //    
     //}
 
-    // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
+    // The boss fight has started.
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         _bossUI.alpha = 1.0f;
         Camera.main.GetComponent<Animator>().SetBool(_hashIsCameraShaking, false);
+        animator.GetComponent<Health>().isBlocking = false;
     }
 
     // OnStateMove is called right after Animator.OnAnimatorMove()

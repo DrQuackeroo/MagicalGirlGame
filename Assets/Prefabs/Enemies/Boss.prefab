@@ -499,7 +499,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78aaa76deb0ab2b45be312cda361f97d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _displayName: 
+  _displayName: Ground Beam
   _imageIcon: {fileID: 0}
   _description: 
   _cooldown: 0
@@ -650,7 +650,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b891da4bc0853a45a2e7a6196a932ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _displayName: 
+  _displayName: Rain Projectiles
   _imageIcon: {fileID: 0}
   _description: 
   _cooldown: 0

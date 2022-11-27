@@ -5944,10 +5944,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1261540949}
     m_Modifications:
-    - target: {fileID: 1531351893, guid: b4855cf835e6b4649895c03ea909bf9e, type: 3}
-      propertyPath: _displayName
-      value: Ground Beam
-      objectReference: {fileID: 0}
     - target: {fileID: 1996219674750267482, guid: b4855cf835e6b4649895c03ea909bf9e, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -5995,18 +5991,6 @@ PrefabInstance:
     - target: {fileID: 1996219674750267485, guid: b4855cf835e6b4649895c03ea909bf9e, type: 3}
       propertyPath: m_Name
       value: Boss
-      objectReference: {fileID: 0}
-    - target: {fileID: 2014715109019861543, guid: b4855cf835e6b4649895c03ea909bf9e, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2014715109019861543, guid: b4855cf835e6b4649895c03ea909bf9e, type: 3}
-      propertyPath: _displayName
-      value: Rain Projectiles
-      objectReference: {fileID: 0}
-    - target: {fileID: 2014715109019861544, guid: b4855cf835e6b4649895c03ea909bf9e, type: 3}
-      propertyPath: m_Enabled
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2014715109019861547, guid: b4855cf835e6b4649895c03ea909bf9e, type: 3}
       propertyPath: _hpBar
