@@ -3801,8 +3801,16 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3756400329411451854, guid: a4d9c7f617690a446a2f9197c4a83019, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 3.180367
+      objectReference: {fileID: 0}
+    - target: {fileID: 3756400329411451854, guid: a4d9c7f617690a446a2f9197c4a83019, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.4486393
+      objectReference: {fileID: 0}
+    - target: {fileID: 3756400329411451854, guid: a4d9c7f617690a446a2f9197c4a83019, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -56.593613
+      value: -56.6246
       objectReference: {fileID: 0}
     - target: {fileID: 3756400329411451854, guid: a4d9c7f617690a446a2f9197c4a83019, type: 3}
       propertyPath: m_LocalPosition.y
@@ -3840,9 +3848,29 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3756400329411451855, guid: a4d9c7f617690a446a2f9197c4a83019, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: e0e3641576356a44099920bc17970c8a, type: 3}
     - target: {fileID: 3756400329411451889, guid: a4d9c7f617690a446a2f9197c4a83019, type: 3}
       propertyPath: m_Name
       value: Platform1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3756400331262834703, guid: a4d9c7f617690a446a2f9197c4a83019, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 9.201623
+      objectReference: {fileID: 0}
+    - target: {fileID: 3756400331262834703, guid: a4d9c7f617690a446a2f9197c4a83019, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 3.4511082
+      objectReference: {fileID: 0}
+    - target: {fileID: 3756400331262834703, guid: a4d9c7f617690a446a2f9197c4a83019, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.0052
+      objectReference: {fileID: 0}
+    - target: {fileID: 3756400331262834703, guid: a4d9c7f617690a446a2f9197c4a83019, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.0114
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a4d9c7f617690a446a2f9197c4a83019, type: 3}
@@ -7364,7 +7392,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1890431989
 Transform:
   m_ObjectHideFlags: 0
