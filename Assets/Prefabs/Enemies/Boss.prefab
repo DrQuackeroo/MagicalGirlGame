@@ -14670,6 +14670,56 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
+--- !u!1 &1198143864
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1198143866}
+  - component: {fileID: 1198143865}
+  m_Layer: 0
+  m_Name: CreditsController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1198143866
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1198143864}
+  m_LocalRotation: {x: -0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 10.1419525, y: 5.42, z: 0.017644523}
+  m_LocalScale: {x: -0.30864197, y: 0.30864197, z: 0.03127072}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1996219674750267482}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1198143865
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1198143864}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a303057b1afb1ef44b162138eaae32fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _creditsTextPrefab: {fileID: 6732062793980748284, guid: 22711fcd28699a249bfa7a42014cd831, type: 3}
+  _fullCreditsText: Credits||Victoria Winn - Team Lead|Emei Wade - Artist|Qingxu
+    Yang - Programmer|David Huynh - Programmer|Anh Dang - Artist|Kiana Burnett -
+    Artist|Sammy Newhide - Programmer|Rian Nguy - Artist|Alexander Grams - Designer|Jason
+    Jin (rip) - Programmer|Dev Patel - Programmer|Jasmine Chen - Artist|Xinyi Huang
+    - Artist||Thanks for playing! :)
 --- !u!1 &1692762300
 GameObject:
   m_ObjectHideFlags: 0
@@ -19528,6 +19578,7 @@ Transform:
   - {fileID: 218472299}
   - {fileID: 1066800227}
   - {fileID: 595616321}
+  - {fileID: 1198143866}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -19621,7 +19672,7 @@ MonoBehaviour:
   eventTookDamage:
     m_PersistentCalls:
       m_Calls: []
-  _maxHealth: 1300
+  _maxHealth: 10
   _printToConsole: 1
   _blockAngle: 45
   _hitSoundEffect: {fileID: 0}

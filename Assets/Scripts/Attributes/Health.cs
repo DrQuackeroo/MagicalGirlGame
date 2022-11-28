@@ -98,6 +98,11 @@ public class Health : MonoBehaviour
     /// <param name="parameters">Struct containing information for this damage attempt.</param>
     public void TakeDamage(DamageParameters parameters)
     {
+        if (!_isAlive)
+        {
+            return;
+        }
+
         // Check if the owner is blocking
         if (isBlocking && parameters.DamagingObject != null)
         {

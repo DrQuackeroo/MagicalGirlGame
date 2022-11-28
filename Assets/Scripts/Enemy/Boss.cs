@@ -91,5 +91,7 @@ public class Boss : Enemy
         _animator.SetTrigger(_hashHasDied);
         transform.Find("BossParticles").gameObject.SetActive(true);
         transform.Find("BossParticles").SetParent(null);
+        transform.Find("CreditsController").GetComponent<CreditsRain>().StartCredits();
+        transform.Find("CreditsController").SetParent(null);
     }
 }
