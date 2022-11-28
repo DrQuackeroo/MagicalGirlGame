@@ -9,6 +9,7 @@ using UnityEngine;
 /// </summary>
 public class LanceBehavior : MonoBehaviour
 {
+    private bool collidedWithWall = false;
     private List<int> collidedEnemies = new List<int>();
     [SerializeField] private Sprite _umbrellaOpen;
     [HideInInspector] public int damage;
@@ -44,11 +45,25 @@ public class LanceBehavior : MonoBehaviour
         {
             other.GetComponent<Enemy>().WasHit();
         }
+
+        // If the trigger collides with the ground, the lance should turn around immediately with the same velocity
+        // (layer 3 is the ground layer)
+        if (other.gameObject.layer == 3)
+        {
+            collidedWithWall = true;
+            Debug.Log("Lance hit a wall");
+        }
     }
 
     // Swaps the umbrella sprite to have the umbrella open
     public void OpenUmbrellaSprite()
     {
         gameObject.GetComponent<SpriteRenderer>().sprite = _umbrellaOpen;
+    }
+
+    // Returns true if the lance has collided with the wall
+    public bool CollidedWithWall()
+    {
+        return collidedWithWall;
     }
 }

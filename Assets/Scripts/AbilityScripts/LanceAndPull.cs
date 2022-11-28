@@ -23,10 +23,6 @@ public class LanceAndPull : Ability
     protected GameObject _player;
     protected PlayerControls _playerControls;
 
-    [SerializeField] protected float _maxSpeed;
-    [SerializeField] protected float _acceleration;
-    [SerializeField] protected float _deceleration;
-
     
     public override void Activate(GameObject player)
     {
@@ -50,7 +46,7 @@ public class LanceAndPull : Ability
 
     private IEnumerator LanceMotion()
     {
-        Transform playerCenter = _player.transform.GetChild(4);
+        Transform playerCenter = _player.transform.GetChild(3);
         Vector3 finalPosition;
         GameObject _umbrella;
         bool moveForward = true;
@@ -66,6 +62,7 @@ public class LanceAndPull : Ability
             while (_umbrella.transform.position.x < finalPosition.x - SE && moveForward)
             {
                 _umbrella.transform.position = Vector3.Lerp(_umbrella.transform.position, finalPosition, Time.deltaTime * _speed);
+                if (_umbrella.GetComponent<LanceBehavior>().CollidedWithWall() == true) { moveForward = false; }
                 yield return null;
             }
             moveForward = false;
@@ -95,6 +92,7 @@ public class LanceAndPull : Ability
             while (_umbrella.transform.position.x > finalPosition.x + SE && moveForward)
             {
                 _umbrella.transform.position = Vector3.Lerp(_umbrella.transform.position, finalPosition, Time.deltaTime * _speed);
+                if (_umbrella.GetComponent<LanceBehavior>().CollidedWithWall() == true) { moveForward = false; }
                 yield return null;
             }
             moveForward = false;
