@@ -17,6 +17,7 @@ public class Boss : Enemy
     protected Dictionary<string, Ability> _abilitiesDict = new Dictionary<string, Ability>();
 
     protected readonly int _hashAttackStateIndex = Animator.StringToHash("AttackStateIndex");
+    protected readonly int _hashHasDied = Animator.StringToHash("HasDied");
 
     protected override void Start()
     {
@@ -80,5 +81,15 @@ public class Boss : Enemy
     private void UpdateHPBar()
     {
         _hpBar.value = ((float)_health.GetHealth() / (float)_health.GetMaxHealth()) * 100;
+    }
+
+    /// <summary>
+    /// Called on the Update this Boss runs out of health. Begins end of game events.
+    /// </summary>
+    protected override void HasDied()
+    {
+        _animator.SetTrigger(_hashHasDied);
+        transform.Find("BossParticles").gameObject.SetActive(true);
+        transform.Find("BossParticles").SetParent(null);
     }
 }

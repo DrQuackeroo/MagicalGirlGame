@@ -89,7 +89,7 @@ public class Enemy : MonoBehaviour
     /// <summary>
     /// Called on the Update this Enemy runs out of health. Destroys this Enemy. Can be overridden for special behavior.
     /// </summary>
-    private void HasDied()
+    protected virtual void HasDied()
     {
         Destroy(gameObject);
     }
