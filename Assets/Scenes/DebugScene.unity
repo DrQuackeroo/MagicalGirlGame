@@ -3012,6 +3012,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 619099755, guid: 0fb6dbd8d1e44404facd33b230981783, type: 3}
+      propertyPath: _cooldown
+      value: 3.5
+      objectReference: {fileID: 0}
     - target: {fileID: 1426806926195045965, guid: 0fb6dbd8d1e44404facd33b230981783, type: 3}
       propertyPath: m_RootOrder
       value: 5
