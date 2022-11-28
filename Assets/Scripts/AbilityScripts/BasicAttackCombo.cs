@@ -48,7 +48,6 @@ public class BasicAttackCombo : Ability
 
             // turns on and set line renderer showing this attack collider
             _combo.DrawCollider(_attackColliders);
-            Debug.LogFormat("BasicAttackCombo.Attack(): Attack '{0}' used", _name);
 
             // Actually damage hit objects.
             DamageHitColliders(_hitColliders, owner);
@@ -76,7 +75,6 @@ public class BasicAttackCombo : Ability
 
             // turns on and set line renderer showing this attack collider
             _combo.DrawCollider(_attackColliders);
-            //Debug.LogFormat("BasicAttackCombo.AttackNewCollidersOnly(): Attack '{0}' used", _name);
 
             // Actually damage hit objects.
             DamageHitColliders(_hitColliders, owner);

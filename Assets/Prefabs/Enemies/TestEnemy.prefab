@@ -132,7 +132,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   _maxHealth: 100
-  _printToConsole: 1
+  _printToConsole: 0
   _blockAngle: 45
   _hitSoundEffect: {fileID: 8300000, guid: 8385c73a83642404b8ca9c299a3df42a, type: 3}
 --- !u!114 &2699388574728260196

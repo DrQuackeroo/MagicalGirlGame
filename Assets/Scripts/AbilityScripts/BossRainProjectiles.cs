@@ -14,6 +14,9 @@ public class BossRainProjectiles : BasicAttackCombo
     private float _spawnPositionSpread = 3.5f;
 
     [SerializeField]
+    private float _spawnPositionVerticalSpread = 10f;
+
+    [SerializeField]
     private float _spawnPositionSpreadVariance = 1f;
 
     [SerializeField]
@@ -56,7 +59,7 @@ public class BossRainProjectiles : BasicAttackCombo
             {
                 RPs[i].transform.position = new Vector3(
                     origin.x + 2 * _spawnPositionOffset * (isRight ? 1 : -1) + GetVariance(_spawnPositionSpreadVariance),
-                    origin.y + ((i % 2 == 0 ? -1 : 1) * _spawnPositionSpread * i) + GetVariance(_spawnPositionSpreadVariance),
+                    origin.y + ((i % 2 == 0 ? -1 : 1) * _spawnPositionVerticalSpread * i) + GetVariance(_spawnPositionSpreadVariance),
                     origin.z);
 
                 RPs[i].SetDirection(new Vector3(-1 * (isRight ? 1 : -1), 0, 0));

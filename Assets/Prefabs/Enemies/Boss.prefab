@@ -19673,7 +19673,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   _maxHealth: 1300
-  _printToConsole: 1
+  _printToConsole: 0
   _blockAngle: 45
   _hitSoundEffect: {fileID: 0}
 --- !u!114 &4504605873385495693
@@ -20011,6 +20011,7 @@ MonoBehaviour:
   _projectilePrefab: {fileID: 8753636861444504917, guid: a122b2a8813398a488ede5e79591a170, type: 3}
   _spawnPositionOffset: 25
   _spawnPositionSpread: 3.5
+  _spawnPositionVerticalSpread: 10
   _spawnPositionSpreadVariance: 0
   _projectileCount: 10
 --- !u!1 &7254590809780584456

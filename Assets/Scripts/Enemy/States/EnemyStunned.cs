@@ -59,7 +59,6 @@ public class EnemyStunned : StateMachineBehaviour
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        Debug.Log("Exit state");
         if (_navMeshAgent != null)
             _navMeshAgent.enabled = true;
         if (_enemyFlier != null)

@@ -305,7 +305,6 @@ public class PlayerControls : MonoBehaviour
     /// </summary>
     private void TookDamage()
     {
-        print("Took damage");
         _animator.SetTrigger(_hashTookDamage);
     }
 
@@ -315,10 +314,8 @@ public class PlayerControls : MonoBehaviour
     {
         if (isInputLocked)
         {
-            Debug.Log("Input Locked");
             yield break;
         }
-        Debug.Log("Input: Jump");
 
         if (_characterController.isGrounded)
         {
@@ -341,11 +338,9 @@ public class PlayerControls : MonoBehaviour
     {
         if (isInputLocked)
         {
-            Debug.Log("Input Locked");
             yield break;
         }
 
-        Debug.Log("Input: Basic Attack");
         _basicAttackCombo.Activate(gameObject);
         yield break;
     }
@@ -355,7 +350,6 @@ public class PlayerControls : MonoBehaviour
     {
         if (isInputLocked)
         {
-            Debug.Log("Input Locked");
             yield break;
         }
 
@@ -382,7 +376,6 @@ public class PlayerControls : MonoBehaviour
     {
         if (isInputLocked)
         {
-            Debug.Log("Input Locked");
             yield break;
         }
 
@@ -408,7 +401,6 @@ public class PlayerControls : MonoBehaviour
     {
         if (isInputLocked)
         {
-            Debug.Log("Input Locked");
             yield break;
         }
 
@@ -434,7 +426,6 @@ public class PlayerControls : MonoBehaviour
     private IEnumerator OnPauseMenu()
     {
         PauseHandler.TogglePause();
-        Debug.Log("pause menu");
         yield break;
     }
 

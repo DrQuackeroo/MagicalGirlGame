@@ -135,7 +135,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   _maxHealth: 100
-  _printToConsole: 1
+  _printToConsole: 0
   _blockAngle: 45
   _hitSoundEffect: {fileID: 8300000, guid: 8385c73a83642404b8ca9c299a3df42a, type: 3}
 --- !u!114 &959299938662186348
@@ -169,6 +169,7 @@ MonoBehaviour:
   _description: 
   _cooldown: 0
   _soundEffect: {fileID: 8300000, guid: fa286f5f98639f44181504dcb2bf6a11, type: 3}
+  _effectObject: {fileID: 0}
   _enemyLayers:
     serializedVersion: 2
     m_Bits: 128
