@@ -19,10 +19,10 @@ public class Boss : Enemy
     protected readonly int _hashAttackStateIndex = Animator.StringToHash("AttackStateIndex");
     protected readonly int _hashHasDied = Animator.StringToHash("HasDied");
 
-    protected override void Start()
+    protected override void Awake()
     {
-        base.Start();
-
+        base.Awake();
+   
         _attacksList = new List<BasicAttackCombo>(GetComponents<BasicAttackCombo>());
         for (int i = 0; i < _attacksList.Count; i++)
         {
