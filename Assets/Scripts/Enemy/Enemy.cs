@@ -41,7 +41,7 @@ public class Enemy : MonoBehaviour
     public float GetAttackRange() { return _attackRange; }
 
     // Start is called before the first frame update
-    protected virtual void Start()
+    protected virtual void Awake()
     {
         _player = GameObject.FindWithTag(playerTag);
         _rigidbody = GetComponent<Rigidbody>();
@@ -53,6 +53,11 @@ public class Enemy : MonoBehaviour
 
         _health.eventHasDied.AddListener(HasDied);
         _health.eventTookDamage.AddListener(WasHit);
+    }
+
+    protected virtual void Start()
+    {
+
     }
 
     // Update is called once per frame
