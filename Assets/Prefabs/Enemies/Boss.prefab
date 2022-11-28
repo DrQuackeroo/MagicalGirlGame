@@ -19672,7 +19672,7 @@ MonoBehaviour:
   eventTookDamage:
     m_PersistentCalls:
       m_Calls: []
-  _maxHealth: 10
+  _maxHealth: 1300
   _printToConsole: 1
   _blockAngle: 45
   _hitSoundEffect: {fileID: 0}

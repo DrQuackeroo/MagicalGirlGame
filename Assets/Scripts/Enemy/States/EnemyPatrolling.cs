@@ -20,7 +20,7 @@ public class EnemyPatrolling : StateMachineBehaviour
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        if (Mathf.Approximately(_navMeshAgent.remainingDistance, 0.0f))
+        if (_navMeshAgent.isOnNavMesh && Mathf.Approximately(_navMeshAgent.remainingDistance, 0.0f))
         {
             _navMeshAgent.SetDestination(_enemy.GetNextWaypoint());
         }
