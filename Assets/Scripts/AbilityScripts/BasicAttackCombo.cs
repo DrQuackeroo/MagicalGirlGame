@@ -210,7 +210,13 @@ public class BasicAttackCombo : Ability
 
         StartCoroutine(_midAttackCoroutine);
 
-        // should probably start animation here. either use the attack's string name or will have to modify BasicAttack class
+        // Play Animation. If this Ability has an animation, Animator should have a trigger with the same name as "_displayName".
+        // Otherwise, set _displayName to "Empty".
+        Animator animator = player.GetComponent<Animator>();
+        if (animator != null)
+        {
+            animator.SetTrigger(_displayName);
+        }
     }
 
     public override void Deactivate(GameObject player)

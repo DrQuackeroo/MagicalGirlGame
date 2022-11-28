@@ -86,7 +86,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: db6378adbaa762c4b8120c41075c3637, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 38cb1e5c7cd5de149879a775cc90492f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -152,7 +152,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4613bdf5612003649ad986e8b0870dbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _displayName: 
+  _displayName: Attack
   _imageIcon: {fileID: 0}
   _description: 
   _cooldown: 0

@@ -67,6 +67,8 @@ public class PlayerControls : MonoBehaviour
 
     // Animation variables need to be hashed before they can be set in code.
     protected readonly int _hashTookDamage = Animator.StringToHash("TookDamage");
+    protected readonly int _hashIsRunning = Animator.StringToHash("IsRunning");
+    protected readonly int _hashAttack = Animator.StringToHash("Attack");
 
     // Getters
     public bool IsFacingRight() { return _faceRight; }
@@ -266,6 +268,7 @@ public class PlayerControls : MonoBehaviour
             velocity.x = Mathf.Max(0.0f, Mathf.Abs(velocity.x) - _frictionDeceleration * Time.deltaTime) * (velocity.x / Mathf.Abs(velocity.x));
 
         _characterController.Move(velocity * Time.deltaTime);
+        _animator.SetBool(_hashIsRunning, Mathf.Abs(velocity.x) > 0.0f);
 
         // Update the camera position at the same time the Player moves.
         _cameraController.UpdatePosition();

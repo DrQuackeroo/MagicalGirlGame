@@ -3194,7 +3194,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78aaa76deb0ab2b45be312cda361f97d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _displayName: 'Overhead Swing '
+  _displayName: Overhead Swing
   _imageIcon: {fileID: 21300000, guid: b3255515fadc9194eae11c1e18556863, type: 3}
   _description: 'Big overhead swing that hits enemies above and to the side. '
   _cooldown: 4
@@ -3203,7 +3203,7 @@ MonoBehaviour:
   _enemyLayers:
     serializedVersion: 2
     m_Bits: 64
-  _showColliders: 1
+  _showColliders: 0
   _comboList:
   - _name: First hit
     _damage: 10
@@ -3300,7 +3300,7 @@ MonoBehaviour:
   _enemyLayers:
     serializedVersion: 2
     m_Bits: 64
-  _showColliders: 1
+  _showColliders: 0
   _comboList:
   - _name: Explosion
     _damage: 0
@@ -3398,9 +3398,6 @@ MonoBehaviour:
   _distance: 16
   _speed: 7.5
   _damage: 25
-  _maxSpeed: 0
-  _acceleration: 0
-  _deceleration: 0
 --- !u!82 &1539293942
 AudioSource:
   m_ObjectHideFlags: 0

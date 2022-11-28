@@ -12,6 +12,11 @@ public class Block : Ability
     protected Health _health;
     protected SpriteRenderer _spriteRenderer;
     protected GameObject _shield;
+    protected Animator _animator;
+
+    // Animation transition values
+    protected readonly int _hashBlockStart = Animator.StringToHash("BlockStart");
+    protected readonly int _hashBlockEnd = Animator.StringToHash("BlockEnd");
 
     public override void Activate(GameObject player)
     {
@@ -22,6 +27,7 @@ public class Block : Ability
             _playerControls = player.GetComponent<PlayerControls>();
             _health = player.GetComponent<Health>();
             _spriteRenderer = player.GetComponent<SpriteRenderer>();
+            _animator = player.GetComponent<Animator>();
 
 
             // Make the shield sprite
@@ -37,6 +43,7 @@ public class Block : Ability
         _playerControls.isInputLocked = true;
         _playerControls.applyFriction = true;
         _shield.SetActive(true);
+        _animator.SetTrigger(_hashBlockStart);
 
         // Halt x-axis movement when blocking begins.
         _playerControls.velocity.x = 0.0f;
@@ -52,6 +59,7 @@ public class Block : Ability
             _playerControls.isInputLocked = false;
             _playerControls.applyFriction = false;
             _shield.SetActive(false);
+            _animator.SetTrigger(_hashBlockEnd);
 
             UIAbilityIconsManager.ShowCooldown(this);
         }

@@ -107,7 +107,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _playerDetectionRange: 20
-  _attackRange: 4
+  _attackRange: 3.5
   _patrolWaypoints: []
 --- !u!114 &5465466713511005537
 MonoBehaviour:
@@ -161,15 +161,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4613bdf5612003649ad986e8b0870dbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _displayName: 
+  _displayName: Empty
   _imageIcon: {fileID: 0}
   _description: 
   _cooldown: 0
   _soundEffect: {fileID: 8300000, guid: fa286f5f98639f44181504dcb2bf6a11, type: 3}
+  _effectObject: {fileID: 0}
   _enemyLayers:
     serializedVersion: 2
     m_Bits: 128
-  _showColliders: 1
+  _showColliders: 0
   _comboList:
   - _name: Slash
     _damage: 3
