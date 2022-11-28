@@ -495,6 +495,7 @@ public class PlayerControls : MonoBehaviour
 
     public void OnPlayerDeath()
     {
+        gameObject.SetActive(false);
         _cameraController.UnlinkCamera();
     }
 }
