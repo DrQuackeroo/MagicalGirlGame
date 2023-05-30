@@ -3176,7 +3176,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _displayName: Block
-  _imageIcon: {fileID: 21300000, guid: ab903c47f665b0c4d98170003dcdcc7f, type: 3}
+  _imageIcon: {fileID: 21300000, guid: 1044e7017562c0c48b0b0f1bff3ef581, type: 3}
   _description: Block attacks from the front.
   _cooldown: 0
   _soundEffect: {fileID: 0}
@@ -3195,7 +3195,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _displayName: Overhead Swing
-  _imageIcon: {fileID: 21300000, guid: b3255515fadc9194eae11c1e18556863, type: 3}
+  _imageIcon: {fileID: 21300000, guid: dcf3e2142c416be4b9c522c0ada2ae15, type: 3}
   _description: 'Big overhead swing that hits enemies above and to the side. '
   _cooldown: 4
   _soundEffect: {fileID: 8300000, guid: fa286f5f98639f44181504dcb2bf6a11, type: 3}
@@ -3292,7 +3292,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _displayName: Explosion
-  _imageIcon: {fileID: 21300000, guid: da0d970f2bfc6c04fa92a6419013813b, type: 3}
+  _imageIcon: {fileID: 21300000, guid: 37282a55e8c76404aa052407c83e4a15, type: 3}
   _description: Omega huge AoE around the player.
   _cooldown: 10
   _soundEffect: {fileID: 8300000, guid: fa286f5f98639f44181504dcb2bf6a11, type: 3}
@@ -3329,7 +3329,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _displayName: Shove
-  _imageIcon: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+  _imageIcon: {fileID: 21300000, guid: ef07b5aabf208e04a81c3bbf2df7e5e9, type: 3}
   _description: Push back all the enemies around the player.
   _cooldown: 1
   _soundEffect: {fileID: 8300000, guid: fa286f5f98639f44181504dcb2bf6a11, type: 3}
@@ -3366,7 +3366,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _displayName: Channeled Heal
-  _imageIcon: {fileID: 21300000, guid: 4a3cedf5f3755a0458565509e92da3f4, type: 3}
+  _imageIcon: {fileID: 21300000, guid: fa22deb67b7fdaf47ae737820b2a03f1, type: 3}
   _description: Channel magic through one's body to heal injuries
   _cooldown: 10
   _soundEffect: {fileID: 0}
@@ -3387,7 +3387,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _displayName: Lance and Pull
-  _imageIcon: {fileID: 21300000, guid: 4016c4a1d75354349b100e7be508904a, type: 3}
+  _imageIcon: {fileID: 21300000, guid: 70e185e5d9f999445a031c32500df498, type: 3}
   _description: The player's umbrella is thrown forward like a lance damaging any
     enemies along the way and pushing them back. At the end of its range, the umbrella
     opens up and pulls all of the enemies back towards the player
